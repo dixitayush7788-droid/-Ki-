@@ -93,7 +93,7 @@
           </div>
           <div class="flex-1 ml-4">
             <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Burger</h2>
-            <p class="text-gray-400 text-xs font-semibold">Desi Style Burgers</p>
+            <p class="text-gray-400 text-xs font-semibold">🍔 Burger Hub</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
@@ -135,7 +135,9 @@
         { name: '🧈 Tandoori Mayo Fries', price: 59, desc: 'Creamy tandoori mayo with smoky desi flavor', img: 'https://images.unsplash.com/photo-1585109649139-366815a0d713?q=80&w=150&auto=format&fit=crop' }
       ],
       'Burger': [
-        { name: 'Aloo Tikki Burger', price: 50, desc: 'Crispy patty with special mayo.', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' }
+        { name: '🌿 Veg Burger', price: 39, desc: 'Fresh veggie patty with crunchy veggies & tasty sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' },
+        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with spicy creamy flavor', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150&auto=format&fit=crop' },
+        { name: '🧈 Cheese Burger', price: 59, desc: 'Loaded with melting cheese & signature sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' }
       ]
     };
 
@@ -156,6 +158,9 @@
       } else if (categoryName === 'French Fries') {
         document.getElementById('selected-category-title').innerText = "Fries Station";
         document.getElementById('category-subtitle').innerText = "🍟 Crispy, Hot & Fresh";
+      } else if (categoryName === 'Burger') {
+        document.getElementById('selected-category-title').innerText = "Burger Hub";
+        document.getElementById('category-subtitle').innerText = "🍔 Juicy & Heavy Fillings";
       } else {
         document.getElementById('selected-category-title').innerText = categoryName + " Menu";
         document.getElementById('category-subtitle').innerText = "Bhai Ki Choice";
