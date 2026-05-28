@@ -35,7 +35,7 @@
         </button>
       </div>
 
-      <!-- BRAND NAME SECTION (Classy & Aligned Just Next to Red Sidebar) -->
+      <!-- BRAND NAME SECTION -->
       <div id="brand-header" class="ml-[28%] pl-4 mb-6 transition-all duration-300">
         <p class="text-xs uppercase tracking-widest text-[#E63946] font-extrabold mb-0.5">Welcome To</p>
         <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none">
@@ -43,94 +43,65 @@
         </h1>
       </div>
 
-      <!-- SCREEN 1: MAIN CATEGORIES -->
+      <!-- SCREEN 1: NEW CATEGORIES (4 Sections) -->
       <div id="categories-screen" class="flex flex-col space-y-6">
         
-        <!-- CARD 1: PIZZA -->
-        <div onclick="showMenu('Pizza')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- CARD 1: MOMO -->
+        <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=200&auto=format&fit=crop" alt="Pizza" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200&auto=format&fit=crop" alt="Momo" class="w-full h-full object-cover">
           </div>
           <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Pizza</h2>
-            <p class="text-gray-400 text-xs font-semibold">25 items</p>
+            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Momo</h2>
+            <p class="text-gray-400 text-xs font-semibold">15 items</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
 
-        <!-- CARD 2: SALADS -->
-        <div class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- CARD 2: ROLLS -->
+        <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=200&auto=format&fit=crop" alt="Salads" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200&auto=format&fit=crop" alt="Rolls" class="w-full h-full object-cover">
           </div>
           <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Salads</h2>
-            <p class="text-gray-400 text-xs font-semibold">30 items</p>
+            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Rolls</h2>
+            <p class="text-gray-400 text-xs font-semibold">12 items</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
 
-        <!-- CARD 3: DESSERTS -->
-        <div class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- CARD 3: FRENCH FRIES -->
+        <div onclick="showMenu('French Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=200&auto=format&fit=crop" alt="Desserts" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200&auto=format&fit=crop" alt="French Fries" class="w-full h-full object-cover">
           </div>
           <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Desserts</h2>
-            <p class="text-gray-400 text-xs font-semibold">30 items</p>
+            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">French fries</h2>
+            <p class="text-gray-400 text-xs font-semibold">8 items</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
 
-        <!-- CARD 4: PASTA -->
-        <div class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- CARD 4: BURGER -->
+        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=200&auto=format&fit=crop" alt="Pasta" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200&auto=format&fit=crop" alt="Burger" class="w-full h-full object-cover">
           </div>
           <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Pasta</h2>
-            <p class="text-gray-400 text-xs font-semibold">44 items</p>
-          </div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
-        </div>
-
-        <!-- CARD 5: BEVERAGES -->
-        <div class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1541658016709-82535e94bc69?q=80&w=200&auto=format&fit=crop" alt="Beverages" class="w-full h-full object-cover">
-          </div>
-          <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Beverages</h2>
-            <p class="text-gray-400 text-xs font-semibold">30 items</p>
+            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Burger</h2>
+            <p class="text-gray-400 text-xs font-semibold">10 items</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
 
       </div>
 
-      <!-- SCREEN 2: DYNAMIC ITEMS LIST (Hidden initially) -->
+      <!-- SCREEN 2: DYNAMIC ITEMS LIST (Changes based on click) -->
       <div id="items-screen" class="hidden flex flex-col space-y-4">
         <h1 id="selected-category-title" class="text-2xl font-black text-slate-800 serif-font mb-2">Items</h1>
         
-        <!-- Item 1 -->
-        <div class="bg-white rounded-3xl p-3 shadow-[0_4px_15px_rgba(0,0,0,0.04)] flex items-center space-x-4 border border-slate-50">
-          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=150&auto=format&fit=crop" class="w-16 h-16 rounded-2xl object-cover">
-          <div class="flex-1">
-            <h3 class="font-bold text-slate-800 text-sm">Bhai Special Margherita</h3>
-            <p class="text-xs text-[#E63946] font-extrabold mt-0.5">₹199</p>
-          </div>
-          <button onclick="updateCart(1)" class="bg-[#E63946] text-white font-bold text-xs px-3 py-1.5 rounded-full active:scale-90 transition-transform">+</button>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="bg-white rounded-3xl p-3 shadow-[0_4px_15px_rgba(0,0,0,0.04)] flex items-center space-x-4 border border-slate-50">
-          <img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=150&auto=format&fit=crop" class="w-16 h-16 rounded-2xl object-cover">
-          <div class="flex-1">
-            <h3 class="font-bold text-slate-800 text-sm">Baithak Double Cheese</h3>
-            <p class="text-xs text-[#E63946] font-extrabold mt-0.5">₹299</p>
-          </div>
-          <button onclick="updateCart(1)" class="bg-[#E63946] text-white font-bold text-xs px-3 py-1.5 rounded-full active:scale-90 transition-transform">+</button>
-        </div>
+        <!-- Container where items will be dynamically injected via JS -->
+        <div id="dynamic-items-container" class="flex flex-col space-y-4"></div>
       </div>
 
     </div>
@@ -140,19 +111,59 @@
   <script>
     let cartCount = 0;
 
+    // Menu Data base for Bhai Ki Baithak
+    const menuData = {
+      'Momo': [
+        { name: 'Classic Steamed Momo', price: 90, img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Kurkure Crunch Momo', price: 130, img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Bhai Special Tandoori Momo', price: 150, img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' }
+      ],
+      'Rolls': [
+        { name: 'Single Egg Roll', price: 60, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Crispy Paneer Roll', price: 100, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Baithak Special Chicken Roll', price: 140, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' }
+      ],
+      'French Fries': [
+        { name: 'Classic Salted Fries', price: 80, img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Peri Peri Spicy Fries', price: 100, img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=150&auto=format&fit=crop' }
+      ],
+      'Burger': [
+        { name: 'Aloo Tikki Burger', price: 50, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Double Cheese Crunch Burger', price: 90, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150&auto=format&fit=crop' },
+        { name: 'Bhai Maharaja Veg Burger', price: 130, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' }
+      ]
+    };
+
     function showMenu(categoryName) {
       document.getElementById('categories-screen').classList.add('hidden');
-      document.getElementById('brand-header').classList.add('hidden'); // Hide main brand header on detail
+      document.getElementById('brand-header').classList.add('hidden');
       document.getElementById('items-screen').classList.remove('hidden');
       document.getElementById('menu-btn').classList.add('hidden');
       document.getElementById('back-btn').classList.remove('hidden');
-      document.getElementById('selected-category-title').innerText = "Special " + categoryName;
+      document.getElementById('selected-category-title').innerText = "Baithak Special " + categoryName;
       document.getElementById('red-sidebar').style.width = '12%';
+
+      // Insetting specific items dynamically
+      const container = document.getElementById('dynamic-items-container');
+      container.innerHTML = ''; // Clear previous items
+
+      menuData[categoryName].forEach(item => {
+        container.innerHTML += `
+          <div class="bg-white rounded-3xl p-3 shadow-[0_4px_15px_rgba(0,0,0,0.04)] flex items-center space-x-4 border border-slate-50">
+            <img src="${item.img}" class="w-16 h-16 rounded-2xl object-cover shadow-sm">
+            <div class="flex-1">
+              <h3 class="font-bold text-slate-800 text-sm">${item.name}</h3>
+              <p class="text-xs text-[#E63946] font-extrabold mt-0.5">₹${item.price}</p>
+            </div>
+            <button onclick="updateCart(1)" class="bg-[#E63946] text-white font-bold text-xs px-3 py-1.5 rounded-full active:scale-90 transition-transform shadow-sm hover:bg-red-600">+</button>
+          </div>
+        `;
+      });
     }
 
     function showCategories() {
       document.getElementById('categories-screen').classList.remove('hidden');
-      document.getElementById('brand-header').classList.remove('hidden'); // Bring brand header back
+      document.getElementById('brand-header').classList.remove('hidden');
       document.getElementById('items-screen').classList.add('hidden');
       document.getElementById('menu-btn').classList.remove('hidden');
       document.getElementById('back-btn').classList.add('hidden');
