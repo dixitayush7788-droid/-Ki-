@@ -69,7 +69,7 @@
           </div>
           <div class="flex-1 ml-4">
             <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Rolls</h2>
-            <p class="text-gray-400 text-xs font-semibold">Bhai Special Rolls</p>
+            <p class="text-gray-400 text-xs font-semibold">🌯 Rolls Corner</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
@@ -125,7 +125,9 @@
         { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' }
       ],
       'Rolls': [
-        { name: 'Classic Egg Roll', price: 60, desc: 'Street style egg roll with fresh onions.', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' }
+        { name: '🥬 Crispy Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
+        { name: '🌿 Pure Veg Roll', price: 39, desc: 'Fresh veggies, spicy sauces & full street-style taste', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
+        { name: '🧀 Cheese Loaded Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor in every bite', img: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=150&auto=format&fit=crop' }
       ],
       'French Fries': [
         { name: 'Classic Salted', price: 80, desc: 'Crispy golden fries with perfect salt.', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150&auto=format&fit=crop' }
@@ -142,8 +144,18 @@
       document.getElementById('menu-btn').classList.add('hidden');
       document.getElementById('back-btn').classList.remove('hidden');
       
-      document.getElementById('selected-category-title').innerText = categoryName + " Menu";
-      document.getElementById('category-subtitle').innerText = "🔥 Har plate me 12 pieces honge";
+      // Dynamic Title and Subtitle adaptation
+      if (categoryName === 'Momo') {
+        document.getElementById('selected-category-title').innerText = "Momos Menu";
+        document.getElementById('category-subtitle').innerText = "🔥 Har plate me 12 pieces honge";
+      } else if (categoryName === 'Rolls') {
+        document.getElementById('selected-category-title').innerText = "Rolls Corner";
+        document.getElementById('category-subtitle').innerText = "🌯 Freshly Wrapped for Bhai";
+      } else {
+        document.getElementById('selected-category-title').innerText = categoryName + " Menu";
+        document.getElementById('category-subtitle').innerText = "Bhai Ki Choice";
+      }
+      
       document.getElementById('red-sidebar').style.width = '12%';
 
       const container = document.getElementById('dynamic-items-container');
