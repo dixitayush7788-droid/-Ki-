@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    <!-- 3. HELP & SUPPORT MODAL -->
+    <!-- 3. HELP & SUPPORT MODAL (Updated with your custom number) -->
     <div id="support-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
         <div class="bg-white w-full rounded-t-[32px] p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -158,10 +158,12 @@
             </div>
             <p class="text-xs text-slate-500 font-bold leading-relaxed">Koi pareshani h bhai? Swaad me kami ya delivery me deri? Hume turant batao, Bhai baitha h yahan solve karne!</p>
             <div class="grid grid-cols-2 gap-3 pt-2">
-                <a href="tel:+919876543210" class="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 rounded-2xl active:scale-95 transition-all text-center">
+                <!-- Configured to your personal phone number -->
+                <a href="tel:+918467895365" class="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 rounded-2xl active:scale-95 transition-all text-center">
                     <span class="text-2xl mb-1">📞</span><span class="text-xs font-black text-slate-800">Call Us</span><span class="text-[9px] text-gray-400 font-bold mt-0.5">Direct Baat Karein</span>
                 </a>
-                <a href="https://wa.me/919876543210" target="_blank" class="flex flex-col items-center justify-center p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl active:scale-95 transition-all text-center">
+                <!-- Configured to your personal WhatsApp API -->
+                <a href="https://wa.me/918467895365" target="_blank" class="flex flex-col items-center justify-center p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl active:scale-95 transition-all text-center">
                     <span class="text-2xl mb-1">💬</span><span class="text-xs font-black text-emerald-800">WhatsApp</span><span class="text-[9px] text-emerald-500 font-bold mt-0.5">Instant Chat Support</span>
                 </a>
             </div>
@@ -240,7 +242,7 @@
     </div>
 
     <!-- VIEW CART BAR -->
-    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-30 view-cart-bar">
+    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-50 view-cart-bar">
       <div class="flex flex-col text-white">
         <span id="cart-items-label" class="font-black text-sm">0 Items</span>
         <span id="cart-total-price" class="font-bold text-xs opacity-90">Total: ₹0</span>
@@ -310,7 +312,7 @@
     });
 
     function openProfileModal() {
-        toggleSidebar(); // Close sidebar first
+        toggleSidebar(); 
         document.getElementById('input-name').value = localStorage.getItem("userName") || "";
         document.getElementById('input-phone').value = localStorage.getItem("userPhone") || "";
         document.getElementById('input-email').value = localStorage.getItem("userEmail") || "";
