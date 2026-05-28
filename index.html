@@ -15,6 +15,11 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .animate-item { animation: fadeIn 0.4s ease forwards; }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .view-cart-bar { animation: slideUp 0.3s ease-out; }
   </style>
 </head>
 <body class="bg-slate-900 min-h-screen flex justify-center items-center p-2 sm:p-4">
@@ -26,78 +31,59 @@
     <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-500"></div>
 
     <!-- CONTENT LAYER -->
-    <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-6">
+    <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-20">
       
-      <!-- HEADER (Menu & Cart) -->
+      <!-- HEADER -->
       <div class="flex justify-between items-center mb-4">
         <button id="back-btn" onclick="showCategories()" class="text-white text-2xl font-bold p-1 hidden focus:outline-none">←</button>
         <button id="menu-btn" class="text-white text-2xl font-bold p-1 focus:outline-none">☰</button>
         
         <button class="text-slate-800 text-2xl p-1 focus:outline-none relative active:scale-90 transition-transform">
           🛒
-          <span id="cart-count" class="absolute -top-1 -right-1 bg-[#E63946] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+          <span id="cart-count-top" class="absolute -top-1 -right-1 bg-[#E63946] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
         </button>
       </div>
 
       <!-- BRAND NAME SECTION -->
       <div id="brand-header" class="ml-[28%] pl-4 mb-6 transition-all duration-300">
         <p class="text-xs uppercase tracking-widest text-[#E63946] font-extrabold mb-0.5">Welcome To</p>
-        <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none">
-          Bhai Ki Baithak
-        </h1>
+        <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none">Bhai Ki Baithak</h1>
       </div>
 
       <!-- SCREEN 1: CATEGORIES -->
       <div id="categories-screen" class="flex flex-col space-y-6">
-        
-        <!-- CARD 1: MOMO -->
-        <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- Momo -->
+        <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200&auto=format&fit=crop" alt="Momo" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Momo</h2>
-            <p class="text-[#E63946] text-[10px] font-extrabold uppercase tracking-tighter italic">⭐ Full Plate (12 Pieces)</p>
-          </div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Momo</h2><p class="text-[#E63946] text-[10px] font-extrabold uppercase italic">⭐ 12 Pieces</p></div>
+          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
         </div>
-
-        <!-- CARD 2: ROLLS -->
-        <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- Rolls -->
+        <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200&auto=format&fit=crop" alt="Rolls" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Rolls</h2>
-            <p class="text-gray-400 text-xs font-semibold">🌯 Rolls Corner</p>
-          </div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Rolls</h2><p class="text-gray-400 text-xs font-semibold">🌯 Rolls Corner</p></div>
+          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
         </div>
-
-        <!-- CARD 3: FRENCH FRIES -->
-        <div onclick="showMenu('French Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- Fries -->
+        <div onclick="showMenu('French Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200&auto=format&fit=crop" alt="French Fries" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">French fries</h2>
-            <p class="text-gray-400 text-xs font-semibold">🍟 Fries Station</p>
-          </div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">French fries</h2><p class="text-gray-400 text-xs font-semibold">🍟 Fries Station</p></div>
+          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
         </div>
-
-        <!-- CARD 4: BURGER -->
-        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all duration-150">
+        <!-- Burger -->
+        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200&auto=format&fit=crop" alt="Burger" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4">
-            <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Burger</h2>
-            <p class="text-gray-400 text-xs font-semibold">🍔 Burger Hub</p>
-          </div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Burger</h2><p class="text-gray-400 text-xs font-semibold">🍔 Burger Hub</p></div>
+          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
         </div>
-
       </div>
 
       <!-- SCREEN 2: DYNAMIC ITEMS -->
@@ -106,84 +92,114 @@
             <h1 id="selected-category-title" class="text-3xl font-black text-slate-800 serif-font">Menu</h1>
             <p id="category-subtitle" class="text-[#E63946] font-bold text-[11px] tracking-wider uppercase bg-red-50 inline-block px-2 py-1 rounded-lg"></p>
         </div>
-        
         <div id="dynamic-items-container" class="flex flex-col space-y-4"></div>
       </div>
+    </div>
 
+    <!-- VIEW CART BAR (Floating) -->
+    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-50 view-cart-bar">
+      <div class="flex flex-col">
+        <span id="cart-items-label" class="text-white font-black text-sm tracking-wide">0 Items</span>
+        <span id="cart-total-price" class="text-white/80 font-bold text-xs leading-none">Total: ₹0</span>
+      </div>
+      <button class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs uppercase tracking-tighter shadow-md active:scale-95 transition-transform italic">View Cart ❯</button>
     </div>
   </div>
 
   <script>
-    let cartCount = 0;
+    let cart = {}; // Stores { 'Item Name': { price, qty } }
+    let currentCategory = "";
 
     const menuData = {
       'Momo': [
-        { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling wale classic momos. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
-        { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside full tasty stuffing. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
-        { name: '🧀 Paneer Steam Momos', price: 69, desc: 'Soft paneer filling with bhai special masala touch. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
-        { name: '🌶️ Paneer Fried Momos', price: 79, desc: 'Crispy paneer momos with spicy street-style flavor. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
-        { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' }
+        { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
+        { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside tasty stuffing. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
+        { name: '💥 Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' }
       ],
       'Rolls': [
-        { name: '🥬 Crispy Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
-        { name: '🌿 Pure Veg Roll', price: 39, desc: 'Fresh veggies, spicy sauces & full street-style taste', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
-        { name: '🧀 Cheese Loaded Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor in every bite', img: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=150&auto=format&fit=crop' }
+        { name: '🥬 Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
+        { name: '🧀 Cheese Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor', img: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=150' }
       ],
       'French Fries': [
-        { name: '🍟 Classic French Fries', price: 39, desc: 'Golden crispy fries with perfect salted taste', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150&auto=format&fit=crop' },
-        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Loaded with spicy peri peri seasoning', img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=150&auto=format&fit=crop' },
-        { name: '🧈 Tandoori Mayo Fries', price: 59, desc: 'Creamy tandoori mayo with smoky desi flavor', img: 'https://images.unsplash.com/photo-1585109649139-366815a0d713?q=80&w=150&auto=format&fit=crop' }
+        { name: '🍟 Classic Fries', price: 39, desc: 'Golden crispy fries salted perfectly', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' },
+        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Spicy peri peri seasoning', img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=150' }
       ],
       'Burger': [
-        { name: '🌿 Veg Burger', price: 39, desc: 'Fresh veggie patty with crunchy veggies & tasty sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' },
-        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with spicy creamy flavor', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150&auto=format&fit=crop' },
-        { name: '🧈 Cheese Burger', price: 59, desc: 'Loaded with melting cheese & signature sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' }
+        { name: '🌿 Veg Burger', price: 39, desc: 'Veggie patty with crunchy veggies', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' },
+        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with creamy flavor', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150' },
+        { name: '🧈 Cheese Burger', price: 59, desc: 'Melting cheese & signature sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' }
       ]
     };
 
-    function showMenu(categoryName) {
+    function showMenu(category) {
+      currentCategory = category;
       document.getElementById('categories-screen').classList.add('hidden');
       document.getElementById('brand-header').classList.add('hidden');
       document.getElementById('items-screen').classList.remove('hidden');
       document.getElementById('menu-btn').classList.add('hidden');
       document.getElementById('back-btn').classList.remove('hidden');
-      
-      // Dynamic Title and Subtitle adaptation
-      if (categoryName === 'Momo') {
-        document.getElementById('selected-category-title').innerText = "Momos Menu";
-        document.getElementById('category-subtitle').innerText = "🔥 Har plate me 12 pieces honge";
-      } else if (categoryName === 'Rolls') {
-        document.getElementById('selected-category-title').innerText = "Rolls Corner";
-        document.getElementById('category-subtitle').innerText = "🌯 Freshly Wrapped for Bhai";
-      } else if (categoryName === 'French Fries') {
-        document.getElementById('selected-category-title').innerText = "Fries Station";
-        document.getElementById('category-subtitle').innerText = "🍟 Crispy, Hot & Fresh";
-      } else if (categoryName === 'Burger') {
-        document.getElementById('selected-category-title').innerText = "Burger Hub";
-        document.getElementById('category-subtitle').innerText = "🍔 Juicy & Heavy Fillings";
-      } else {
-        document.getElementById('selected-category-title').innerText = categoryName + " Menu";
-        document.getElementById('category-subtitle').innerText = "Bhai Ki Choice";
-      }
-      
       document.getElementById('red-sidebar').style.width = '12%';
 
+      document.getElementById('selected-category-title').innerText = category;
+      document.getElementById('category-subtitle').innerText = "Hot & Fresh from Bhai's Kitchen";
+      
+      renderItems();
+    }
+
+    function renderItems() {
       const container = document.getElementById('dynamic-items-container');
       container.innerHTML = ''; 
-
-      menuData[categoryName].forEach((item, index) => {
+      menuData[currentCategory].forEach((item, index) => {
+        const qty = cart[item.name] ? cart[item.name].qty : 0;
         container.innerHTML += `
-          <div class="bg-white rounded-[2rem] p-3 shadow-[0_4px_15px_rgba(0,0,0,0.04)] flex items-center space-x-4 border border-slate-50 animate-item" style="animation-delay: ${index * 0.1}s">
-            <img src="${item.img}" class="w-20 h-20 rounded-3xl object-cover shadow-sm">
+          <div class="bg-white rounded-[2rem] p-3 shadow-sm flex items-center space-x-4 border border-slate-100 animate-item" style="animation-delay: ${index * 0.05}s">
+            <img src="${item.img}" class="w-20 h-20 rounded-3xl object-cover">
             <div class="flex-1">
-              <h3 class="font-extrabold text-slate-800 text-sm leading-tight">${item.name}</h3>
-              <p class="text-[9px] text-gray-500 mt-1 font-medium leading-relaxed">${item.desc}</p>
-              <p class="text-sm text-[#E63946] font-black mt-1.5">₹${item.price}</p>
+              <h3 class="font-extrabold text-slate-800 text-sm">${item.name}</h3>
+              <p class="text-[10px] text-gray-400 font-medium leading-tight">${item.desc}</p>
+              <p class="text-sm text-[#E63946] font-black mt-1">₹${item.price}</p>
             </div>
-            <button onclick="updateCart(1)" class="bg-[#E63946] text-white w-10 h-10 rounded-full font-black shadow-lg active:scale-90 transition-all text-xl hover:bg-red-600">+</button>
+            <div class="flex items-center bg-slate-50 rounded-full px-1 border border-slate-100">
+              ${qty > 0 ? `<button onclick="updateCart('${item.name}', ${item.price}, -1)" class="w-8 h-8 font-black text-slate-400 hover:text-red-500 transition-colors">-</button>
+              <span class="w-6 text-center font-black text-slate-800 text-xs">${qty}</span>` : ''}
+              <button onclick="updateCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] text-white w-8 h-8 rounded-full font-black shadow-md active:scale-90 transition-transform">+</button>
+            </div>
           </div>
         `;
       });
+    }
+
+    function updateCart(name, price, change) {
+      if (!cart[name]) cart[name] = { price: price, qty: 0 };
+      cart[name].qty += change;
+      if (cart[name].qty <= 0) delete cart[name];
+
+      // Update Visuals
+      renderItems();
+      calculateTotals();
+    }
+
+    function calculateTotals() {
+      let totalQty = 0;
+      let totalPrice = 0;
+
+      for (let item in cart) {
+        totalQty += cart[item].qty;
+        totalPrice += (cart[item].qty * cart[item].price);
+      }
+
+      // Top Cart Badge
+      document.getElementById('cart-count-top').innerText = totalQty;
+
+      // Bottom Bar Logic
+      const bar = document.getElementById('view-cart-bar');
+      if (totalQty > 0) {
+        bar.classList.remove('hidden');
+        document.getElementById('cart-items-label').innerText = `${totalQty} Item${totalQty > 1 ? 's' : ''} Added`;
+        document.getElementById('cart-total-price').innerText = `Total Amount: ₹${totalPrice}`;
+      } else {
+        bar.classList.add('hidden');
+      }
     }
 
     function showCategories() {
@@ -193,11 +209,6 @@
       document.getElementById('menu-btn').classList.remove('hidden');
       document.getElementById('back-btn').classList.add('hidden');
       document.getElementById('red-sidebar').style.width = '32%';
-    }
-
-    function updateCart(val) {
-      cartCount += val;
-      document.getElementById('cart-count').innerText = cartCount;
     }
   </script>
 </body>
