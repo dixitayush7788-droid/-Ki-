@@ -9,8 +9,12 @@
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .serif-font { font-family: 'Playfair Display', serif; }
-    /* Smooth scroll for better feel */
     .hide-scrollbar::-webkit-scrollbar { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-item { animation: fadeIn 0.4s ease forwards; }
   </style>
 </head>
 <body class="bg-slate-900 min-h-screen flex justify-center items-center p-2 sm:p-4">
@@ -19,7 +23,7 @@
   <div class="relative w-full max-w-md h-[92vh] max-h-[850px] bg-[#F8F9FA] rounded-[40px] shadow-2xl overflow-hidden border-[6px] border-slate-900 flex flex-col">
     
     <!-- LEFT RED SIDEBAR -->
-    <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-300"></div>
+    <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-500"></div>
 
     <!-- CONTENT LAYER -->
     <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-6">
@@ -53,7 +57,7 @@
           </div>
           <div class="flex-1 ml-4">
             <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Momo</h2>
-            <p class="text-[#E63946] text-[10px] font-extrabold uppercase tracking-tighter">🔥 12 Pcs Per Plate</p>
+            <p class="text-[#E63946] text-[10px] font-extrabold uppercase tracking-tighter italic">⭐ Full Plate (12 Pieces)</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
@@ -65,7 +69,7 @@
           </div>
           <div class="flex-1 ml-4">
             <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Rolls</h2>
-            <p class="text-gray-400 text-xs font-semibold">12 items</p>
+            <p class="text-gray-400 text-xs font-semibold">Bhai Special Rolls</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
@@ -77,7 +81,7 @@
           </div>
           <div class="flex-1 ml-4">
             <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">French fries</h2>
-            <p class="text-gray-400 text-xs font-semibold">8 items</p>
+            <p class="text-gray-400 text-xs font-semibold">Crispy & Hot</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
@@ -89,7 +93,7 @@
           </div>
           <div class="flex-1 ml-4">
             <h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Burger</h2>
-            <p class="text-gray-400 text-xs font-semibold">10 items</p>
+            <p class="text-gray-400 text-xs font-semibold">Desi Style Burgers</p>
           </div>
           <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center shadow-sm bg-white text-[#E63946] font-bold text-xs">❯</div>
         </div>
@@ -99,8 +103,8 @@
       <!-- SCREEN 2: DYNAMIC ITEMS -->
       <div id="items-screen" class="hidden flex flex-col space-y-4">
         <div class="mb-2">
-            <h1 id="selected-category-title" class="text-3xl font-black text-slate-800 serif-font">Items</h1>
-            <p id="category-subtitle" class="text-[#E63946] font-bold text-[10px] tracking-widest uppercase"></p>
+            <h1 id="selected-category-title" class="text-3xl font-black text-slate-800 serif-font">Menu</h1>
+            <p id="category-subtitle" class="text-[#E63946] font-bold text-[11px] tracking-wider uppercase bg-red-50 inline-block px-2 py-1 rounded-lg"></p>
         </div>
         
         <div id="dynamic-items-container" class="flex flex-col space-y-4"></div>
@@ -114,25 +118,20 @@
 
     const menuData = {
       'Momo': [
-        { name: 'Mountain Mist (Veg Steam)', price: 49, desc: 'Silky smooth skins with fresh garden veggies. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Golden Harvest (Veg Fried)', price: 59, desc: 'Deep fried to a perfect golden crunch. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Silk & Cloud (Paneer Steam)', price: 69, desc: 'Royal paneer filling with a touch of secret spices. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Paneer Fire (Paneer Fried)', price: 79, desc: 'Crispy outer shell with a soft melting heart. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
-        { name: 'The Bhai Special Kurkure', price: 99, desc: 'The ultimate crunch explosion you can\'t resist. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' }
+        { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling wale classic momos. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
+        { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside full tasty stuffing. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
+        { name: '🧀 Paneer Steam Momos', price: 69, desc: 'Soft paneer filling with bhai special masala touch. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150&auto=format&fit=crop' },
+        { name: '🌶️ Paneer Fried Momos', price: 79, desc: 'Crispy paneer momos with spicy street-style flavor. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' },
+        { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop' }
       ],
       'Rolls': [
-        { name: 'Single Egg Roll', price: 60, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Crispy Paneer Roll', price: 100, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Baithak Special Chicken Roll', price: 140, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' }
+        { name: 'Classic Egg Roll', price: 60, desc: 'Street style egg roll with fresh onions.', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150&auto=format&fit=crop' }
       ],
       'French Fries': [
-        { name: 'Classic Salted Fries', price: 80, img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Peri Peri Spicy Fries', price: 100, img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=150&auto=format&fit=crop' }
+        { name: 'Classic Salted', price: 80, desc: 'Crispy golden fries with perfect salt.', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150&auto=format&fit=crop' }
       ],
       'Burger': [
-        { name: 'Aloo Tikki Burger', price: 50, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Double Cheese Crunch Burger', price: 90, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150&auto=format&fit=crop' },
-        { name: 'Bhai Maharaja Veg Burger', price: 130, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' }
+        { name: 'Aloo Tikki Burger', price: 50, desc: 'Crispy patty with special mayo.', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150&auto=format&fit=crop' }
       ]
     };
 
@@ -143,23 +142,23 @@
       document.getElementById('menu-btn').classList.add('hidden');
       document.getElementById('back-btn').classList.remove('hidden');
       
-      document.getElementById('selected-category-title').innerText = categoryName;
-      document.getElementById('category-subtitle').innerText = categoryName === 'Momo' ? "🔥 12 Pieces Per Plate" : "Bhai Ki Choice";
+      document.getElementById('selected-category-title').innerText = categoryName + " Menu";
+      document.getElementById('category-subtitle').innerText = "🔥 Har plate me 12 pieces honge";
       document.getElementById('red-sidebar').style.width = '12%';
 
       const container = document.getElementById('dynamic-items-container');
       container.innerHTML = ''; 
 
-      menuData[categoryName].forEach(item => {
+      menuData[categoryName].forEach((item, index) => {
         container.innerHTML += `
-          <div class="bg-white rounded-[2rem] p-3 shadow-[0_4px_15px_rgba(0,0,0,0.04)] flex items-center space-x-4 border border-slate-50">
+          <div class="bg-white rounded-[2rem] p-3 shadow-[0_4px_15px_rgba(0,0,0,0.04)] flex items-center space-x-4 border border-slate-50 animate-item" style="animation-delay: ${index * 0.1}s">
             <img src="${item.img}" class="w-20 h-20 rounded-3xl object-cover shadow-sm">
             <div class="flex-1">
-              <h3 class="font-bold text-slate-800 text-sm leading-tight">${item.name}</h3>
-              <p class="text-[9px] text-gray-400 mt-1 italic">${item.desc || 'Speciality of the house.'}</p>
-              <p class="text-sm text-[#E63946] font-black mt-1">₹${item.price}</p>
+              <h3 class="font-extrabold text-slate-800 text-sm leading-tight">${item.name}</h3>
+              <p class="text-[9px] text-gray-500 mt-1 font-medium leading-relaxed">${item.desc}</p>
+              <p class="text-sm text-[#E63946] font-black mt-1.5">₹${item.price}</p>
             </div>
-            <button onclick="updateCart(1)" class="bg-[#E63946] text-white w-10 h-10 rounded-full font-black shadow-lg active:scale-90 transition-all text-xl">+</button>
+            <button onclick="updateCart(1)" class="bg-[#E63946] text-white w-10 h-10 rounded-full font-black shadow-lg active:scale-90 transition-all text-xl hover:bg-red-600">+</button>
           </div>
         `;
       });
