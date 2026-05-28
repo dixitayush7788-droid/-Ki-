@@ -15,23 +15,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .animate-item { animation: fadeIn 0.4s ease forwards; }
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
     .view-cart-bar { animation: slideUp 0.3s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
   </style>
 </head>
 <body class="bg-slate-900 min-h-screen flex justify-center items-center p-2 sm:p-4">
 
-  <!-- Mobile Frame Wrapper -->
   <div class="relative w-full max-w-md h-[92vh] max-h-[850px] bg-[#F8F9FA] rounded-[40px] shadow-2xl overflow-hidden border-[6px] border-slate-900 flex flex-col">
     
-    <!-- LEFT RED SIDEBAR -->
     <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-500"></div>
 
-    <!-- CONTENT LAYER -->
-    <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-20">
+    <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-24">
       
       <!-- HEADER -->
       <div class="flex justify-between items-center mb-4">
@@ -44,51 +38,54 @@
         </button>
       </div>
 
-      <!-- BRAND NAME SECTION -->
+      <!-- BRAND & SEARCH -->
       <div id="brand-header" class="ml-[28%] pl-4 mb-6 transition-all duration-300">
-        <p class="text-xs uppercase tracking-widest text-[#E63946] font-extrabold mb-0.5">Welcome To</p>
-        <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none">Bhai Ki Baithak</h1>
+        <div class="flex items-center space-x-2 mb-1">
+            <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full border border-green-200">● PURE VEG</span>
+        </div>
+        <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none mb-4">Bhai Ki Baithak</h1>
+        
+        <!-- Search Bar -->
+        <div class="relative -ml-[25%] pr-4">
+            <input type="text" id="menu-search" oninput="handleSearch(this.value)" placeholder="Search fast food..." class="w-full bg-white border-none shadow-sm rounded-2xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#E63946] transition-all outline-none">
+            <span class="absolute left-3 top-3.5 text-gray-400 text-base">🔍</span>
+        </div>
       </div>
 
       <!-- SCREEN 1: CATEGORIES -->
       <div id="categories-screen" class="flex flex-col space-y-6">
-        <!-- Momo -->
-        <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
+        <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Momo</h2><p class="text-[#E63946] text-[10px] font-extrabold uppercase italic">⭐ 12 Pieces</p></div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Momo</h2><p class="text-[#E63946] text-[10px] font-extrabold italic">⭐ 12 PIECES</p></div>
         </div>
-        <!-- Rolls -->
-        <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
+
+        <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Rolls</h2><p class="text-gray-400 text-xs font-semibold">🌯 Rolls Corner</p></div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Rolls</h2><p class="text-gray-400 text-[10px] font-bold">🌯 ROLLS CORNER</p></div>
         </div>
-        <!-- Fries -->
-        <div onclick="showMenu('French Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
+
+        <div onclick="showMenu('French Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">French fries</h2><p class="text-gray-400 text-xs font-semibold">🍟 Fries Station</p></div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Fries</h2><p class="text-gray-400 text-[10px] font-bold">🍟 FRIES STATION</p></div>
         </div>
-        <!-- Burger -->
-        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] pl-16 cursor-pointer transform active:scale-95 transition-all">
+
+        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 tracking-wide serif-font">Burger</h2><p class="text-gray-400 text-xs font-semibold">🍔 Burger Hub</p></div>
-          <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center text-[#E63946] font-bold text-xs">❯</div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Burger</h2><p class="text-gray-400 text-[10px] font-bold">🍔 BURGER HUB</p></div>
         </div>
       </div>
 
       <!-- SCREEN 2: DYNAMIC ITEMS -->
       <div id="items-screen" class="hidden flex flex-col space-y-4">
-        <div class="mb-2">
+        <div id="category-header-box" class="mb-2">
             <h1 id="selected-category-title" class="text-3xl font-black text-slate-800 serif-font">Menu</h1>
             <p id="category-subtitle" class="text-[#E63946] font-bold text-[11px] tracking-wider uppercase bg-red-50 inline-block px-2 py-1 rounded-lg"></p>
         </div>
@@ -96,25 +93,25 @@
       </div>
     </div>
 
-    <!-- VIEW CART BAR (Floating) -->
+    <!-- VIEW CART BAR -->
     <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-50 view-cart-bar">
-      <div class="flex flex-col">
-        <span id="cart-items-label" class="text-white font-black text-sm tracking-wide">0 Items</span>
-        <span id="cart-total-price" class="text-white/80 font-bold text-xs leading-none">Total: ₹0</span>
+      <div class="flex flex-col text-white">
+        <span id="cart-items-label" class="font-black text-sm">0 Items</span>
+        <span id="cart-total-price" class="font-bold text-xs opacity-90">Total: ₹0</span>
       </div>
-      <button class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs uppercase tracking-tighter shadow-md active:scale-95 transition-transform italic">View Cart ❯</button>
+      <button class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs italic uppercase tracking-tighter shadow-md active:scale-95 transition-transform">View Cart ❯</button>
     </div>
   </div>
 
   <script>
-    let cart = {}; // Stores { 'Item Name': { price, qty } }
+    let cart = {};
     let currentCategory = "";
 
     const menuData = {
       'Momo': [
         { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
         { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside tasty stuffing. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
-        { name: '💥 Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' }
+        { name: '💥 Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' }
       ],
       'Rolls': [
         { name: '🥬 Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
@@ -131,10 +128,36 @@
       ]
     };
 
+    function handleSearch(query) {
+        if (!query.trim()) {
+            if (currentCategory) showMenu(currentCategory);
+            else showCategories();
+            return;
+        }
+
+        // Switch to items screen for search results
+        document.getElementById('categories-screen').classList.add('hidden');
+        document.getElementById('items-screen').classList.remove('hidden');
+        document.getElementById('menu-btn').classList.add('hidden');
+        document.getElementById('back-btn').classList.remove('hidden');
+        document.getElementById('red-sidebar').style.width = '12%';
+        
+        document.getElementById('selected-category-title').innerText = "Search Results";
+        document.getElementById('category-subtitle').innerText = `Finding: "${query}"`;
+
+        const allItems = [];
+        Object.values(menuData).forEach(cat => allItems.push(...cat));
+        
+        const filtered = allItems.filter(item => 
+            item.name.toLowerCase().includes(query.toLowerCase())
+        );
+
+        renderItemList(filtered);
+    }
+
     function showMenu(category) {
       currentCategory = category;
       document.getElementById('categories-screen').classList.add('hidden');
-      document.getElementById('brand-header').classList.add('hidden');
       document.getElementById('items-screen').classList.remove('hidden');
       document.getElementById('menu-btn').classList.add('hidden');
       document.getElementById('back-btn').classList.remove('hidden');
@@ -143,26 +166,26 @@
       document.getElementById('selected-category-title').innerText = category;
       document.getElementById('category-subtitle').innerText = "Hot & Fresh from Bhai's Kitchen";
       
-      renderItems();
+      renderItemList(menuData[category]);
     }
 
-    function renderItems() {
+    function renderItemList(items) {
       const container = document.getElementById('dynamic-items-container');
-      container.innerHTML = ''; 
-      menuData[currentCategory].forEach((item, index) => {
+      container.innerHTML = items.length ? '' : '<p class="text-center text-gray-400 mt-10">Bhai, ye item nahi mila! 😅</p>'; 
+      
+      items.forEach((item, index) => {
         const qty = cart[item.name] ? cart[item.name].qty : 0;
         container.innerHTML += `
-          <div class="bg-white rounded-[2rem] p-3 shadow-sm flex items-center space-x-4 border border-slate-100 animate-item" style="animation-delay: ${index * 0.05}s">
-            <img src="${item.img}" class="w-20 h-20 rounded-3xl object-cover">
+          <div class="bg-white rounded-[2rem] p-3 shadow-sm flex items-center space-x-4 border border-slate-50 animate-item" style="animation-delay: ${index * 0.05}s">
+            <img src="${item.img}" class="w-16 h-16 rounded-2xl object-cover">
             <div class="flex-1">
-              <h3 class="font-extrabold text-slate-800 text-sm">${item.name}</h3>
-              <p class="text-[10px] text-gray-400 font-medium leading-tight">${item.desc}</p>
-              <p class="text-sm text-[#E63946] font-black mt-1">₹${item.price}</p>
+              <h3 class="font-extrabold text-slate-800 text-xs">${item.name}</h3>
+              <p class="text-sm text-[#E63946] font-black">₹${item.price}</p>
             </div>
-            <div class="flex items-center bg-slate-50 rounded-full px-1 border border-slate-100">
-              ${qty > 0 ? `<button onclick="updateCart('${item.name}', ${item.price}, -1)" class="w-8 h-8 font-black text-slate-400 hover:text-red-500 transition-colors">-</button>
-              <span class="w-6 text-center font-black text-slate-800 text-xs">${qty}</span>` : ''}
-              <button onclick="updateCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] text-white w-8 h-8 rounded-full font-black shadow-md active:scale-90 transition-transform">+</button>
+            <div class="flex items-center bg-slate-50 rounded-full p-1">
+              ${qty > 0 ? `<button onclick="updateCart('${item.name}', ${item.price}, -1)" class="w-7 h-7 font-black text-slate-400">-</button>
+              <span class="w-5 text-center font-black text-slate-800 text-[10px]">${qty}</span>` : ''}
+              <button onclick="updateCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] text-white w-7 h-7 rounded-full font-black shadow-sm">+</button>
             </div>
           </div>
         `;
@@ -173,25 +196,22 @@
       if (!cart[name]) cart[name] = { price: price, qty: 0 };
       cart[name].qty += change;
       if (cart[name].qty <= 0) delete cart[name];
-
-      // Update Visuals
-      renderItems();
+      
+      // Update UI
+      const query = document.getElementById('menu-search').value;
+      if (query) handleSearch(query);
+      else renderItemList(menuData[currentCategory]);
+      
       calculateTotals();
     }
 
     function calculateTotals() {
-      let totalQty = 0;
-      let totalPrice = 0;
-
+      let totalQty = 0, totalPrice = 0;
       for (let item in cart) {
         totalQty += cart[item].qty;
         totalPrice += (cart[item].qty * cart[item].price);
       }
-
-      // Top Cart Badge
       document.getElementById('cart-count-top').innerText = totalQty;
-
-      // Bottom Bar Logic
       const bar = document.getElementById('view-cart-bar');
       if (totalQty > 0) {
         bar.classList.remove('hidden');
@@ -203,8 +223,9 @@
     }
 
     function showCategories() {
+      currentCategory = "";
+      document.getElementById('menu-search').value = "";
       document.getElementById('categories-screen').classList.remove('hidden');
-      document.getElementById('brand-header').classList.remove('hidden');
       document.getElementById('items-screen').classList.add('hidden');
       document.getElementById('menu-btn').classList.remove('hidden');
       document.getElementById('back-btn').classList.add('hidden');
