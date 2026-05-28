@@ -17,12 +17,60 @@
     .animate-item { animation: fadeIn 0.4s ease forwards; }
     .view-cart-bar { animation: slideUp 0.3s ease-out; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+    /* PROFILE SIDEBAR ANIMATIONS */
+    #side-drawer { transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    #side-drawer.open { transform: translateX(0); }
+    #overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    #overlay.open { opacity: 1; pointer-events: auto; }
   </style>
 </head>
 <body class="bg-slate-900 min-h-screen flex justify-center items-center p-2 sm:p-4">
 
   <div class="relative w-full max-w-md h-[92vh] max-h-[850px] bg-[#F8F9FA] rounded-[40px] shadow-2xl overflow-hidden border-[6px] border-slate-900 flex flex-col">
     
+    <!-- SIDEBAR DRAWER OVERLAY -->
+    <div id="overlay" onclick="toggleSidebar()" class="absolute inset-0 bg-black/40 z-40"></div>
+    
+    <!-- SIDEBAR DRAWER PANEL -->
+    <div id="side-drawer" class="absolute top-0 left-0 w-[80%] h-full bg-white z-50 shadow-2xl flex flex-col rounded-r-[32px] overflow-hidden">
+        <!-- User Profile Header -->
+        <div class="bg-[#E63946] p-6 pt-12 pb-8 rounded-br-[40px] relative">
+            <div class="w-16 h-16 rounded-2xl bg-white/20 border-2 border-white/30 overflow-hidden mb-3 shadow-md flex items-center justify-center">
+                <span class="text-3xl">👤</span>
+            </div>
+            <h3 class="text-white font-black text-lg leading-tight">Bhai Ka Account</h3>
+            <p class="text-white/70 text-[10px] font-bold uppercase tracking-widest mt-0.5">+91 9876543210</p>
+        </div>
+
+        <!-- Navigation Links inside Sidebar -->
+        <div class="flex-1 p-4 space-y-1 mt-2">
+            <a href="#" class="flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group">
+                <span class="text-lg group-hover:scale-110 transition-transform">👤</span>
+                <span class="font-bold text-sm text-slate-700">My Profile</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group">
+                <span class="text-lg group-hover:scale-110 transition-transform">🛍️</span>
+                <span class="font-bold text-sm text-slate-700">Order History</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group">
+                <span class="text-lg group-hover:scale-110 transition-transform">📍</span>
+                <span class="font-bold text-sm text-slate-700">Manage Addresses</span>
+            </a>
+            <hr class="border-slate-100 my-2">
+            <a href="#" class="flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group">
+                <span class="text-lg group-hover:scale-110 transition-transform">💬</span>
+                <span class="font-bold text-sm text-slate-700">Help & Support</span>
+            </a>
+        </div>
+
+        <!-- Logout Section -->
+        <div class="p-5 border-t border-slate-50 bg-slate-50/50">
+            <button onclick="toggleSidebar()" class="w-full py-3.5 bg-white border border-slate-200 text-slate-500 font-extrabold rounded-xl text-xs uppercase tracking-wider active:scale-95 transition-all shadow-sm">Logout</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP CANVAS -->
     <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-500"></div>
 
     <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-24">
@@ -30,7 +78,8 @@
       <!-- HEADER -->
       <div class="flex justify-between items-center mb-4">
         <button id="back-btn" onclick="showCategories()" class="text-white text-2xl font-bold p-1 hidden focus:outline-none">←</button>
-        <button id="menu-btn" class="text-white text-2xl font-bold p-1 focus:outline-none">☰</button>
+        <!-- Modified: Added onclick="toggleSidebar()" to open menu -->
+        <button id="menu-btn" onclick="toggleSidebar()" class="text-white text-2xl font-bold p-1 focus:outline-none">☰</button>
         
         <button class="text-slate-800 text-2xl p-1 focus:outline-none relative active:scale-90 transition-transform">
           🛒
@@ -94,7 +143,7 @@
     </div>
 
     <!-- VIEW CART BAR -->
-    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-50 view-cart-bar">
+    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-30 view-cart-bar">
       <div class="flex flex-col text-white">
         <span id="cart-items-label" class="font-black text-sm">0 Items</span>
         <span id="cart-total-price" class="font-bold text-xs opacity-90">Total: ₹0</span>
@@ -127,6 +176,12 @@
         { name: '🧈 Cheese Burger', price: 59, desc: 'Melting cheese & signature sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' }
       ]
     };
+
+    // Toggle Sidebar Drawer Function
+    function toggleSidebar() {
+        document.getElementById('side-drawer').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('open');
+    }
 
     function handleSearch(query) {
         if (!query.trim()) {
