@@ -227,7 +227,7 @@
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
             <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200" class="w-full h-full object-cover">
           </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Momo</h2><p class="text-[#E63946] text-[10px] font-extrabold italic">⭐ 12 PIECES</p></div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Momo</h2><p class="text-[#E63946] text-[10px] font-extrabold italic">🥟 MOMOS MENU</p></div>
         </div>
 
         <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
@@ -235,6 +235,20 @@
             <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200" class="w-full h-full object-cover">
           </div>
           <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Rolls</h2><p class="text-gray-400 text-[10px] font-bold">🌯 ROLLS CORNER</p></div>
+        </div>
+
+        <div onclick="showMenu('Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
+          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Fries</h2><p class="text-gray-400 text-[10px] font-bold">🍟 FRIES STATION</p></div>
+        </div>
+
+        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
+          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Burger</h2><p class="text-gray-400 text-[10px] font-bold">🍔 BURGER HUB</p></div>
         </div>
       </div>
 
@@ -262,13 +276,27 @@
 
     const menuData = {
       'Momo': [
-        { name: '🌿 Veg Steam Momos', price: 49, img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
-        { name: '🔥 Veg Fried Momos', price: 59, img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
-        { name: '🧀 Paneer Steam Momos', price: 69, img: '' },
-        { name: '🌶️ Paneer Fried Momos', price: 79, img: '' }
+        { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling wale classic momos', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
+        { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside full tasty stuffing', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
+        { name: '🧀 Paneer Steam Momos', price: 69, desc: 'Soft paneer filling with bhai special masala touch', img: '' },
+        { name: '🌶️ Paneer Fried Momos', price: 79, desc: 'Crispy paneer momos with spicy street-style flavor', img: '' },
+        { name: '🍛 Veg Gravy Momos', price: 89, desc: 'Spicy gravy me tossed juicy momos with desi flavor', img: '' },
+        { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge', img: '' }
       ],
       'Rolls': [
-        { name: '🥬 Spring Roll', price: 29, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' }
+        { name: '🥬 Crispy Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
+        { name: '🌿 Pure Veg Roll', price: 39, desc: 'Fresh veggies, spicy sauces & full street-style taste', img: '' },
+        { name: '🧀 Cheese Loaded Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor in every bite', img: '' }
+      ],
+      'Fries': [
+        { name: '🍟 Classic French Fries', price: 39, desc: 'Golden crispy fries with perfect salted taste', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' },
+        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Loaded with spicy peri peri seasoning', img: '' },
+        { name: '🧈 Tandoori Mayo Fries', price: 59, desc: 'Creamy tandoori mayo with smoky desi flavor', img: '' }
+      ],
+      'Burger': [
+        { name: '🌿 Veg Burger', price: 39, desc: 'Fresh veggie patty with crunchy veggies & tasty sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' },
+        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with spicy creamy flavor', img: '' },
+        { name: '🧈 Cheese Burger', price: 59, desc: 'Loaded with melting cheese & signature sauces', img: '' }
       ]
     };
 
@@ -524,7 +552,14 @@
       document.getElementById('red-sidebar').style.width = '12%';
       
       document.getElementById('selected-category-title').innerText = category;
-      document.getElementById('category-subtitle').innerText = category === 'Momo' ? "⭐ 12 Pieces Fresh Delivery" : "🌯 Gourmet Rolls Corner";
+      
+      let subtitle = "";
+      if (category === 'Momo') subtitle = "🥟 MOMOS MENU";
+      else if (category === 'Rolls') subtitle = "🌯 ROLLS CORNER";
+      else if (category === 'Fries') subtitle = "🍟 FRIES STATION";
+      else if (category === 'Burger') subtitle = "🍔 BURGER HUB";
+      
+      document.getElementById('category-subtitle').innerText = subtitle;
       
       renderItemList(menuData[category] || []);
     }
@@ -541,15 +576,7 @@
       items.forEach((item, index) => {
         const qty = cart[item.name] ? cart[item.name].qty : 0;
         
-        // Custom short descriptions injection mirroring live state context
-        let desc = "Bhai's Special Delicacy";
-        if (item.name.includes("Paneer Steam")) desc = "Soft paneer filling with bhai special masala touch";
-        else if (item.name.includes("Paneer Fried")) desc = "Crispy paneer momos with spicy street-style flavor";
-        else if (item.name.includes("Veg Steam")) desc = "Soft, garam aur juicy veg filling. (12 Pcs)";
-        else if (item.name.includes("Veg Fried")) desc = "Outside crispy, inside tasty stuffing. (12 Pcs)";
-        else if (item.name.includes("Spring Roll")) desc = "Crispy and light street style outer crust wrapper.";
-
-        let imgHtml = `<div class="w-full h-full bg-slate-100 flex items-center justify-center font-bold text-slate-400 text-xs border border-slate-200/60 rounded-xl">❓</div>`;
+        let imgHtml = `<div class="w-full h-full bg-slate-100 flex items-center justify-center font-bold text-slate-400 text-xs border border-slate-200/60 rounded-xl">🍔</div>`;
         if(item.img) {
             imgHtml = `<img src="${item.img}" class="w-full h-full object-cover rounded-xl shadow-inner">`;
         }
@@ -561,7 +588,7 @@
             </div>
             <div class="flex-1 pr-16">
               <h3 class="font-extrabold text-slate-800 text-sm leading-snug">${item.name}</h3>
-              <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-tight">${desc}</p>
+              <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-tight">${item.desc}</p>
               <div class="text-sm font-black text-[#E63946] mt-1">₹${item.price}</div>
             </div>
             <div class="absolute right-3 bottom-3">
