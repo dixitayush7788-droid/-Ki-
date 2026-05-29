@@ -204,7 +204,7 @@
         <button id="back-btn" onclick="showCategories()" class="text-white text-2xl font-bold p-1 hidden focus:outline-none">←</button>
         <button id="menu-btn" onclick="toggleSidebar()" class="text-white text-2xl font-bold p-1 focus:outline-none">☰</button>
         
-        <button class="text-slate-800 text-2xl p-1 focus:outline-none relative active:scale-90 transition-transform">
+        <button onclick="openCartDetailModal()" class="text-slate-800 text-2xl p-1 focus:outline-none relative active:scale-90 transition-transform">
           🛒
           <span id="cart-count-top" class="absolute -top-1 -right-1 bg-[#E63946] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
         </button>
@@ -214,7 +214,8 @@
         <div class="flex items-center space-x-2 mb-1">
             <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full border border-green-200">● PURE VEG</span>
         </div>
-        <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none mb-4">Bhai Ki Baithak</h1>
+        <h1 class="text-3xl font-black bg-gradient-to-r from-[#FF0055] to-[#FF5500] bg-clip-text text-transparent serif-font italic leading-none mb-1 drop-shadow-sm">Bhai Ki Baithak</h1>
+        <p class="text-slate-500 font-bold text-[11px] italic tracking-wide mb-4">Swad Aisa, Jo Dil Jeet Le! 🔥</p>
         
         <div class="relative -ml-[25%] pr-4">
             <input type="text" id="menu-search" oninput="handleSearch(this.value)" placeholder="Search fast food..." class="w-full bg-white border-none shadow-sm rounded-2xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#E63946] transition-all outline-none">
@@ -261,12 +262,15 @@
       </div>
     </div>
 
-    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-40 view-cart-bar">
+    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-4 z-40 view-cart-bar">
       <div class="flex flex-col text-white">
         <span id="cart-items-label" class="font-black text-sm">0 Items</span>
         <span id="cart-total-price" class="font-bold text-xs opacity-90">Total: ₹0</span>
       </div>
-      <button onclick="openCartDetailModal()" class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs italic uppercase tracking-tighter shadow-md active:scale-95 transition-transform">View Cart ❯</button>
+      <div class="flex items-center space-x-2">
+        <button onclick="clearCart()" class="bg-red-800/60 hover:bg-red-900 text-white px-3 py-2 rounded-xl font-black text-xs uppercase tracking-tight shadow-md active:scale-95 transition-all border border-red-700/40">Clear ✕</button>
+        <button onclick="openCartDetailModal()" class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs italic uppercase tracking-tighter shadow-md active:scale-95 transition-transform">View Cart ❯</button>
+      </div>
     </div>
   </div>
 
@@ -463,27 +467,232 @@
         window.open(finalUrl, '_blank');
     }
 
+    // --- ADDITIONAL CUSTOMER EXPERIENCING LOGIC (CLEAR CART) ---
+    function clearCart() {
+        cart = {};
+        updateCartBar();
+        if (currentCategory) {
+            showMenu(currentCategory);
+        }
+    }
+
+    function toggleSidebar() {
+        const drawer = document.getElementById('side-drawer');
+        const overlay = document.getElementById('overlay');
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+
+    function showCategories() {
+        document.getElementById('categories-screen').classList.remove('hidden');
+        document.getElementById('items-screen').classList.add('hidden');
+        document.getElementById('back-btn').classList.add('hidden');
+        document.getElementById('menu-btn').classList.remove('hidden');
+        document.getElementById('brand-header').classList.remove('hidden');
+        document.getElementById('red-sidebar').style.width = "32%";
+        currentCategory = "";
+    }
+
+    function showMenu(category) {
+        currentCategory = category;
+        document.getElementById('categories-screen').classList.add('hidden');
+        document.getElementById('brand-header').classList.add('hidden');
+        document.getElementById('items-screen').classList.remove('hidden');
+        document.getElementById('back-btn').classList.remove('hidden');
+        document.getElementById('menu-btn').classList.add('hidden');
+        document.getElementById('red-sidebar').style.width = "12px";
+
+        document.getElementById('selected-category-title').innerText = category;
+        document.getElementById('category-subtitle').innerText = category + " Special Corner";
+
+        const container = document.getElementById('dynamic-items-container');
+        container.innerHTML = "";
+
+        const items = menuData[category] || [];
+        items.forEach((item, index) => {
+            const currentQty = cart[item.name] ? cart[item.name].qty : 0;
+            
+            let actionBtnHtml = `
+                <button onclick="addToCart('${item.name}', ${item.price})" class="bg-[#E63946] text-white font-black text-xs px-4 py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Add +</button>
+            `;
+
+            if (currentQty > 0) {
+                actionBtnHtml = `
+                    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">-</button>
+                        <span class="px-3 font-black text-slate-800 text-xs">${currentQty}</span>
+                        <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">+</button>
+                    </div>
+                `;
+            }
+
+            let imgHtml = `
+                <div class="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-200/50 rounded-2xl flex items-center justify-center border border-slate-100 font-bold text-slate-400 shadow-inner text-xl">❓</div>
+            `;
+            if (item.img) {
+                imgHtml = `
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-white">
+                        <img src="${item.img}" class="w-full h-full object-cover">
+                    </div>
+                `;
+            }
+
+            container.innerHTML += `
+                <div class="flex items-center justify-between bg-white rounded-3xl p-3 shadow-sm animate-item" style="animation-delay: ${index * 0.05}s">
+                    <div class="flex items-center space-x-3 flex-1 min-w-0">
+                        ${imgHtml}
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-extrabold text-slate-800 text-sm truncate">${item.name}</h3>
+                            <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-snug">${item.desc || 'No description available.'}</p>
+                            <div class="font-black text-[#E63946] text-sm mt-1">₹${item.price}</div>
+                        </div>
+                    </div>
+                    <div class="ml-2">
+                        ${actionBtnHtml}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function addToCart(name, price) {
+        cart[name] = { price: price, qty: 1 };
+        updateCartBar();
+        if (currentCategory) showMenu(currentCategory);
+    }
+
+    function changeQty(name, amount) {
+        if (!cart[name]) return;
+        cart[name].qty += amount;
+        if (cart[name].qty <= 0) {
+            delete cart[name];
+        }
+        updateCartBar();
+        if (currentCategory) showMenu(currentCategory);
+    }
+
+    function updateCartBar() {
+        let totalItems = 0;
+        let totalPrice = 0;
+
+        for (let item in cart) {
+            totalItems += cart[item].qty;
+            totalPrice += (cart[item].qty * cart[item].price);
+        }
+
+        document.getElementById('cart-count-top').innerText = totalItems;
+
+        const cartBar = document.getElementById('view-cart-bar');
+        if (totalItems > 0) {
+            document.getElementById('cart-items-label').innerText = `${totalItems} Item${totalItems > 1 ? 's' : ''} Added`;
+            document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
+            cartBar.classList.remove('hidden');
+        } else {
+            cartBar.classList.add('hidden');
+        }
+    }
+
+    function handleSearch(val) {
+        const query = val.toLowerCase().trim();
+        if (!query) {
+            if (currentCategory) showMenu(currentCategory);
+            return;
+        }
+
+        if (!currentCategory) {
+            currentCategory = "Search";
+            document.getElementById('categories-screen').classList.add('hidden');
+            document.getElementById('items-screen').classList.remove('hidden');
+            document.getElementById('back-btn').classList.remove('hidden');
+            document.getElementById('menu-btn').classList.add('hidden');
+            document.getElementById('red-sidebar').style.width = "12px";
+        }
+
+        document.getElementById('selected-category-title').innerText = "Result";
+        document.getElementById('category-subtitle').innerText = `Showing results for "${val}"`;
+
+        const container = document.getElementById('dynamic-items-container');
+        container.innerHTML = "";
+
+        let matchCount = 0;
+        for (let cat in menuData) {
+            menuData[cat].forEach((item) => {
+                if (item.name.toLowerCase().includes(query) || (item.desc && item.desc.toLowerCase().includes(query))) {
+                    matchCount++;
+                    const currentQty = cart[item.name] ? cart[item.name].qty : 0;
+                    
+                    let actionBtnHtml = `
+                        <button onclick="addToCart('${item.name}', ${item.price})" class="bg-[#E63946] text-white font-black text-xs px-4 py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Add +</button>
+                    `;
+
+                    if (currentQty > 0) {
+                        actionBtnHtml = `
+                            <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">-</button>
+                                <span class="px-3 font-black text-slate-800 text-xs">${currentQty}</span>
+                                <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">+</button>
+                            </div>
+                        `;
+                    }
+
+                    let imgHtml = `<div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center font-bold text-slate-400 shadow-inner text-xl">❓</div>`;
+                    if (item.img) {
+                        imgHtml = `
+                            <div class="w-20 h-20 rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-white">
+                                <img src="${item.img}" class="w-full h-full object-cover">
+                            </div>
+                        `;
+                    }
+
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-white rounded-3xl p-3 shadow-sm animate-item">
+                            <div class="flex items-center space-x-3 flex-1 min-w-0">
+                                ${imgHtml}
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-extrabold text-slate-800 text-sm truncate">${item.name}</h3>
+                                    <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-snug">${item.desc || ''}</p>
+                                    <div class="font-black text-[#E63946] text-sm mt-1">₹${item.price}</div>
+                                </div>
+                            </div>
+                            <div class="ml-2">
+                                ${actionBtnHtml}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        if(matchCount === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12 text-slate-400 font-bold text-sm">
+                    <p class="text-3xl mb-2">🍃</p>
+                    Kuch nahi mila bhai! Kuch aur search karo.
+                </div>
+            `;
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
         const savedName = localStorage.getItem("userName");
         const savedPhone = localStorage.getItem("userPhone");
+        if (savedName) document.getElementById('sidebar-user-name').innerText = savedName;
+        if (savedPhone) document.getElementById('sidebar-user-phone').innerText = "+91 " + savedPhone;
+        
         const savedAddr = localStorage.getItem("userAddress");
-        if(savedName) document.getElementById('sidebar-user-name').innerText = savedName;
-        if(savedPhone) document.getElementById('sidebar-user-phone').innerText = "+91 " + savedPhone;
-        if(savedAddr) document.getElementById('display-address').innerText = savedAddr;
+        if (savedAddr) document.getElementById('display-address').innerText = savedAddr;
     });
 
     function openProfileModal() {
-        toggleSidebar(); 
+        toggleSidebar();
         document.getElementById('input-name').value = localStorage.getItem("userName") || "";
         document.getElementById('input-phone').value = localStorage.getItem("userPhone") || "";
         document.getElementById('input-email').value = localStorage.getItem("userEmail") || "";
         document.getElementById('profile-modal').classList.add('open');
     }
-
     function closeProfileModal() { document.getElementById('profile-modal').classList.remove('open'); }
-
-    function saveProfile(event) {
-        event.preventDefault(); 
+    function saveProfile(e) {
+        e.preventDefault();
         const name = document.getElementById('input-name').value;
         const phone = document.getElementById('input-phone').value;
         const email = document.getElementById('input-email').value;
@@ -496,154 +705,9 @@
         document.getElementById('sidebar-user-phone').innerText = "+91 " + phone;
         closeProfileModal();
     }
-
     function resetProfile() {
         localStorage.clear();
-        document.getElementById('sidebar-user-name').innerText = "Bhai Ka Account";
-        document.getElementById('sidebar-user-phone').innerText = "+91 9876543210";
-        document.getElementById('display-address').innerText = "No address saved yet. Update below!";
-        toggleSidebar();
-        alert("Logged Out Successfully!");
-    }
-
-    function toggleSidebar() {
-        document.getElementById('side-drawer').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('open');
-    }
-
-    function handleSearch(query) {
-        if (!query.trim()) {
-            if (currentCategory) showMenu(currentCategory);
-            else showCategories();
-            return;
-        }
-        document.getElementById('categories-screen').classList.add('hidden');
-        document.getElementById('items-screen').classList.remove('hidden');
-        document.getElementById('menu-btn').classList.add('hidden');
-        document.getElementById('back-btn').classList.remove('hidden');
-        document.getElementById('red-sidebar').style.width = '12%';
-        
-        document.getElementById('selected-category-title').innerText = "Search Results";
-        document.getElementById('category-subtitle').innerText = `Finding: "${query}"`;
-
-        const allItems = [];
-        Object.values(menuData).forEach(cat => allItems.push(...cat));
-        
-        const filtered = allItems.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
-        renderItemList(filtered);
-    }
-
-    function showCategories() {
-        currentCategory = "";
-        document.getElementById('categories-screen').classList.remove('hidden');
-        document.getElementById('items-screen').classList.add('hidden');
-        document.getElementById('back-btn').classList.add('hidden');
-        document.getElementById('menu-btn').classList.remove('hidden');
-        document.getElementById('red-sidebar').style.width = '32%';
-        document.getElementById('menu-search').value = "";
-    }
-
-    function showMenu(category) {
-      currentCategory = category;
-      document.getElementById('categories-screen').classList.add('hidden');
-      document.getElementById('items-screen').classList.remove('hidden');
-      document.getElementById('menu-btn').classList.add('hidden');
-      document.getElementById('back-btn').classList.remove('hidden');
-      document.getElementById('red-sidebar').style.width = '12%';
-      
-      document.getElementById('selected-category-title').innerText = category;
-      
-      let subtitle = "";
-      if (category === 'Momo') subtitle = "🥟 MOMOS MENU";
-      else if (category === 'Rolls') subtitle = "🌯 ROLLS CORNER";
-      else if (category === 'Fries') subtitle = "🍟 FRIES STATION";
-      else if (category === 'Burger') subtitle = "🍔 BURGER HUB";
-      
-      document.getElementById('category-subtitle').innerText = subtitle;
-      
-      renderItemList(menuData[category] || []);
-    }
-
-    function renderItemList(items) {
-      const container = document.getElementById('dynamic-items-container');
-      container.innerHTML = "";
-      
-      if(items.length === 0) {
-          container.innerHTML = `<p class="text-slate-400 font-bold text-xs text-center py-8">Bhai ye item list me nahi mila! 🫥</p>`;
-          return;
-      }
-
-      items.forEach((item, index) => {
-        const qty = cart[item.name] ? cart[item.name].qty : 0;
-        
-        let imgHtml = `<div class="w-full h-full bg-slate-100 flex items-center justify-center font-bold text-slate-400 text-xs border border-slate-200/60 rounded-xl">🍔</div>`;
-        if(item.img) {
-            imgHtml = `<img src="${item.img}" class="w-full h-full object-cover rounded-xl shadow-inner">`;
-        }
-
-        container.innerHTML += `
-          <div class="bg-white rounded-3xl p-3 shadow-sm flex items-center space-x-3 relative animate-item" style="animation-delay: ${index * 0.05}s">
-            <div class="w-20 h-20 rounded-2xl flex-shrink-0 relative overflow-hidden bg-slate-50 border border-slate-100">
-               ${imgHtml}
-            </div>
-            <div class="flex-1 pr-16">
-              <h3 class="font-extrabold text-slate-800 text-sm leading-snug">${item.name}</h3>
-              <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-tight">${item.desc}</p>
-              <div class="text-sm font-black text-[#E63946] mt-1">₹${item.price}</div>
-            </div>
-            <div class="absolute right-3 bottom-3">
-              ${qty === 0 ? 
-                `<button onclick="updateCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] hover:bg-red-600 text-white font-black text-[10px] px-3.5 py-1.5 rounded-xl transition-all shadow-sm active:scale-95">ADD +</button>` :
-                `<div class="flex items-center bg-[#E63946] text-white rounded-xl overflow-hidden shadow-sm">
-                   <button onclick="updateCart('${item.name}', ${item.price}, -1)" class="px-2.5 py-1.5 font-black text-xs active:bg-red-700 transition-colors">-</button>
-                   <span class="px-1.5 font-black text-xs min-w-[14px] text-center">${qty}</span>
-                   <button onclick="updateCart('${item.name}', ${item.price}, 1)" class="px-2.5 py-1.5 font-black text-xs active:bg-red-700 transition-colors">+</button>
-                 </div>`
-              }
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function updateCart(name, price, change) {
-      if (!cart[name]) {
-        cart[name] = { price: price, qty: 0 };
-      }
-      cart[name].qty += change;
-      if (cart[name].qty <= 0) {
-        delete cart[name];
-      }
-      
-      // Update UI Views
-      if(currentCategory) {
-          showMenu(currentCategory);
-      } else if(document.getElementById('selected-category-title').innerText === "Search Results") {
-          handleSearch(document.getElementById('menu-search').value);
-      }
-      
-      renderCartBar();
-    }
-
-    function renderCartBar() {
-      let totalCount = 0;
-      let totalPrice = 0;
-      
-      for (let name in cart) {
-        totalCount += cart[name].qty;
-        totalPrice += (cart[name].qty * cart[name].price);
-      }
-      
-      document.getElementById('cart-count-top').innerText = totalCount;
-      
-      const cartBar = document.getElementById('view-cart-bar');
-      if (totalCount > 0) {
-        cartBar.classList.remove('hidden');
-        document.getElementById('cart-items-label').innerText = `${totalCount} Item${totalCount > 1 ? 's' : ''} Added`;
-        document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
-      } else {
-        cartBar.classList.add('hidden');
-      }
+        location.reload();
     }
   </script>
 </body>
