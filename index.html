@@ -1,714 +1,971 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bhai Ki Baithak</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght=400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .serif-font { font-family: 'Playfair Display', serif; }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-item { animation: fadeIn 0.4s ease forwards; }
-    .view-cart-bar { animation: slideUp 0.3s ease-out; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHAI KI BAITHAK</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--red:#EF4444;--red-dark:#DC2626;--red-light:#FEE2E2;
+--bg:#F8FAFC;--surface:#FFFFFF;--surface2:#F1F5F9;
+--text:#0F172A;--text2:#475569;--text3:#94A3B8;
+--border:#E2E8F0;--shadow:rgba(15,23,42,0.08);
+--band-w:22%;--radius:16px;--radius-sm:10px;
+}
+[data-theme="dark"]{
+--bg:#0F172A;--surface:#1E293B;--surface2:#334155;
+--text:#F8FAFC;--text2:#CBD5E1;--text3:#64748B;
+--border:#334155;--shadow:rgba(0,0,0,0.3);
+--red-light:#3B0000;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background 0.3s,color 0.3s}
 
-    /* PROFILE SIDEBAR ANIMATIONS */
-    #side-drawer { transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-    #side-drawer.open { transform: translateX(0); }
-    #overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-    #overlay.open { opacity: 1; pointer-events: auto; }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--surface2)}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:99px}
 
-    /* MODAL ANIMATION */
-    .app-modal { opacity: 0; pointer-events: none; transition: all 0.3s ease; transform: scale(0.95); }
-    .app-modal.open { opacity: 1; pointer-events: auto; transform: scale(1); }
-  </style>
+/* ══════════════════════════════════════════
+   AUTH CURTAIN
+══════════════════════════════════════════ */
+#auth-curtain{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#3B0000 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+#auth-curtain.hidden{display:none}
+.auth-box{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(239,68,68,0.3);border-radius:24px;padding:48px 40px;max-width:420px;width:100%;text-align:center}
+.auth-logo{font-family:'Playfair Display SC',serif;font-size:28px;font-weight:900;color:#EF4444;letter-spacing:2px;margin-bottom:6px}
+.auth-tagline{color:#94A3B8;font-size:13px;margin-bottom:36px}
+.auth-box h2{color:#F8FAFC;font-size:20px;font-weight:700;margin-bottom:8px}
+.auth-box p{color:#94A3B8;font-size:13px;margin-bottom:28px}
+.auth-field{margin-bottom:16px;text-align:left}
+.auth-field label{display:block;color:#CBD5E1;font-size:12px;font-weight:600;margin-bottom:6px;letter-spacing:0.5px}
+.auth-field input{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#F8FAFC;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s}
+.auth-field input:focus{border-color:#EF4444}
+.auth-field input::placeholder{color:#475569}
+.auth-btn{width:100%;background:linear-gradient(135deg,#EF4444,#DC2626);border:none;border-radius:12px;padding:14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;letter-spacing:0.5px;transition:transform 0.15s,box-shadow 0.15s}
+.auth-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(239,68,68,0.4)}
+.auth-btn:active{transform:translateY(0)}
+
+/* ══════════════════════════════════════════
+   LAYOUT SHELL
+══════════════════════════════════════════ */
+#app{display:none}
+#app.visible{display:block}
+.layout{display:flex;min-height:100vh}
+
+/* LEFT RED BAND */
+.left-band{
+width:var(--band-w);min-width:70px;max-width:200px;
+background:var(--red);position:fixed;top:0;left:0;height:100%;
+display:flex;flex-direction:column;align-items:center;
+padding:24px 0;z-index:100;
+box-shadow:4px 0 30px rgba(239,68,68,0.25);
+transition:background 0.3s;
+}
+.band-logo{font-family:'Playfair Display SC',serif;color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;writing-mode:vertical-rl;transform:rotate(180deg);margin-bottom:auto;padding-top:12px;opacity:0.9}
+.band-icon-btn{width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:12px;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:6px 0;transition:background 0.2s;font-size:18px}
+.band-icon-btn:hover{background:rgba(255,255,255,0.3)}
+.band-icon-btn.active{background:rgba(255,255,255,0.9);color:var(--red)}
+.cart-badge-band{position:absolute;top:-4px;right:-4px;background:#fff;color:var(--red);font-size:9px;font-weight:800;border-radius:99px;padding:2px 5px;min-width:18px;text-align:center}
+
+/* MAIN CONTENT */
+.main{margin-left:var(--band-w);padding:0 24px 100px;max-width:900px;width:100%}
+
+/* ── TOP BAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 0 16px;position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border);margin-bottom:0;transition:background 0.3s,border-color 0.3s}
+.topbar-left{display:flex;flex-direction:column}
+.topbar-brand{font-family:'Playfair Display SC',serif;font-size:22px;font-weight:900;color:var(--red);letter-spacing:1px}
+.topbar-greeting{font-size:12px;color:var(--text3);margin-top:2px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.location-pill{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:7px 14px;font-size:12px;color:var(--text2);cursor:pointer;transition:border-color 0.2s;max-width:200px;overflow:hidden}
+.location-pill:hover{border-color:var(--red)}
+.location-pill svg{flex-shrink:0;color:var(--red)}
+.location-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.theme-toggle{width:38px;height:38px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:border-color 0.2s}
+.theme-toggle:hover{border-color:var(--red)}
+
+/* ── HERO BANNER ── */
+.hero{background:linear-gradient(135deg,var(--red) 0%,#B91C1C 100%);border-radius:20px;padding:28px 28px 24px;margin:20px 0;position:relative;overflow:hidden;color:#fff}
+.hero::before{content:'';position:absolute;right:-20px;top:-20px;width:180px;height:180px;background:rgba(255,255,255,0.08);border-radius:50%}
+.hero::after{content:'';position:absolute;right:40px;bottom:-40px;width:120px;height:120px;background:rgba(255,255,255,0.06);border-radius:50%}
+.hero-tag{background:rgba(255,255,255,0.2);display:inline-block;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:1px;margin-bottom:10px}
+.hero h1{font-family:'Playfair Display SC',serif;font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px;position:relative;z-index:1}
+.hero p{font-size:13px;opacity:0.85;position:relative;z-index:1;max-width:280px}
+.hero-emoji{position:absolute;right:28px;bottom:20px;font-size:56px;z-index:1}
+
+/* ── SEARCH ── */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:0 16px;margin:20px 0;transition:border-color 0.2s}
+.search-bar:focus-within{border-color:var(--red)}
+.search-bar svg{color:var(--text3);flex-shrink:0}
+.search-bar input{flex:1;border:none;background:transparent;padding:14px 0;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none}
+.search-bar input::placeholder{color:var(--text3)}
+
+/* ── CATEGORY SECTION TITLE ── */
+.section-title{font-size:18px;font-weight:800;color:var(--text);margin:28px 0 16px}
+.section-title span{color:var(--red)}
+
+/* ══════════════════════════════════════════
+   CATEGORY CARDS — THE CORE MATRIX
+══════════════════════════════════════════ */
+.category-card{
+position:relative;background:var(--surface);border-radius:var(--radius);
+margin-bottom:12px;padding:20px 20px 20px 80px;
+border:1px solid var(--border);cursor:pointer;
+transition:border-color 0.2s,box-shadow 0.2s,transform 0.15s;
+display:flex;align-items:center;justify-content:space-between;
+box-shadow:0 2px 12px var(--shadow);overflow:visible;
+}
+.category-card:hover{border-color:var(--red);box-shadow:0 4px 24px rgba(239,68,68,0.12);transform:translateX(4px)}
+.category-card-icon{
+position:absolute;left:-18px;top:50%;transform:translateY(-50%);
+width:64px;height:64px;background:linear-gradient(135deg,var(--red),#B91C1C);
+border-radius:50%;display:flex;align-items:center;justify-content:center;
+font-size:26px;box-shadow:0 4px 16px rgba(239,68,68,0.35);
+border:3px solid var(--surface);z-index:2;
+}
+.category-card-info{flex:1;padding-left:8px}
+.category-card-info h3{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.category-card-info p{font-size:11px;color:var(--text3)}
+.category-card-info .item-count{display:inline-block;background:var(--red-light);color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-top:4px}
+.category-nav-btn{
+width:38px;height:38px;background:var(--red);border-radius:50%;
+border:none;color:#fff;font-size:16px;cursor:pointer;
+display:flex;align-items:center;justify-content:center;flex-shrink:0;
+transition:transform 0.2s,box-shadow 0.2s;
+}
+.category-card:hover .category-nav-btn{transform:scale(1.1);box-shadow:0 4px 16px rgba(239,68,68,0.4)}
+
+/* ══════════════════════════════════════════
+   MENU ITEMS LIST (within a category)
+══════════════════════════════════════════ */
+.menu-section{display:none}
+.menu-section.active{display:block}
+.menu-section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-top:4px}
+.back-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:border-color 0.2s}
+.back-btn:hover{border-color:var(--red);color:var(--red)}
+.menu-section-header h2{font-size:20px;font-weight:800;color:var(--text)}
+
+.menu-item{
+background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+padding:18px;margin-bottom:10px;display:flex;align-items:center;gap:16px;
+box-shadow:0 2px 8px var(--shadow);transition:box-shadow 0.2s,border-color 0.2s;
+}
+.menu-item:hover{box-shadow:0 4px 20px rgba(239,68,68,0.1);border-color:var(--red)}
+.item-emoji{width:60px;height:60px;background:linear-gradient(135deg,var(--surface2),var(--border));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.item-details{flex:1;min-width:0}
+.item-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+.item-desc{font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:8px}
+.item-price{font-size:16px;font-weight:800;color:var(--red)}
+.item-controls{display:flex;align-items:center;flex-direction:column;gap:8px;flex-shrink:0}
+.add-btn{background:var(--red);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.2s,transform 0.15s}
+.add-btn:hover{background:var(--red-dark);transform:scale(1.05)}
+.qty-control{display:flex;align-items:center;gap:8px;background:var(--surface2);border-radius:10px;padding:4px 8px}
+.qty-btn{width:28px;height:28px;background:var(--red);border:none;border-radius:7px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s}
+.qty-btn:hover{background:var(--red-dark)}
+.qty-num{font-size:14px;font-weight:800;color:var(--text);min-width:20px;text-align:center}
+
+/* ══════════════════════════════════════════
+   BOTTOM DOCK
+══════════════════════════════════════════ */
+.bottom-dock{
+position:fixed;bottom:0;left:var(--band-w);right:0;
+background:var(--surface);border-top:1px solid var(--border);
+padding:12px 24px;display:flex;align-items:center;justify-content:space-between;
+box-shadow:0 -4px 20px var(--shadow);z-index:200;transition:background 0.3s;
+}
+.dock-item-count{font-size:12px;color:var(--text3)}
+.dock-item-count strong{color:var(--text);font-size:14px}
+.view-cart-btn{background:linear-gradient(135deg,var(--red),#B91C1C);border:none;border-radius:12px;padding:12px 24px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;transition:transform 0.15s,box-shadow 0.15s}
+.view-cart-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(239,68,68,0.4)}
+.dock-badge{background:rgba(255,255,255,0.25);border-radius:99px;padding:2px 8px;font-size:12px;font-weight:800}
+
+/* ══════════════════════════════════════════
+   CART OVERLAY
+══════════════════════════════════════════ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px)}
+.overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;bottom:0;left:var(--band-w);right:0;max-height:90vh;background:var(--surface);border-radius:24px 24px 0 0;z-index:501;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.32,0.72,0,1);overflow-y:auto}
+.cart-drawer.open{transform:translateY(0)}
+.drawer-handle{width:40px;height:4px;background:var(--border);border-radius:99px;margin:16px auto 0}
+.cart-header{padding:16px 24px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-header h2{font-size:18px;font-weight:800}
+.close-btn{width:32px;height:32px;background:var(--surface2);border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text2)}
+.cart-body{padding:16px 24px}
+.cart-item{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:14px;font-weight:700;color:var(--text)}
+.cart-item-price{font-size:13px;color:var(--text3);margin-top:2px}
+.cart-empty{text-align:center;padding:48px 24px;color:var(--text3)}
+.cart-empty svg{font-size:48px;margin-bottom:12px;display:block;margin:0 auto 12px}
+.bill-section{background:var(--surface2);border-radius:14px;padding:18px;margin:16px 0}
+.bill-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:var(--text2)}
+.bill-row:last-child{margin-bottom:0}
+.bill-divider{border:none;border-top:1px dashed var(--border);margin:10px 0}
+.bill-total{font-size:16px;font-weight:800;color:var(--text)}
+.bill-total-price{font-size:16px;font-weight:800;color:var(--red)}
+.free-tag{font-size:11px;color:#16A34A;font-weight:700}
+.checkout-btn{width:100%;background:linear-gradient(135deg,var(--red),#B91C1C);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;margin-top:8px;transition:transform 0.15s,box-shadow 0.15s;letter-spacing:0.5px}
+.checkout-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(239,68,68,0.4)}
+
+/* ══════════════════════════════════════════
+   ORDER TRACKING
+══════════════════════════════════════════ */
+.tracking-overlay{position:fixed;inset:0;background:var(--bg);z-index:600;display:none;overflow-y:auto}
+.tracking-overlay.open{display:block}
+.tracking-header{background:linear-gradient(135deg,var(--red),#B91C1C);padding:60px 24px 40px;text-align:center;color:#fff;position:relative}
+.tracking-header h2{font-family:'Playfair Display SC',serif;font-size:26px;font-weight:900}
+.tracking-header p{font-size:14px;opacity:0.85;margin-top:6px}
+.tracking-back{position:absolute;top:20px;left:20px;background:rgba(255,255,255,0.2);border:none;border-radius:10px;padding:8px 14px;color:#fff;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600}
+.tracking-body{padding:28px 24px}
+.tracking-order-id{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}
+.tracking-order-id span{font-size:12px;color:var(--text3)}
+.tracking-order-id strong{color:var(--red);font-size:14px}
+.tracker-steps{position:relative;padding-left:32px}
+.tracker-steps::before{content:'';position:absolute;left:12px;top:16px;bottom:16px;width:2px;background:var(--border)}
+.tracker-step{position:relative;margin-bottom:28px}
+.tracker-step-dot{position:absolute;left:-28px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--border);border:3px solid var(--surface);z-index:1;display:flex;align-items:center;justify-content:center}
+.tracker-step.done .tracker-step-dot{background:var(--red)}
+.tracker-step.active .tracker-step-dot{background:var(--red);box-shadow:0 0 0 4px rgba(239,68,68,0.2);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(239,68,68,0.2)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0.1)}}
+.tracker-step-title{font-size:14px;font-weight:700;color:var(--text)}
+.tracker-step-desc{font-size:12px;color:var(--text3);margin-top:3px}
+.tracker-step-time{font-size:11px;color:var(--red);font-weight:600;margin-top:4px}
+.eta-card{background:linear-gradient(135deg,var(--red),#B91C1C);border-radius:16px;padding:20px;text-align:center;color:#fff;margin-bottom:24px}
+.eta-mins{font-size:48px;font-weight:800;line-height:1}
+.eta-label{font-size:13px;opacity:0.85;margin-top:4px}
+
+/* CHAT MODULE */
+.chat-section{margin-top:24px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
+.chat-section h3{font-size:15px;font-weight:800;margin-bottom:14px}
+.chat-messages{height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px;padding-right:4px}
+.msg-bubble{max-width:80%;padding:10px 14px;border-radius:14px;font-size:12px;line-height:1.5}
+.msg-bubble.me{background:var(--red);color:#fff;align-self:flex-end;border-radius:14px 14px 4px 14px}
+.msg-bubble.them{background:var(--surface2);color:var(--text);align-self:flex-start;border-radius:14px 14px 14px 4px}
+.msg-bubble .time{font-size:10px;opacity:0.65;margin-top:4px}
+.quick-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.15s}
+.chip:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.chat-input-row{display:flex;gap:8px}
+.chat-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--text);outline:none}
+.chat-input:focus{border-color:var(--red)}
+.chat-send-btn{background:var(--red);border:none;border-radius:10px;padding:10px 16px;color:#fff;cursor:pointer;font-size:16px}
+
+/* ══════════════════════════════════════════
+   REVIEW CURTAIN
+══════════════════════════════════════════ */
+.review-modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:700;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+.review-modal.open{display:flex}
+.review-box{background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-width:600px;padding:28px 24px 40px;animation:slideUp 0.4s cubic-bezier(0.32,0.72,0,1)}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.review-box h2{font-size:20px;font-weight:800;text-align:center;margin-bottom:6px}
+.review-box p{font-size:13px;color:var(--text3);text-align:center;margin-bottom:24px}
+.star-row{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
+.star{font-size:40px;cursor:pointer;transition:transform 0.15s;filter:grayscale(1)}
+.star.lit{filter:none;transform:scale(1.1)}
+.review-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.rtag{background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.15s}
+.rtag.sel{background:var(--red);color:#fff;border-color:var(--red)}
+.review-submit{width:100%;background:linear-gradient(135deg,var(--red),#B91C1C);border:none;border-radius:14px;padding:14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+.review-skip{display:block;text-align:center;color:var(--text3);font-size:13px;margin-top:12px;cursor:pointer;transition:color 0.2s}
+.review-skip:hover{color:var(--red)}
+
+/* ══════════════════════════════════════════
+   SIDEBAR DRAWER
+══════════════════════════════════════════ */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px)}
+.sidebar-overlay.open{opacity:1;pointer-events:all}
+.sidebar-drawer{position:fixed;left:var(--band-w);top:0;height:100%;width:320px;background:var(--surface);z-index:401;transform:translateX(-110%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);overflow-y:auto}
+.sidebar-drawer.open{transform:translateX(0)}
+.sidebar-top{background:linear-gradient(135deg,var(--red),#B91C1C);padding:32px 20px 24px;color:#fff}
+.sidebar-top h3{font-family:'Playfair Display SC',serif;font-size:18px;margin-bottom:4px}
+.sidebar-top p{font-size:12px;opacity:0.8}
+.sidebar-body{padding:20px}
+.sidebar-section-title{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin:16px 0 10px}
+.customer-card{background:var(--surface2);border-radius:10px;padding:14px;margin-bottom:8px}
+.customer-card .c-name{font-size:14px;font-weight:700;color:var(--text)}
+.customer-card .c-info{font-size:11px;color:var(--text3);margin-top:3px}
+.ledger-table{width:100%;border-collapse:collapse;font-size:12px}
+.ledger-table th{text-align:left;padding:8px 10px;background:var(--surface2);color:var(--text3);font-weight:600;border-radius:4px}
+.ledger-table td{padding:10px;border-bottom:1px solid var(--border);color:var(--text2)}
+.ledger-table tr:last-child td{border:none}
+.ledger-amt{font-weight:700;color:var(--red)}
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+.toast-container{position:fixed;top:20px;right:20px;z-index:9998;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--text);color:var(--bg);border-radius:12px;padding:12px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;animation:toastIn 0.3s ease,toastOut 0.3s ease 2.5s forwards;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(40px)}}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:600px){
+:root{--band-w:60px}
+.main{padding:0 14px 90px}
+.topbar-brand{font-size:16px}
+.location-pill{display:none}
+.hero h1{font-size:20px}
+.hero-emoji{font-size:36px}
+.bottom-dock{left:var(--band-w);padding:10px 14px}
+.cart-drawer{left:0}
+.sidebar-drawer{left:0;width:100%}
+}
+</style>
 </head>
-<body class="bg-slate-900 min-h-screen flex justify-center items-center p-2 sm:p-4">
+<body>
 
-  <div class="relative w-full max-w-md h-[92vh] max-h-[850px] bg-[#F8F9FA] rounded-[40px] shadow-2xl overflow-hidden border-[6px] border-slate-900 flex flex-col">
-    
-    <div id="overlay" onclick="toggleSidebarCloseAll()" class="absolute inset-0 bg-black/40 z-40"></div>
-    
-    <div id="side-drawer" class="absolute top-0 left-0 w-[80%] h-full bg-white z-50 shadow-2xl flex flex-col rounded-r-[32px] overflow-hidden">
-        <div class="bg-[#E63946] p-6 pt-12 pb-8 rounded-br-[40px] relative">
-            <div class="w-16 h-16 rounded-2xl bg-white/20 border-2 border-white/30 overflow-hidden mb-3 shadow-md flex items-center justify-center">
-                <span class="text-3xl">👤</span>
-            </div>
-            <h3 id="sidebar-user-name" class="text-white font-black text-lg leading-tight">Bhai Ka Account</h3>
-            <p id="sidebar-user-phone" class="text-white/70 text-[10px] font-bold uppercase tracking-widest mt-0.5">+91 9876543210</p>
-        </div>
+<!-- AUTH CURTAIN -->
+<div id="auth-curtain">
+  <div class="auth-box">
+    <div class="auth-logo">BHAI KI BAITHAK</div>
+    <div class="auth-tagline">🔥 Street ka swaad, ghar ki feeling</div>
+    <h2>Pehle apna naam batao bhai!</h2>
+    <p>Just ek baar — phir order lagao directly.</p>
+    <div class="auth-field"><label>FIRST NAME</label><input id="auth-fn" placeholder="Aryan" maxlength="20"></div>
+    <div class="auth-field"><label>LAST NAME</label><input id="auth-ln" placeholder="Sharma" maxlength="20"></div>
+    <div class="auth-field"><label>MOBILE NUMBER</label><input id="auth-mob" placeholder="9876543210" maxlength="10" type="tel"></div>
+    <button class="auth-btn" onclick="authLogin()">🚀 Let's Go Order Karo!</button>
+  </div>
+</div>
 
-        <div class="flex-1 p-4 space-y-1 mt-2">
-            <button onclick="openProfileModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
-                <span class="text-lg group-hover:scale-110 transition-transform">👤</span>
-                <span class="font-bold text-sm text-slate-700">My Profile</span>
-            </button>
-            <button onclick="openOrdersModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
-                <span class="text-lg group-hover:scale-110 transition-transform">🛍️</span>
-                <span class="font-bold text-sm text-slate-700">Order History</span>
-            </button>
-            <button onclick="openAddressModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
-                <span class="text-lg group-hover:scale-110 transition-transform">📍</span>
-                <span class="font-bold text-sm text-slate-700">Manage Addresses</span>
-            </button>
-            <hr class="border-slate-100 my-2">
-            <button onclick="openSupportModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
-                <span class="text-lg group-hover:scale-110 transition-transform">💬</span>
-                <span class="font-bold text-sm text-slate-700">Help & Support</span>
-            </button>
-        </div>
+<!-- MAIN APP -->
+<div id="app">
+  <div class="layout">
 
-        <div class="p-5 border-t border-slate-50 bg-slate-50/50">
-            <button onclick="resetProfile()" class="w-full py-3.5 bg-white border border-slate-200 text-slate-500 font-extrabold rounded-xl text-xs uppercase tracking-wider active:scale-95 transition-all shadow-sm">Logout</button>
-        </div>
+    <!-- LEFT RED BAND -->
+    <div class="left-band">
+      <div class="band-logo">BHAI KI BAITHAK</div>
+      <button class="band-icon-btn" onclick="toggleSidebar()" title="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="band-icon-btn" onclick="openCart()" title="Cart" style="position:relative">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge-band" id="band-badge" style="display:none">0</span>
+      </button>
+      <button class="band-icon-btn" onclick="toggleTheme()" title="Theme" id="theme-band-btn">🌙</button>
     </div>
 
-    <div id="profile-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
-        <div class="bg-white w-full rounded-t-[32px] p-6 space-y-5 shadow-2xl transform translate-y-0 transition-transform">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="text-xl font-black text-slate-800 serif-font">Profile Setup</h3>
-                <button onclick="closeProfileModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
-            </div>
-            
-            <form id="profile-form" onsubmit="saveProfile(event)" class="space-y-4">
-                <div>
-                  <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-1.5">Full Name</label>
-                  <input type="text" id="input-name" required placeholder="Enter your name" class="w-full bg-slate-50 border border-slate-100 rounded-xl py-3 px-4 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E63946] transition-all">
-                </div>
-                <div>
-                  <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-1.5">Phone Number</label>
-                  <input type="tel" id="input-phone" required pattern="[0-9]{10}" placeholder="10 Digit Mobile Number" class="w-full bg-slate-50 border border-slate-100 rounded-xl py-3 px-4 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E63946] transition-all">
-                </div>
-                <div>
-                  <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
-                  <input type="email" id="input-email" placeholder="name@email.com" class="w-full bg-slate-50 border border-slate-100 rounded-xl py-3 px-4 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E63946] transition-all">
-                </div>
-                <button type="submit" class="w-full py-4 bg-[#E63946] text-white font-black rounded-xl text-sm uppercase tracking-wider shadow-md active:scale-[0.98] transition-all mt-2">Save Profile</button>
-            </form>
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <!-- TOP BAR -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-brand">BHAI KI BAITHAK</div>
+          <div class="topbar-greeting" id="greeting-text">Welcome, bhai! 👋</div>
         </div>
-    </div>
-
-    <div id="orders-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
-        <div class="bg-white w-full max-h-[70vh] rounded-t-[32px] p-6 flex flex-col shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-                <h3 class="text-xl font-black text-slate-800 serif-font">Order History</h3>
-                <button onclick="closeOrdersModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
-            </div>
-            <div class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1">
-                <div class="border border-slate-100 bg-slate-50/50 p-4 rounded-2xl space-y-2">
-                    <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-700">Order #88321</span><span class="bg-green-100 text-green-700 font-extrabold text-[9px] px-2 py-0.5 rounded-md">Delivered</span></div>
-                    <p class="text-xs text-slate-500 font-bold">🌿 Veg Steam Momos x1, 🧀 Cheese Burger x1</p>
-                    <div class="flex justify-between items-center pt-1 border-t border-dashed border-slate-200"><span class="text-[10px] text-gray-400 font-semibold">Today, 08:30 PM</span><span class="text-xs font-black text-[#E63946]">₹108</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="address-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
-        <div class="bg-white w-full rounded-t-[32px] p-6 space-y-4 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="text-xl font-black text-slate-800 serif-font">Saved Addresses</h3>
-                <button onclick="closeAddressModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
-            </div>
-            
-            <button onclick="fetchGPSLocation('input-address', 'gps-btn-label')" type="button" class="w-full flex items-center justify-center space-x-2 py-3 bg-red-50 hover:bg-red-100/70 text-[#E63946] border border-red-100 rounded-xl font-black text-xs uppercase tracking-wider active:scale-95 transition-all">
-                <span>📍</span> <span id="gps-btn-label">Use Current Location (GPS)</span>
-            </button>
-
-            <div class="space-y-3">
-                <div class="flex items-start space-x-3 p-3.5 bg-red-50/40 border border-red-100/50 rounded-2xl">
-                    <span class="text-lg mt-0.5">🏠</span>
-                    <div class="flex-1"><h4 class="text-xs font-black text-slate-800">Home / Baithak</h4><p id="display-address" class="text-xs text-slate-500 font-bold mt-0.5">No address saved yet. Update below!</p></div>
-                </div>
-            </div>
-            <form onsubmit="saveAddress(event)" class="space-y-3 pt-2">
-                <input type="text" id="input-address" required placeholder="Enter full delivery address..." class="w-full bg-slate-50 border border-slate-100 rounded-xl py-3 px-4 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E63946]">
-                <button type="submit" class="w-full py-3.5 bg-slate-800 text-white font-black rounded-xl text-xs uppercase tracking-wider active:scale-95 transition-all">Update Address</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="support-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
-        <div class="bg-white w-full rounded-t-[32px] p-6 space-y-4 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="text-xl font-black text-slate-800 serif-font">Bhai Ki Support</h3>
-                <button onclick="closeSupportModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
-            </div>
-            <p class="text-xs text-slate-500 font-bold leading-relaxed">Koi pareshani h bhai? Hume turant batao!</p>
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <a href="tel:+918467895365" class="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 rounded-2xl active:scale-95 transition-all text-center">
-                    <span class="text-2xl mb-1">📞</span><span class="text-xs font-black text-slate-800">Call Us</span>
-                </a>
-                <a href="https://wa.me/918467895365" target="_blank" class="flex flex-col items-center justify-center p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl active:scale-95 transition-all text-center">
-                    <span class="text-2xl mb-1">💬</span><span class="text-xs font-black text-emerald-800">WhatsApp</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div id="cart-detail-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
-        <div class="bg-white w-full max-h-[88%] rounded-t-[32px] p-5 flex flex-col shadow-2xl overflow-hidden">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-2 mb-3">
-                <h3 class="text-lg font-black text-slate-800 serif-font italic">Bhai Ka Bill Summary</h3>
-                <button onclick="closeCartDetailModal()" class="text-slate-400 font-bold text-base p-1">✕</button>
-            </div>
-            
-            <div class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1 pb-4">
-                <div id="cart-modal-items-list" class="space-y-2"></div>
-                
-                <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-2xl space-y-3 mt-2">
-                    <h4 class="text-xs font-black text-slate-700 tracking-wide uppercase">🔒 Verification & Delivery Details</h4>
-                    
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Your Name</label>
-                            <input type="text" id="summary-cust-name" oninput="validateSummaryForm()" placeholder="Enter full name" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946]">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Mobile No. (10 Digits)</label>
-                            <input type="text" id="summary-cust-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,''); validateSummaryForm();" placeholder="Only digits allowed" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946]">
-                        </div>
-                    </div>
-
-                    <div class="space-y-2 pt-1">
-                        <label class="block text-[10px] font-black text-slate-400 uppercase">Delivery Address Options</label>
-                        <button onclick="fetchGPSLocation('summary-cust-address', 'summary-gps-label')" type="button" class="w-full flex items-center justify-center space-x-1.5 py-2 bg-red-50 text-[#E63946] border border-red-100 rounded-xl font-bold text-[11px] uppercase tracking-wide active:scale-95 transition-all">
-                            <span>📍</span> <span id="summary-gps-label">Use My Current Location</span>
-                        </button>
-                        <textarea id="summary-cust-address" oninput="validateSummaryForm()" rows="2" placeholder="Or write full manual address here..." class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946] resize-none"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-dashed border-slate-200 pt-3 space-y-2 bg-white">
-                <div class="flex justify-between text-[11px] font-bold text-slate-500"><span>Subtotal</span><span id="modal-bill-subtotal">₹0</span></div>
-                <div class="flex justify-between text-[11px] font-bold text-green-600"><span>Delivery Charges</span><span>FREE</span></div>
-                <div class="flex justify-between text-base font-black text-slate-800"><span>Grand Total</span><span id="modal-bill-grandtotal">₹0</span></div>
-                
-                <button id="whatsapp-submit-btn" disabled onclick="sendFinalWhatsAppOrder()" class="w-full py-3.5 bg-slate-300 text-slate-500 cursor-not-allowed font-black rounded-xl text-xs uppercase tracking-widest shadow-sm transition-all mt-1">Fill Sahi Details To Order 🚀</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-500"></div>
-
-    <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-24">
-      
-      <div class="flex justify-between items-center mb-4">
-        <button id="back-btn" onclick="showCategories()" class="text-white text-2xl font-bold p-1 hidden focus:outline-none">←</button>
-        <button id="menu-btn" onclick="toggleSidebar()" class="text-white text-2xl font-bold p-1 focus:outline-none">☰</button>
-        
-        <button onclick="openCartDetailModal()" class="text-slate-800 text-2xl p-1 focus:outline-none relative active:scale-90 transition-transform">
-          🛒
-          <span id="cart-count-top" class="absolute -top-1 -right-1 bg-[#E63946] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
-        </button>
-      </div>
-
-      <div id="brand-header" class="ml-[28%] pl-4 mb-6 transition-all duration-300">
-        <div class="flex items-center space-x-2 mb-1">
-            <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full border border-green-200">● PURE VEG</span>
-        </div>
-        <h1 class="text-3xl font-black bg-gradient-to-r from-[#FF0055] to-[#FF5500] bg-clip-text text-transparent serif-font italic leading-none mb-1 drop-shadow-sm">Bhai Ki Baithak</h1>
-        <p class="text-slate-500 font-bold text-[11px] italic tracking-wide mb-4">Swad Aisa, Jo Dil Jeet Le! 🔥</p>
-        
-        <div class="relative -ml-[25%] pr-4">
-            <input type="text" id="menu-search" oninput="handleSearch(this.value)" placeholder="Search fast food..." class="w-full bg-white border-none shadow-sm rounded-2xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#E63946] transition-all outline-none">
-            <span class="absolute left-3 top-3.5 text-gray-400 text-base">🔍</span>
-        </div>
-      </div>
-
-      <div id="categories-screen" class="flex flex-col space-y-6">
-        <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=200" class="w-full h-full object-cover">
+        <div class="topbar-right">
+          <div class="location-pill" onclick="fetchLocation()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span class="location-text" id="location-text">📍 Tap to detect</span>
           </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Momo</h2><p class="text-[#E63946] text-[10px] font-extrabold italic">🥟 MOMOS MENU</p></div>
-        </div>
-
-        <div onclick="showMenu('Rolls')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=200" class="w-full h-full object-cover">
-          </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Rolls</h2><p class="text-gray-400 text-[10px] font-bold">🌯 ROLLS CORNER</p></div>
-        </div>
-
-        <div onclick="showMenu('Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200" class="w-full h-full object-cover">
-          </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Fries</h2><p class="text-gray-400 text-[10px] font-bold">🍟 FRIES STATION</p></div>
-        </div>
-
-        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200" class="w-full h-full object-cover">
-          </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Burger</h2><p class="text-gray-400 text-[10px] font-bold">🍔 BURGER HUB</p></div>
+          <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙</button>
         </div>
       </div>
 
-      <div id="items-screen" class="hidden flex flex-col space-y-4">
-        <div id="category-header-box" class="mb-2">
-            <h1 id="selected-category-title" class="text-3xl font-black text-slate-800 serif-font">Menu</h1>
-            <p id="category-subtitle" class="text-[#E63946] font-bold text-[11px] tracking-wider uppercase bg-red-50 inline-block px-2 py-1 rounded-lg"></p>
+      <!-- HOME VIEW -->
+      <div id="home-view">
+        <!-- HERO -->
+        <div class="hero">
+          <div class="hero-tag">🔥 SPECIAL OF THE DAY</div>
+          <h1>Aaj Kya<br>Khaoge Bhai?</h1>
+          <p>Street style momos, rolls, fries & burgers — sab fresh & hot!</p>
+          <div class="hero-emoji">🥟</div>
         </div>
-        <div id="dynamic-items-container" class="flex flex-col space-y-4"></div>
-      </div>
-    </div>
 
-    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-4 z-40 view-cart-bar">
-      <div class="flex flex-col text-white">
-        <span id="cart-items-label" class="font-black text-sm">0 Items</span>
-        <span id="cart-total-price" class="font-bold text-xs opacity-90">Total: ₹0</span>
+        <!-- SEARCH -->
+        <div class="search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="search-input" placeholder="Search momos, rolls, fries..." oninput="searchMenu()">
+        </div>
+
+        <!-- SEARCH RESULTS -->
+        <div id="search-results" style="display:none">
+          <div class="section-title">🔍 Search Results</div>
+          <div id="search-list"></div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div id="categories-view">
+          <div class="section-title">🍽️ Our <span>Specialties</span></div>
+          <div id="category-cards"></div>
+        </div>
       </div>
-      <div class="flex items-center space-x-2">
-        <button onclick="clearCart()" class="bg-red-800/60 hover:bg-red-900 text-white px-3 py-2 rounded-xl font-black text-xs uppercase tracking-tight shadow-md active:scale-95 transition-all border border-red-700/40">Clear ✕</button>
-        <button onclick="openCartDetailModal()" class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs italic uppercase tracking-tighter shadow-md active:scale-95 transition-transform">View Cart ❯</button>
+
+      <!-- MENU VIEW (per category) -->
+      <div id="menu-view" style="display:none">
+        <div class="menu-section-header">
+          <button class="back-btn" onclick="goBack()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back
+          </button>
+          <h2 id="menu-view-title"></h2>
+        </div>
+        <div id="menu-items-list"></div>
       </div>
+
     </div>
   </div>
 
-  <script>
-    let cart = {};
-    let currentCategory = "";
+  <!-- BOTTOM DOCK -->
+  <div class="bottom-dock" id="bottom-dock" style="display:none">
+    <div class="dock-item-count">
+      <strong id="dock-count">0 items</strong><br>
+      <span id="dock-total">₹0</span>
+    </div>
+    <button class="view-cart-btn" onclick="openCart()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      View Cart
+      <span class="dock-badge" id="dock-badge">0</span>
+    </button>
+  </div>
+</div>
 
-    const menuData = {
-      'Momo': [
-        { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling wale classic momos', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
-        { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside full tasty stuffing', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
-        { name: '🧀 Paneer Steam Momos', price: 69, desc: 'Soft paneer filling with bhai special masala touch', img: '' },
-        { name: '🌶️ Paneer Fried Momos', price: 79, desc: 'Crispy paneer momos with spicy street-style flavor', img: '' },
-        { name: '🍛 Veg Gravy Momos', price: 89, desc: 'Spicy gravy me tossed juicy momos with desi flavor', img: '' },
-        { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge', img: '' }
-      ],
-      'Rolls': [
-        { name: '🥬 Crispy Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
-        { name: '🌿 Pure Veg Roll', price: 39, desc: 'Fresh veggies, spicy sauces & full street-style taste', img: '' },
-        { name: '🧀 Cheese Loaded Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor in every bite', img: '' }
-      ],
-      'Fries': [
-        { name: '🍟 Classic French Fries', price: 39, desc: 'Golden crispy fries with perfect salted taste', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' },
-        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Loaded with spicy peri peri seasoning', img: '' },
-        { name: '🧈 Tandoori Mayo Fries', price: 59, desc: 'Creamy tandoori mayo with smoky desi flavor', img: '' }
-      ],
-      'Burger': [
-        { name: '🌿 Veg Burger', price: 39, desc: 'Fresh veggie patty with crunchy veggies & tasty sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' },
-        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with spicy creamy flavor', img: '' },
-        { name: '🧈 Cheese Burger', price: 59, desc: 'Loaded with melting cheese & signature sauces', img: '' }
-      ]
-    };
+<!-- CART OVERLAY + DRAWER -->
+<div class="overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="drawer-handle"></div>
+  <div class="cart-header">
+    <h2>🛒 Your Order</h2>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+</div>
 
-    function openOrdersModal() { toggleSidebar(); document.getElementById('orders-modal').classList.add('open'); }
-    function closeOrdersModal() { document.getElementById('orders-modal').classList.remove('open'); }
+<!-- ORDER TRACKING -->
+<div class="tracking-overlay" id="tracking-overlay">
+  <div class="tracking-header">
+    <button class="tracking-back" onclick="closeTracking()">← Back</button>
+    <h2>Order Tracking</h2>
+    <p id="tracking-order-label">Order placed successfully! 🎉</p>
+  </div>
+  <div class="tracking-body">
+    <div class="tracking-order-id">
+      <div><span>Order ID</span><br><strong id="order-id-display">#BKB0000</strong></div>
+      <div style="text-align:right"><span>Estimated Time</span><br><strong style="color:var(--red)">25–35 mins</strong></div>
+    </div>
+    <div class="eta-card">
+      <div class="eta-mins" id="eta-mins">28</div>
+      <div class="eta-label">minutes away 🛵</div>
+    </div>
+    <div class="tracker-steps" id="tracker-steps"></div>
 
-    function openAddressModal() { 
-        toggleSidebar(); 
-        document.getElementById('input-address').value = localStorage.getItem("userAddress") || "";
-        document.getElementById('address-modal').classList.add('open'); 
+    <!-- CHAT MODULE -->
+    <div class="chat-section">
+      <h3>💬 Quick Message to Rider</h3>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="quick-chips">
+        <div class="chip" onclick="sendChip('Where are you bhai? 🤔')">Where are you?</div>
+        <div class="chip" onclick="sendChip('Please ring the bell 🔔')">Ring the bell</div>
+        <div class="chip" onclick="sendChip('Leave at the gate please 🏠')">Leave at gate</div>
+        <div class="chip" onclick="sendChip('Extra ketchup lena bhai! 🍅')">Extra ketchup</div>
+        <div class="chip" onclick="sendChip('Thank you bhai! ❤️')">Thank you!</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send-btn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW CURTAIN -->
+<div class="review-modal" id="review-modal">
+  <div class="review-box">
+    <h2>Khaana kaisa laga bhai? 😋</h2>
+    <p>Rate karo aur help karo improve karne mein!</p>
+    <div class="star-row" id="star-row">
+      <span class="star" onclick="rateStar(1)">⭐</span>
+      <span class="star" onclick="rateStar(2)">⭐</span>
+      <span class="star" onclick="rateStar(3)">⭐</span>
+      <span class="star" onclick="rateStar(4)">⭐</span>
+      <span class="star" onclick="rateStar(5)">⭐</span>
+    </div>
+    <div class="review-tags" id="review-tags">
+      <div class="rtag" onclick="toggleTag(this)">🔥 Super Tasty</div>
+      <div class="rtag" onclick="toggleTag(this)">⚡ Fast Delivery</div>
+      <div class="rtag" onclick="toggleTag(this)">🥟 Fresh Momos</div>
+      <div class="rtag" onclick="toggleTag(this)">💰 Value for Money</div>
+      <div class="rtag" onclick="toggleTag(this)">📦 Good Packaging</div>
+      <div class="rtag" onclick="toggleTag(this)">😊 Friendly Rider</div>
+      <div class="rtag" onclick="toggleTag(this)">🌶️ Perfect Spice</div>
+    </div>
+    <button class="review-submit" onclick="submitReview()">Submit Review 🎉</button>
+    <span class="review-skip" onclick="closeReview()">Skip kar do bhai →</span>
+  </div>
+</div>
+
+<!-- SIDEBAR DRAWER -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<div class="sidebar-drawer" id="sidebar-drawer">
+  <div class="sidebar-top">
+    <h3>BHAI KI BAITHAK</h3>
+    <p id="sidebar-user-info">Welcome, bhai!</p>
+  </div>
+  <div class="sidebar-body">
+    <div class="sidebar-section-title">📋 Customer Register</div>
+    <div id="customer-register"></div>
+    <div class="sidebar-section-title" style="margin-top:24px">📊 Financial Ledger</div>
+    <table class="ledger-table">
+      <thead><tr><th>Date</th><th>Items</th><th>Amount</th></tr></thead>
+      <tbody id="ledger-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ════════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════════
+const MENU = [
+  {
+    id:'momos', name:'Momos Menu', emoji:'🥟', desc:'Steam & Fried Specialties',
+    items:[
+      {id:'m1',name:'Veg Steam Momos',desc:'Soft, garam aur juicy veg filling wale classic momos',price:49,emoji:'🥟'},
+      {id:'m2',name:'Veg Fried Momos',desc:'Outside crispy, inside full tasty stuffing',price:59,emoji:'🥟'},
+      {id:'m3',name:'Paneer Steam Momos',desc:'Soft paneer filling with bhai special masala touch',price:69,emoji:'🥟'},
+      {id:'m4',name:'Paneer Fried Momos',desc:'Crispy paneer momos with spicy street-style flavor',price:79,emoji:'🥟'},
+      {id:'m5',name:'Veg Gravy Momos',desc:'Spicy gravy me tossed juicy momos with desi flavor',price:89,emoji:'🍲'},
+      {id:'m6',name:'Bhai Special Kurkure Momos',desc:'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge',price:99,emoji:'✨'},
+    ]
+  },
+  {
+    id:'rolls', name:'Rolls Corner', emoji:'🌯', desc:'Fresh Street-Style Rolls',
+    items:[
+      {id:'r1',name:'Crispy Spring Roll',desc:'Light crispy roll with tasty veggie filling',price:29,emoji:'🌯'},
+      {id:'r2',name:'Pure Veg Roll',desc:'Fresh veggies, spicy sauces & full street-style taste',price:39,emoji:'🌯'},
+      {id:'r3',name:'Cheese Loaded Roll',desc:'Melty cheese with creamy spicy flavor in every bite',price:49,emoji:'🧀'},
+    ]
+  },
+  {
+    id:'fries', name:'Fries Station', emoji:'🍟', desc:'Crispy Golden Fries',
+    items:[
+      {id:'f1',name:'Classic French Fries',desc:'Golden crispy fries with perfect salted taste',price:39,emoji:'🍟'},
+      {id:'f2',name:'Peri Peri Fries',desc:'Loaded with spicy peri peri seasoning',price:49,emoji:'🌶️'},
+      {id:'f3',name:'Tandoori Mayo Fries',desc:'Creamy tandoori mayo with smoky desi flavor',price:59,emoji:'🔥'},
+    ]
+  },
+  {
+    id:'burgers', name:'Burger Hub', emoji:'🍔', desc:'Stacked & Loaded Burgers',
+    items:[
+      {id:'b1',name:'Veg Burger',desc:'Fresh veggie patty with crunchy veggies & tasty sauces',price:39,emoji:'🍔'},
+      {id:'b2',name:'Paneer Burger',desc:'Soft paneer patty with spicy creamy flavor',price:49,emoji:'🍔'},
+      {id:'b3',name:'Cheese Burger',desc:'Loaded with melting cheese & signature sauces',price:59,emoji:'🧀'},
+    ]
+  },
+];
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+let cart={};
+let currentUser={fn:'',ln:'',mob:''};
+let darkMode=false;
+let currentOrderId='';
+let trackingInterval=null;
+let reviewRating=0;
+const allOrders=JSON.parse(localStorage.getItem('bkb_orders')||'[]');
+const allCustomers=JSON.parse(localStorage.getItem('bkb_customers')||'[]');
+
+// ════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════
+window.onload=function(){
+  const saved=localStorage.getItem('bkb_user');
+  if(saved){
+    currentUser=JSON.parse(saved);
+    launchApp();
+  }
+  renderCategories();
+};
+
+function launchApp(){
+  document.getElementById('auth-curtain').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('greeting-text').textContent=`Welcome, ${currentUser.fn} bhai! 👋`;
+  document.getElementById('sidebar-user-info').textContent=`${currentUser.fn} ${currentUser.ln} • ${currentUser.mob}`;
+  // add to customers if new
+  const exists=allCustomers.find(c=>c.mob===currentUser.mob);
+  if(!exists){allCustomers.push(currentUser);localStorage.setItem('bkb_customers',JSON.stringify(allCustomers));}
+  renderSidebar();
+}
+
+function authLogin(){
+  const fn=document.getElementById('auth-fn').value.trim();
+  const ln=document.getElementById('auth-ln').value.trim();
+  const mob=document.getElementById('auth-mob').value.trim();
+  if(!fn||!ln||!mob||mob.length!==10){showToast('⚠️ Sab fields sahi se bharo bhai!');return;}
+  currentUser={fn,ln,mob};
+  localStorage.setItem('bkb_user',JSON.stringify(currentUser));
+  launchApp();
+}
+
+// ════════════════════════════════════════════
+//  RENDER CATEGORIES
+// ════════════════════════════════════════════
+function renderCategories(){
+  const el=document.getElementById('category-cards');
+  el.innerHTML=MENU.map(cat=>`
+    <div class="category-card" onclick="openCategory('${cat.id}')">
+      <div class="category-card-icon">${cat.emoji}</div>
+      <div class="category-card-info">
+        <h3>${cat.name}</h3>
+        <p>${cat.desc}</p>
+        <span class="item-count">${cat.items.length} items</span>
+      </div>
+      <button class="category-nav-btn">›</button>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════════════════
+//  OPEN CATEGORY
+// ════════════════════════════════════════════
+function openCategory(catId){
+  const cat=MENU.find(c=>c.id===catId);
+  document.getElementById('home-view').style.display='none';
+  document.getElementById('menu-view').style.display='block';
+  document.getElementById('menu-view-title').textContent=cat.name+' '+cat.emoji;
+  document.getElementById('menu-items-list').innerHTML=cat.items.map(item=>buildItemCard(item)).join('');
+}
+
+function buildItemCard(item){
+  const qty=cart[item.id]||0;
+  return `<div class="menu-item" id="item-card-${item.id}">
+    <div class="item-emoji">${item.emoji}</div>
+    <div class="item-details">
+      <div class="item-name">${item.name}</div>
+      <div class="item-desc">${item.desc}</div>
+      <div class="item-price">₹${item.price}</div>
+    </div>
+    <div class="item-controls" id="ctrl-${item.id}">
+      ${qty===0
+        ?`<button class="add-btn" onclick="addItem('${item.id}')">+ Add</button>`
+        :`<div class="qty-control"><button class="qty-btn" onclick="removeItem('${item.id}')">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="addItem('${item.id}')">+</button></div>`}
+    </div>
+  </div>`;
+}
+
+function goBack(){
+  document.getElementById('home-view').style.display='block';
+  document.getElementById('menu-view').style.display='none';
+}
+
+// ════════════════════════════════════════════
+//  CART ENGINE
+// ════════════════════════════════════════════
+function getAllItems(){return MENU.flatMap(c=>c.items);}
+
+function addItem(id){
+  cart[id]=(cart[id]||0)+1;
+  refreshItemCtrl(id);
+  updateCartBadge();
+  const item=getAllItems().find(i=>i.id===id);
+  showToast(`✅ ${item.name} added!`);
+}
+
+function removeItem(id){
+  if(!cart[id])return;
+  cart[id]--;
+  if(cart[id]===0)delete cart[id];
+  refreshItemCtrl(id);
+  updateCartBadge();
+}
+
+function refreshItemCtrl(id){
+  const item=getAllItems().find(i=>i.id===id);
+  const qty=cart[id]||0;
+  const ctrl=document.getElementById(`ctrl-${id}`);
+  if(ctrl){
+    ctrl.innerHTML=qty===0
+      ?`<button class="add-btn" onclick="addItem('${id}')">+ Add</button>`
+      :`<div class="qty-control"><button class="qty-btn" onclick="removeItem('${id}')">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="addItem('${id}')">+</button></div>`;
+  }
+}
+
+function getTotalItems(){return Object.values(cart).reduce((a,b)=>a+b,0);}
+function getTotalPrice(){
+  return getAllItems().reduce((sum,item)=>sum+(cart[item.id]||0)*item.price,0);
+}
+
+function updateCartBadge(){
+  const total=getTotalItems();
+  const price=getTotalPrice();
+  const dock=document.getElementById('bottom-dock');
+  const badge=document.getElementById('band-badge');
+  if(total>0){
+    dock.style.display='flex';
+    badge.style.display='block';
+    badge.textContent=total;
+    document.getElementById('dock-count').textContent=`${total} item${total>1?'s':''}`;
+    document.getElementById('dock-total').textContent=`₹${price}`;
+    document.getElementById('dock-badge').textContent=total;
+  } else {
+    dock.style.display='none';
+    badge.style.display='none';
+  }
+}
+
+// ════════════════════════════════════════════
+//  CART OVERLAY
+// ════════════════════════════════════════════
+function openCart(){
+  if(getTotalItems()===0){showToast('🛒 Cart is empty bhai!');return;}
+  renderCartBody();
+  document.getElementById('cart-overlay').classList.add('open');
+  document.getElementById('cart-drawer').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeCart(){
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderCartBody(){
+  const items=getAllItems().filter(i=>cart[i.id]);
+  const subtotal=getTotalPrice();
+  const platform=0;
+  const grand=subtotal+platform;
+
+  let html=``;
+  if(items.length===0){
+    html=`<div class="cart-empty"><div style="font-size:48px">🛒</div><p style="margin-top:12px;color:var(--text3)">Cart is empty bhai!</p></div>`;
+  } else {
+    html+=items.map(item=>`
+      <div class="cart-item">
+        <div style="font-size:28px">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">₹${item.price} × ${cart[item.id]}</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="removeItem('${item.id}');renderCartBody()">−</button>
+          <span class="qty-num">${cart[item.id]}</span>
+          <button class="qty-btn" onclick="addItem('${item.id}');renderCartBody()">+</button>
+        </div>
+      </div>
+    `).join('');
+
+    html+=`<div class="bill-section">
+      <div class="bill-row"><span>Item Total</span><span>₹${subtotal}</span></div>
+      <div class="bill-row"><span>Platform Fee</span><span class="free-tag">FREE ✓</span></div>
+      <hr class="bill-divider">
+      <div class="bill-row"><span class="bill-total">Grand Total</span><span class="bill-total-price">₹${grand}</span></div>
+    </div>
+    <button class="checkout-btn" onclick="placeOrder()">🛵 Place Order — ₹${grand}</button>`;
+  }
+  document.getElementById('cart-body').innerHTML=html;
+}
+
+// ════════════════════════════════════════════
+//  ORDER TRACKING
+// ════════════════════════════════════════════
+const TRACKING_STEPS=[
+  {title:'Order Placed',desc:'Bhai ne order receive kar liya!',time:'Just now'},
+  {title:'Preparing Your Food',desc:'Kitchen mein hot & fresh ban raha hai 🔥',time:'~5 mins'},
+  {title:'Out for Delivery',desc:'Rider nikala apki taraf! 🛵',time:'~15 mins'},
+  {title:'Delivered!',desc:'Enjoy karo bhai! ❤️',time:'~30 mins'},
+];
+let currentStep=0;
+
+function placeOrder(){
+  if(getTotalItems()===0)return;
+  closeCart();
+  currentOrderId='BKB'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('order-id-display').textContent='#'+currentOrderId;
+  document.getElementById('eta-mins').textContent=Math.floor(25+Math.random()*10);
+  currentStep=0;
+  renderTrackingSteps();
+
+  // save to ledger
+  const order={id:currentOrderId,date:new Date().toLocaleDateString('en-IN'),items:getTotalItems(),amount:getTotalPrice(),user:`${currentUser.fn} ${currentUser.ln}`};
+  allOrders.push(order);
+  localStorage.setItem('bkb_orders',JSON.stringify(allOrders));
+  renderSidebar();
+
+  // clear cart
+  cart={};
+  updateCartBadge();
+
+  document.getElementById('tracking-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+
+  // Simulate progression
+  clearInterval(trackingInterval);
+  trackingInterval=setInterval(()=>{
+    if(currentStep<3){currentStep++;renderTrackingSteps();}
+    else{
+      clearInterval(trackingInterval);
+      setTimeout(()=>{closeTracking();openReview();},1500);
     }
-    function closeAddressModal() { document.getElementById('address-modal').classList.remove('open'); }
-    function saveAddress(e) {
-        e.preventDefault();
-        const addr = document.getElementById('input-address').value;
-        localStorage.setItem("userAddress", addr);
-        document.getElementById('display-address').innerText = addr;
-        closeAddressModal();
-    }
+  },7000);
 
-    function openSupportModal() { toggleSidebar(); document.getElementById('support-modal').classList.add('open'); }
-    function closeSupportModal() { document.getElementById('support-modal').classList.remove('open'); }
+  initChat();
+  showToast('🎉 Order placed successfully!');
+}
 
-    function toggleSidebarCloseAll() {
-        document.getElementById('side-drawer').classList.remove('open');
-        document.querySelectorAll('.app-modal').forEach(m => m.classList.remove('open'));
-        document.getElementById('overlay').classList.remove('open');
-    }
+function renderTrackingSteps(){
+  const el=document.getElementById('tracker-steps');
+  el.innerHTML=TRACKING_STEPS.map((s,i)=>`
+    <div class="tracker-step ${i<currentStep?'done':i===currentStep?'active':''}">
+      <div class="tracker-step-dot">${i<currentStep?'✓':''}</div>
+      <div class="tracker-step-title">${s.title}</div>
+      <div class="tracker-step-desc">${s.desc}</div>
+      ${i<=currentStep?`<div class="tracker-step-time">${s.time}</div>`:''}
+    </div>
+  `).join('');
+}
 
-    // --- SMART GPS + IP BYPASS FALLBACK SYSTEM ---
-    function fetchGPSLocation(targetInputId, labelId) {
-        const lbl = document.getElementById(labelId);
-        
-        lbl.innerText = "Locating Your Baithak... 🔄";
-        
-        if (!navigator.geolocation) {
-            fetchIPLocationFallback(targetInputId, lbl);
-            return;
-        }
+function closeTracking(){
+  document.getElementById('tracking-overlay').classList.remove('open');
+  document.body.style.overflow='';
+  clearInterval(trackingInterval);
+}
 
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const lat = pos.coords.latitude;
-                const lon = pos.coords.longitude;
-                document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (Live GPS)`;
-                lbl.innerText = "Location Loaded! 👍";
-                validateSummaryForm();
-                setTimeout(() => { lbl.innerText = "Use My Current Location"; }, 2500);
-            },
-            (error) => {
-                console.log("GPS Blocked or Failed. Bypassing using IP network...");
-                lbl.innerText = "Bypassing Network Locked... 📡";
-                fetchIPLocationFallback(targetInputId, lbl);
-            },
-            { enableHighAccuracy: true, timeout: 5000 }
-        );
-    }
+// ════════════════════════════════════════════
+//  CHAT
+// ════════════════════════════════════════════
+function initChat(){
+  const msgs=document.getElementById('chat-messages');
+  msgs.innerHTML=`<div class="msg-bubble them">Namaste! Main aapka rider hoon. Order pickup kar liya hai! 🛵<div class="time">Just now</div></div>`;
+}
 
-    function fetchIPLocationFallback(targetInputId, labelElement) {
-        fetch('https://ipapi.co/json/')
-            .then(response => response.json())
-            .then(data => {
-                if (data.latitude && data.longitude) {
-                    const lat = data.latitude;
-                    const lon = data.longitude;
-                    const city = data.city || "Nearby";
-                    
-                    document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (${city} Network Location)`;
-                    labelElement.innerText = "Bypassed Successfully! ✨";
-                    validateSummaryForm();
-                } else {
-                    labelElement.innerText = "Bypass Failed! Write Manually ✍️";
-                }
-                setTimeout(() => { labelElement.innerText = "Use My Current Location"; }, 2500);
-            })
-            .catch(err => {
-                console.error(err);
-                labelElement.innerText = "Bypass Failed! Write Manually ✍️";
-                setTimeout(() => { labelElement.innerText = "Use My Current Location"; }, 2500);
-            });
-    }
+function sendChat(){
+  const inp=document.getElementById('chat-input');
+  const text=inp.value.trim();
+  if(!text)return;
+  appendChat(text,true);
+  inp.value='';
+  setTimeout(()=>appendChat(getRiderReply()+'',false),1500);
+}
 
-    // --- ANTI FRAUD VALIDATION LOGIC ENGINE ---
-    function validateSummaryForm() {
-        const name = document.getElementById('summary-cust-name').value.trim();
-        const phone = document.getElementById('summary-cust-phone').value.trim();
-        const address = document.getElementById('summary-cust-address').value.trim();
-        const btn = document.getElementById('whatsapp-submit-btn');
-        
-        const isPhoneValid = /^[0-9]{10}$/.test(phone);
+function sendChip(msg){appendChat(msg,true);setTimeout(()=>appendChat(getRiderReply(),false),1500);}
 
-        if (name.length >= 2 && isPhoneValid && address.length >= 5) {
-            btn.removeAttribute('disabled');
-            btn.className = "w-full py-3.5 bg-[#E63946] text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-md active:scale-95 transition-all mt-1 cursor-pointer";
-            btn.innerText = "Place Order via WhatsApp 🚀";
-        } else {
-            btn.setAttribute('disabled', 'true');
-            btn.className = "w-full py-3.5 bg-slate-300 text-slate-500 cursor-not-allowed font-black rounded-xl text-xs uppercase tracking-widest shadow-sm transition-all mt-1";
-            btn.innerText = "Fill Sahi Details To Order 🚀";
-        }
-    }
+function appendChat(text,isMe){
+  const msgs=document.getElementById('chat-messages');
+  const div=document.createElement('div');
+  div.className=`msg-bubble ${isMe?'me':'them'}`;
+  div.innerHTML=`${text}<div class="time">${new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
 
-    function openCartDetailModal() {
-        const listContainer = document.getElementById('cart-modal-items-list');
-        listContainer.innerHTML = "";
-        let finalPrice = 0;
-        
-        for (let name in cart) {
-            const item = cart[name];
-            finalPrice += (item.qty * item.price);
-            listContainer.innerHTML += `
-                <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-3 rounded-2xl animate-item">
-                    <div>
-                        <h4 class="font-extrabold text-slate-800 text-xs">${name}</h4>
-                        <p class="text-[10px] font-bold text-slate-400 mt-0.5">₹${item.price} x ${item.qty}</p>
-                    </div>
-                    <div class="font-black text-slate-800 text-xs">₹${item.qty * item.price}</div>
-                </div>
-            `;
-        }
-        document.getElementById('modal-bill-subtotal').innerText = "₹" + finalPrice;
-        document.getElementById('modal-bill-grandtotal').innerText = "₹" + finalPrice;
-        
-        document.getElementById('summary-cust-name').value = localStorage.getItem("userName") || "";
-        document.getElementById('summary-cust-phone').value = localStorage.getItem("userPhone") || "";
-        document.getElementById('summary-cust-address').value = localStorage.getItem("userAddress") || "";
-        
-        document.getElementById('cart-detail-modal').classList.add('open');
-        document.getElementById('overlay').classList.add('open');
-        validateSummaryForm();
-    }
+function getRiderReply(){
+  const replies=['Haan bhai, aata hoon! 🛵','Bilkul, noted! ✅','2 minute mein pahunch raha hoon!','Theek hai bhai, dhyan rakhunga 👍','Aapka order safe hai! 🎁','Ek aur minute bhai!'];
+  return replies[Math.floor(Math.random()*replies.length)];
+}
 
-    document.getElementById('cart-detail-modal').addEventListener('transitionend', function() {
-        if(this.classList.contains('open')){
-            validateSummaryForm();
-        }
-    });
+// ════════════════════════════════════════════
+//  REVIEW
+// ════════════════════════════════════════════
+function openReview(){document.getElementById('review-modal').classList.add('open');}
+function closeReview(){document.getElementById('review-modal').classList.remove('open');reviewRating=0;}
 
-    function closeCartDetailModal() {
-        document.getElementById('cart-detail-modal').classList.remove('open');
-        document.getElementById('overlay').classList.remove('open');
-    }
+function rateStar(n){
+  reviewRating=n;
+  document.querySelectorAll('.star').forEach((s,i)=>{s.classList.toggle('lit',i<n);});
+}
 
-    function sendFinalWhatsAppOrder() {
-        const name = document.getElementById('summary-cust-name').value.trim();
-        const phone = document.getElementById('summary-cust-phone').value.trim();
-        const address = document.getElementById('summary-cust-address').value.trim();
-        
-        let orderDetails = `*--- NEW ORDER: BHAI KI BAITHAK ---*\n\n`;
-        orderDetails += `👤 *Customer Name:* ${name}\n`;
-        orderDetails += `📞 *Verified Phone:* +91 ${phone}\n`;
-        orderDetails += `📍 *Delivery Address:* ${address}\n\n`;
-        orderDetails += `🛒 *Items List:*\n`;
-        
-        let total = 0;
-        for (let item in cart) {
-            orderDetails += `- ${item} (x${cart[item].qty}) : ₹${cart[item].qty * cart[item].price}\n`;
-            total += (cart[item].qty * cart[item].price);
-        }
-        
-        orderDetails += `\n💰 *Total Payable Amount:* ₹${total}\n`;
-        
-        const finalUrl = `https://wa.me/918467895365?text=${encodeURIComponent(orderDetails)}`;
-        window.open(finalUrl, '_blank');
-    }
+function toggleTag(el){el.classList.toggle('sel');}
 
-    // --- ADDITIONAL CUSTOMER EXPERIENCING LOGIC (CLEAR CART) ---
-    function clearCart() {
-        cart = {};
-        updateCartBar();
-        if (currentCategory) {
-            showMenu(currentCategory);
-        }
-    }
+function submitReview(){
+  if(reviewRating===0){showToast('⭐ Pehle stars do bhai!');return;}
+  closeReview();
+  showToast(`🙏 Review dene ke liye shukriya! ${reviewRating}⭐`);
+}
 
-    function toggleSidebar() {
-        const drawer = document.getElementById('side-drawer');
-        const overlay = document.getElementById('overlay');
-        drawer.classList.toggle('open');
-        overlay.classList.toggle('open');
-    }
+// ════════════════════════════════════════════
+//  SIDEBAR
+// ════════════════════════════════════════════
+function toggleSidebar(){
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+  document.getElementById('sidebar-drawer').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar-overlay').classList.remove('open');
+  document.getElementById('sidebar-drawer').classList.remove('open');
+}
 
-    function showCategories() {
-        document.getElementById('categories-screen').classList.remove('hidden');
-        document.getElementById('items-screen').classList.add('hidden');
-        document.getElementById('back-btn').classList.add('hidden');
-        document.getElementById('menu-btn').classList.remove('hidden');
-        document.getElementById('brand-header').classList.remove('hidden');
-        document.getElementById('red-sidebar').style.width = "32%";
-        currentCategory = "";
-    }
+function renderSidebar(){
+  // Customer Register
+  const cr=document.getElementById('customer-register');
+  if(cr){
+    cr.innerHTML=allCustomers.length===0
+      ?`<div style="color:var(--text3);font-size:13px">No customers yet.</div>`
+      :allCustomers.map(c=>`<div class="customer-card"><div class="c-name">${c.fn} ${c.ln}</div><div class="c-info">📱 ${c.mob}</div></div>`).join('');
+  }
+  // Ledger
+  const lb=document.getElementById('ledger-tbody');
+  if(lb){
+    lb.innerHTML=allOrders.length===0
+      ?`<tr><td colspan="3" style="color:var(--text3)">No orders yet.</td></tr>`
+      :allOrders.slice().reverse().map(o=>`<tr><td>${o.date}</td><td>${o.items} items</td><td class="ledger-amt">₹${o.amount}</td></tr>`).join('');
+  }
+}
 
-    function showMenu(category) {
-        currentCategory = category;
-        document.getElementById('categories-screen').classList.add('hidden');
-        document.getElementById('brand-header').classList.add('hidden');
-        document.getElementById('items-screen').classList.remove('hidden');
-        document.getElementById('back-btn').classList.remove('hidden');
-        document.getElementById('menu-btn').classList.add('hidden');
-        document.getElementById('red-sidebar').style.width = "12px";
+// ════════════════════════════════════════════
+//  GEOLOCATION
+// ════════════════════════════════════════════
+function fetchLocation(){
+  document.getElementById('location-text').textContent='📍 Detecting...';
+  if(!navigator.geolocation){document.getElementById('location-text').textContent='📍 Not supported';return;}
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const lat=pos.coords.latitude.toFixed(4);
+      const lon=pos.coords.longitude.toFixed(4);
+      document.getElementById('location-text').textContent=`📍 Lat ${lat}, Lon ${lon}`;
+      showToast(`📍 Location detected!`);
+    },
+    ()=>{document.getElementById('location-text').textContent='📍 Location denied';}
+  );
+}
 
-        document.getElementById('selected-category-title').innerText = category;
-        document.getElementById('category-subtitle').innerText = category + " Special Corner";
+// ════════════════════════════════════════════
+//  SEARCH
+// ════════════════════════════════════════════
+function searchMenu(){
+  const q=document.getElementById('search-input').value.trim().toLowerCase();
+  const sr=document.getElementById('search-results');
+  const cv=document.getElementById('categories-view');
+  if(!q){sr.style.display='none';cv.style.display='block';return;}
+  const results=getAllItems().filter(i=>i.name.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q));
+  sr.style.display='block';
+  cv.style.display='none';
+  document.getElementById('search-list').innerHTML=results.length===0
+    ?`<div style="text-align:center;padding:32px;color:var(--text3)">Kuch nahi mila bhai 😔</div>`
+    :results.map(item=>buildItemCard(item)).join('');
+}
 
-        const container = document.getElementById('dynamic-items-container');
-        container.innerHTML = "";
+// ════════════════════════════════════════════
+//  THEME TOGGLE
+// ════════════════════════════════════════════
+function toggleTheme(){
+  darkMode=!darkMode;
+  document.documentElement.setAttribute('data-theme',darkMode?'dark':'light');
+  const icon=darkMode?'☀️':'🌙';
+  document.getElementById('theme-btn').textContent=icon;
+  document.getElementById('theme-band-btn').textContent=icon;
+}
 
-        const items = menuData[category] || [];
-        items.forEach((item, index) => {
-            const currentQty = cart[item.name] ? cart[item.name].qty : 0;
-            
-            let actionBtnHtml = `
-                <button onclick="addToCart('${item.name}', ${item.price})" class="bg-[#E63946] text-white font-black text-xs px-4 py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Add +</button>
-            `;
-
-            if (currentQty > 0) {
-                actionBtnHtml = `
-                    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                        <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">-</button>
-                        <span class="px-3 font-black text-slate-800 text-xs">${currentQty}</span>
-                        <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">+</button>
-                    </div>
-                `;
-            }
-
-            let imgHtml = `
-                <div class="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-200/50 rounded-2xl flex items-center justify-center border border-slate-100 font-bold text-slate-400 shadow-inner text-xl">❓</div>
-            `;
-            if (item.img) {
-                imgHtml = `
-                    <div class="w-20 h-20 rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-white">
-                        <img src="${item.img}" class="w-full h-full object-cover">
-                    </div>
-                `;
-            }
-
-            container.innerHTML += `
-                <div class="flex items-center justify-between bg-white rounded-3xl p-3 shadow-sm animate-item" style="animation-delay: ${index * 0.05}s">
-                    <div class="flex items-center space-x-3 flex-1 min-w-0">
-                        ${imgHtml}
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-extrabold text-slate-800 text-sm truncate">${item.name}</h3>
-                            <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-snug">${item.desc || 'No description available.'}</p>
-                            <div class="font-black text-[#E63946] text-sm mt-1">₹${item.price}</div>
-                        </div>
-                    </div>
-                    <div class="ml-2">
-                        ${actionBtnHtml}
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function addToCart(name, price) {
-        cart[name] = { price: price, qty: 1 };
-        updateCartBar();
-        if (currentCategory) showMenu(currentCategory);
-    }
-
-    function changeQty(name, amount) {
-        if (!cart[name]) return;
-        cart[name].qty += amount;
-        if (cart[name].qty <= 0) {
-            delete cart[name];
-        }
-        updateCartBar();
-        if (currentCategory) showMenu(currentCategory);
-    }
-
-    function updateCartBar() {
-        let totalItems = 0;
-        let totalPrice = 0;
-
-        for (let item in cart) {
-            totalItems += cart[item].qty;
-            totalPrice += (cart[item].qty * cart[item].price);
-        }
-
-        document.getElementById('cart-count-top').innerText = totalItems;
-
-        const cartBar = document.getElementById('view-cart-bar');
-        if (totalItems > 0) {
-            document.getElementById('cart-items-label').innerText = `${totalItems} Item${totalItems > 1 ? 's' : ''} Added`;
-            document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
-            cartBar.classList.remove('hidden');
-        } else {
-            cartBar.classList.add('hidden');
-        }
-    }
-
-    function handleSearch(val) {
-        const query = val.toLowerCase().trim();
-        if (!query) {
-            if (currentCategory) showMenu(currentCategory);
-            return;
-        }
-
-        if (!currentCategory) {
-            currentCategory = "Search";
-            document.getElementById('categories-screen').classList.add('hidden');
-            document.getElementById('items-screen').classList.remove('hidden');
-            document.getElementById('back-btn').classList.remove('hidden');
-            document.getElementById('menu-btn').classList.add('hidden');
-            document.getElementById('red-sidebar').style.width = "12px";
-        }
-
-        document.getElementById('selected-category-title').innerText = "Result";
-        document.getElementById('category-subtitle').innerText = `Showing results for "${val}"`;
-
-        const container = document.getElementById('dynamic-items-container');
-        container.innerHTML = "";
-
-        let matchCount = 0;
-        for (let cat in menuData) {
-            menuData[cat].forEach((item) => {
-                if (item.name.toLowerCase().includes(query) || (item.desc && item.desc.toLowerCase().includes(query))) {
-                    matchCount++;
-                    const currentQty = cart[item.name] ? cart[item.name].qty : 0;
-                    
-                    let actionBtnHtml = `
-                        <button onclick="addToCart('${item.name}', ${item.price})" class="bg-[#E63946] text-white font-black text-xs px-4 py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Add +</button>
-                    `;
-
-                    if (currentQty > 0) {
-                        actionBtnHtml = `
-                            <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                                <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">-</button>
-                                <span class="px-3 font-black text-slate-800 text-xs">${currentQty}</span>
-                                <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">+</button>
-                            </div>
-                        `;
-                    }
-
-                    let imgHtml = `<div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center font-bold text-slate-400 shadow-inner text-xl">❓</div>`;
-                    if (item.img) {
-                        imgHtml = `
-                            <div class="w-20 h-20 rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-white">
-                                <img src="${item.img}" class="w-full h-full object-cover">
-                            </div>
-                        `;
-                    }
-
-                    container.innerHTML += `
-                        <div class="flex items-center justify-between bg-white rounded-3xl p-3 shadow-sm animate-item">
-                            <div class="flex items-center space-x-3 flex-1 min-w-0">
-                                ${imgHtml}
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-extrabold text-slate-800 text-sm truncate">${item.name}</h3>
-                                    <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-snug">${item.desc || ''}</p>
-                                    <div class="font-black text-[#E63946] text-sm mt-1">₹${item.price}</div>
-                                </div>
-                            </div>
-                            <div class="ml-2">
-                                ${actionBtnHtml}
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-        }
-
-        if(matchCount === 0) {
-            container.innerHTML = `
-                <div class="text-center py-12 text-slate-400 font-bold text-sm">
-                    <p class="text-3xl mb-2">🍃</p>
-                    Kuch nahi mila bhai! Kuch aur search karo.
-                </div>
-            `;
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const savedName = localStorage.getItem("userName");
-        const savedPhone = localStorage.getItem("userPhone");
-        if (savedName) document.getElementById('sidebar-user-name').innerText = savedName;
-        if (savedPhone) document.getElementById('sidebar-user-phone').innerText = "+91 " + savedPhone;
-        
-        const savedAddr = localStorage.getItem("userAddress");
-        if (savedAddr) document.getElementById('display-address').innerText = savedAddr;
-    });
-
-    function openProfileModal() {
-        toggleSidebar();
-        document.getElementById('input-name').value = localStorage.getItem("userName") || "";
-        document.getElementById('input-phone').value = localStorage.getItem("userPhone") || "";
-        document.getElementById('input-email').value = localStorage.getItem("userEmail") || "";
-        document.getElementById('profile-modal').classList.add('open');
-    }
-    function closeProfileModal() { document.getElementById('profile-modal').classList.remove('open'); }
-    function saveProfile(e) {
-        e.preventDefault();
-        const name = document.getElementById('input-name').value;
-        const phone = document.getElementById('input-phone').value;
-        const email = document.getElementById('input-email').value;
-
-        localStorage.setItem("userName", name);
-        localStorage.setItem("userPhone", phone);
-        localStorage.setItem("userEmail", email);
-
-        document.getElementById('sidebar-user-name').innerText = name;
-        document.getElementById('sidebar-user-phone').innerText = "+91 " + phone;
-        closeProfileModal();
-    }
-    function resetProfile() {
-        localStorage.clear();
-        location.reload();
-    }
-  </script>
+// ════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════
+function showToast(msg){
+  const tc=document.getElementById('toast-container');
+  const t=document.createElement('div');
+  t.className='toast';
+  t.textContent=msg;
+  tc.appendChild(t);
+  setTimeout(()=>t.remove(),2800);
+}
+</script>
 </body>
 </html>
