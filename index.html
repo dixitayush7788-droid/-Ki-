@@ -215,7 +215,7 @@
             <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full border border-green-200">● PURE VEG</span>
         </div>
         <h1 class="text-3xl font-black bg-gradient-to-r from-[#FF0055] to-[#FF5500] bg-clip-text text-transparent serif-font italic leading-none mb-1 drop-shadow-sm">Bhai Ki Baithak</h1>
-        <p class="text-slate-500 font-bold text-[11px] italic tracking-wide mb-4">Swad Aisa, Jo Dil Jeet Le! 🔥</p>
+        <p class="text-slate-500 font-bold text-[11px] italic tracking-wide mb-4">Swad Aisa, Jo Dil Jeet Lee! 🔥</p>
         
         <div class="relative -ml-[25%] pr-4">
             <input type="text" id="menu-search" oninput="handleSearch(this.value)" placeholder="Search fast food..." class="w-full bg-white border-none shadow-sm rounded-2xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#E63946] transition-all outline-none">
@@ -282,28 +282,83 @@
       'Momo': [
         { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling wale classic momos', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
         { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside full tasty stuffing', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
-        { name: '🧀 Paneer Steam Momos', price: 69, desc: 'Soft paneer filling with bhai special masala touch', img: '' },
-        { name: '🌶️ Paneer Fried Momos', price: 79, desc: 'Crispy paneer momos with spicy street-style flavor', img: '' },
-        { name: '🍛 Veg Gravy Momos', price: 89, desc: 'Spicy gravy me tossed juicy momos with desi flavor', img: '' },
-        { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge', img: '' }
+        { name: '🧀 Paneer Steam Momos', price: 69, desc: 'Soft paneer filling with bhai special masala touch', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
+        { name: '🌶️ Paneer Fried Momos', price: 79, desc: 'Crispy paneer momos with spicy street-style flavor', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
+        { name: '🍛 Veg Gravy Momos', price: 89, desc: 'Spicy gravy me tossed juicy momos with desi flavor', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
+        { name: '💥 Bhai Special Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata — ek baar khaoge fir repeat karoge', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' }
       ],
       'Rolls': [
         { name: '🥬 Crispy Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
-        { name: '🌿 Pure Veg Roll', price: 39, desc: 'Fresh veggies, spicy sauces & full street-style taste', img: '' },
-        { name: '🧀 Cheese Loaded Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor in every bite', img: '' }
+        { name: '🌿 Pure Veg Roll', price: 39, desc: 'Fresh veggies, spicy sauces & full street-style taste', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
+        { name: '🧀 Cheese Loaded Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor in every bite', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' }
       ],
       'Fries': [
         { name: '🍟 Classic French Fries', price: 39, desc: 'Golden crispy fries with perfect salted taste', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' },
-        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Loaded with spicy peri peri seasoning', img: '' },
-        { name: '🧈 Tandoori Mayo Fries', price: 59, desc: 'Creamy tandoori mayo with smoky desi flavor', img: '' }
+        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Loaded with spicy peri peri seasoning', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' },
+        { name: '🧈 Tandoori Mayo Fries', price: 59, desc: 'Creamy tandoori mayo with smoky desi flavor', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' }
       ],
       'Burger': [
         { name: '🌿 Veg Burger', price: 39, desc: 'Fresh veggie patty with crunchy veggies & tasty sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' },
-        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with spicy creamy flavor', img: '' },
-        { name: '🧈 Cheese Burger', price: 59, desc: 'Loaded with melting cheese & signature sauces', img: '' }
+        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with spicy creamy flavor', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' },
+        { name: '🧈 Cheese Burger', price: 59, desc: 'Loaded with melting cheese & signature sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' }
       ]
     };
 
+    // SIDEBAR NAVIGATION FUNCTIONS
+    function toggleSidebar() {
+        document.getElementById('side-drawer').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('open');
+    }
+
+    function toggleSidebarCloseAll() {
+        document.getElementById('side-drawer').classList.remove('open');
+        document.querySelectorAll('.app-modal').forEach(m => m.classList.remove('open'));
+        document.getElementById('overlay').classList.remove('open');
+    }
+
+    // PROFILE MECHANISM
+    function openProfileModal() { toggleSidebar(); document.getElementById('profile-modal').classList.add('open'); }
+    function closeProfileModal() { document.getElementById('profile-modal').classList.remove('open'); }
+    
+    function saveProfile(e) {
+        e.preventDefault();
+        const name = document.getElementById('input-name').value;
+        const phone = document.getElementById('input-phone').value;
+        const email = document.getElementById('input-email').value;
+
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userPhone", phone);
+        localStorage.setItem("userEmail", email);
+
+        loadProfileData();
+        closeProfileModal();
+    }
+
+    function loadProfileData() {
+        const savedName = localStorage.getItem("userName") || "Bhai Ka Account";
+        const savedPhone = localStorage.getItem("userPhone") || "+91 9876543210";
+        const savedAddress = localStorage.getItem("userAddress") || "No address saved yet. Update below!";
+
+        document.getElementById('sidebar-user-name').innerText = savedName;
+        document.getElementById('sidebar-user-phone').innerText = savedPhone.startsWith('+91') ? savedPhone : '+91 ' + savedPhone;
+        document.getElementById('display-address').innerText = savedAddress;
+
+        document.getElementById('input-name').value = localStorage.getItem("userName") || "";
+        document.getElementById('input-phone').value = localStorage.getItem("userPhone") || "";
+        document.getElementById('input-email').value = localStorage.getItem("userEmail") || "";
+    }
+
+    function resetProfile() {
+        localStorage.clear();
+        cart = {};
+        updateCartUI();
+        loadProfileData();
+        toggleSidebarCloseAll();
+        showCategories();
+        alert("Account reset successfully!");
+    }
+
+    // OTHER MODALS
     function openOrdersModal() { toggleSidebar(); document.getElementById('orders-modal').classList.add('open'); }
     function closeOrdersModal() { document.getElementById('orders-modal').classList.remove('open'); }
 
@@ -313,6 +368,7 @@
         document.getElementById('address-modal').classList.add('open'); 
     }
     function closeAddressModal() { document.getElementById('address-modal').classList.remove('open'); }
+    
     function saveAddress(e) {
         e.preventDefault();
         const addr = document.getElementById('input-address').value;
@@ -324,16 +380,9 @@
     function openSupportModal() { toggleSidebar(); document.getElementById('support-modal').classList.add('open'); }
     function closeSupportModal() { document.getElementById('support-modal').classList.remove('open'); }
 
-    function toggleSidebarCloseAll() {
-        document.getElementById('side-drawer').classList.remove('open');
-        document.querySelectorAll('.app-modal').forEach(m => m.classList.remove('open'));
-        document.getElementById('overlay').classList.remove('open');
-    }
-
-    // --- SMART GPS + IP BYPASS FALLBACK SYSTEM ---
+    // FETCH GEOLOCATION & FALLBACK
     function fetchGPSLocation(targetInputId, labelId) {
         const lbl = document.getElementById(labelId);
-        
         lbl.innerText = "Locating Your Baithak... 🔄";
         
         if (!navigator.geolocation) {
@@ -351,7 +400,7 @@
                 setTimeout(() => { lbl.innerText = "Use My Current Location"; }, 2500);
             },
             (error) => {
-                console.log("GPS Blocked or Failed. Bypassing using IP network...");
+                console.log("GPS Blocked. Switching to IP Fallback...");
                 lbl.innerText = "Bypassing Network Locked... 📡";
                 fetchIPLocationFallback(targetInputId, lbl);
             },
@@ -367,7 +416,6 @@
                     const lat = data.latitude;
                     const lon = data.longitude;
                     const city = data.city || "Nearby";
-                    
                     document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (${city} Network Location)`;
                     labelElement.innerText = "Bypassed Successfully! ✨";
                     validateSummaryForm();
@@ -377,13 +425,187 @@
                 setTimeout(() => { labelElement.innerText = "Use My Current Location"; }, 2500);
             })
             .catch(err => {
-                console.error(err);
                 labelElement.innerText = "Bypass Failed! Write Manually ✍️";
                 setTimeout(() => { labelElement.innerText = "Use My Current Location"; }, 2500);
             });
     }
 
-    // --- ANTI FRAUD VALIDATION LOGIC ENGINE ---
+    // MAIN NAVIGATION & SCREEN LOGIC
+    function showMenu(category) {
+        currentCategory = category;
+        document.getElementById('categories-screen').classList.add('hidden');
+        document.getElementById('items-screen').classList.remove('hidden');
+        document.getElementById('back-btn').classList.remove('hidden');
+        document.getElementById('menu-btn').classList.add('hidden');
+        document.getElementById('red-sidebar').style.width = "100%";
+        
+        document.getElementById('selected-category-title').innerText = category;
+        document.getElementById('category-subtitle').innerText = `🔥 BHAI SPECIAL ${category.toUpperCase()}S`;
+        
+        renderItems(menuData[category]);
+    }
+
+    function showCategories() {
+        document.getElementById('categories-screen').classList.remove('hidden');
+        document.getElementById('items-screen').classList.add('hidden');
+        document.getElementById('back-btn').classList.add('hidden');
+        document.getElementById('menu-btn').classList.remove('hidden');
+        document.getElementById('red-sidebar').style.width = "32%";
+        document.getElementById('menu-search').value = "";
+    }
+
+    function renderItems(items) {
+        const container = document.getElementById('dynamic-items-container');
+        container.innerHTML = "";
+        
+        if (items.length === 0) {
+            container.innerHTML = `<p class="text-center text-gray-400 font-bold py-8">Bhai, ye item menu me nahi h! ❌</p>`;
+            return;
+        }
+
+        items.forEach((item, index) => {
+            const currentQty = cart[item.name] ? cart[item.name].qty : 0;
+            const imgHtml = item.img ? `<img src="${item.img}" class="w-full h-full object-cover">` : `<div class="w-full h-full bg-red-50 flex items-center justify-center font-black text-xl text-[#E63946]">🍔</div>`;
+            
+            let actionBtnHtml = currentQty > 0 ? `
+                <div class="flex items-center bg-[#E63946] text-white rounded-xl overflow-hidden shadow-sm h-9">
+                    <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1 font-black text-sm active:bg-red-700 transition-colors">-</button>
+                    <span class="px-2 font-black text-xs text-center min-w-[20px]">${currentQty}</span>
+                    <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1 font-black text-sm active:bg-red-700 transition-colors">+</button>
+                </div>
+            ` : `
+                <button onclick="changeQty('${item.name}', 1)" class="bg-white border-2 border-[#E63946] text-[#E63946] hover:bg-[#E63946] hover:text-white font-extrabold text-xs px-5 py-2 rounded-xl active:scale-95 transition-all shadow-sm h-9">ADD</button>
+            `;
+
+            container.innerHTML += `
+                <div class="bg-white rounded-3xl p-3 shadow-sm flex items-center space-x-3 animate-item" style="animation-delay: ${index * 0.05}s">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 shadow-inner">
+                        ${imgHtml}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-black text-slate-800 text-sm truncate">${item.name}</h3>
+                        <p class="text-[10px] text-gray-400 font-semibold leading-snug mt-0.5 line-clamp-2">${item.desc}</p>
+                        <div class="flex justify-between items-center mt-1.5">
+                            <span class="text-sm font-black text-[#E63946]">₹${item.price}</span>
+                            <div id="item-control-${btoa(item.name).replace(/=/g, '')}">
+                                ${actionBtnHtml}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // SEARCH FILTER LOGIC
+    function handleSearch(val) {
+        const query = val.toLowerCase().trim();
+        if (query === "") {
+            if (!document.getElementById('items-screen').classList.contains('hidden') && currentCategory) {
+                renderItems(menuData[currentCategory]);
+            } else {
+                showCategories();
+            }
+            return;
+        }
+
+        document.getElementById('categories-screen').classList.add('hidden');
+        document.getElementById('items-screen').classList.remove('hidden');
+        document.getElementById('back-btn').classList.remove('hidden');
+        document.getElementById('menu-btn').classList.add('hidden');
+        document.getElementById('red-sidebar').style.width = "100%";
+        
+        document.getElementById('selected-category-title').innerText = "Search Results";
+        document.getElementById('category-subtitle').innerText = `🔍 FILTERED ITEMS`;
+
+        let filtered = [];
+        for (let cat in menuData) {
+            menuData[cat].forEach(item => {
+                if (item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)) {
+                    filtered.push(item);
+                }
+            });
+        }
+        renderItems(filtered);
+    }
+
+    // QUANTITY ENGINE & DYNAMIC COMPONENT RE-RENDERING
+    function changeQty(itemName, delta) {
+        let foundItem = null;
+        for (let cat in menuData) {
+            let it = menuData[cat].find(i => i.name === itemName);
+            if (it) { foundItem = it; break; }
+        }
+        if (!foundItem) return;
+
+        if (!cart[itemName]) {
+            cart[itemName] = { price: foundItem.price, qty: 0 };
+        }
+
+        cart[itemName].qty += delta;
+        if (cart[itemName].qty <= 0) {
+            delete cart[itemName];
+        }
+
+        updateCartUI();
+        
+        // Refresh only localized control button block without tearing layout down
+        const controlId = "item-control-" + btoa(itemName).replace(/=/g, '');
+        const element = document.getElementById(controlId);
+        if (element) {
+            const updatedQty = cart[itemName] ? cart[itemName].qty : 0;
+            if (updatedQty > 0) {
+                element.innerHTML = `
+                    <div class="flex items-center bg-[#E63946] text-white rounded-xl overflow-hidden shadow-sm h-9">
+                        <button onclick="changeQty('${itemName}', -1)" class="px-3 py-1 font-black text-sm active:bg-red-700 transition-colors">-</button>
+                        <span class="px-2 font-black text-xs text-center min-w-[20px]">${updatedQty}</span>
+                        <button onclick="changeQty('${itemName}', 1)" class="px-3 py-1 font-black text-sm active:bg-red-700 transition-colors">+</button>
+                    </div>
+                `;
+            } else {
+                element.innerHTML = `
+                    <button onclick="changeQty('${itemName}', 1)" class="bg-white border-2 border-[#E63946] text-[#E63946] hover:bg-[#E63946] hover:text-white font-extrabold text-xs px-5 py-2 rounded-xl active:scale-95 transition-all shadow-sm h-9">ADD</button>
+                `;
+            }
+        }
+
+        // Live refresh inner cart layout state if open
+        if (document.getElementById('cart-detail-modal').classList.contains('open')) {
+            openCartDetailModal();
+        }
+    }
+
+    function updateCartUI() {
+        let totalCount = 0;
+        let totalPrice = 0;
+        for (let name in cart) {
+            totalCount += cart[name].qty;
+            totalPrice += (cart[name].qty * cart[name].price);
+        }
+
+        document.getElementById('cart-count-top').innerText = totalCount;
+        
+        const cartBar = document.getElementById('view-cart-bar');
+        if (totalCount > 0) {
+            document.getElementById('cart-items-label').innerText = `${totalCount} Item${totalCount > 1 ? 's' : ''}`;
+            document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
+            cartBar.classList.remove('hidden');
+        } else {
+            cartBar.classList.add('hidden');
+            closeCartDetailModal();
+        }
+    }
+
+    function clearCart() {
+        cart = {};
+        updateCartUI();
+        if (!document.getElementById('items-screen').classList.contains('hidden')) {
+            if (currentCategory && menuData[currentCategory]) renderItems(menuData[currentCategory]);
+            else handleSearch(document.getElementById('menu-search').value);
+        }
+    }
+
+    // FORM VAL ENGINE & CHECKOUT VIA WHATSAPP
     function validateSummaryForm() {
         const name = document.getElementById('summary-cust-name').value.trim();
         const phone = document.getElementById('summary-cust-phone').value.trim();
@@ -408,7 +630,9 @@
         listContainer.innerHTML = "";
         let finalPrice = 0;
         
+        let hasItems = false;
         for (let name in cart) {
+            hasItems = true;
             const item = cart[name];
             finalPrice += (item.qty * item.price);
             listContainer.innerHTML += `
@@ -421,27 +645,36 @@
                 </div>
             `;
         }
+        
+        if (!hasItems) {
+            closeCartDetailModal();
+            return;
+        }
+
         document.getElementById('modal-bill-subtotal').innerText = "₹" + finalPrice;
         document.getElementById('modal-bill-grandtotal').innerText = "₹" + finalPrice;
         
-        document.getElementById('summary-cust-name').value = localStorage.getItem("userName") || "";
-        document.getElementById('summary-cust-phone').value = localStorage.getItem("userPhone") || "";
-        document.getElementById('summary-cust-address').value = localStorage.getItem("userAddress") || "";
+        // Auto pull profile from database store directly
+        if (!document.getElementById('summary-cust-name').value) {
+            document.getElementById('summary-cust-name').value = localStorage.getItem("userName") || "";
+        }
+        if (!document.getElementById('summary-cust-phone').value) {
+            document.getElementById('summary-cust-phone').value = localStorage.getItem("userPhone") || "";
+        }
+        if (!document.getElementById('summary-cust-address').value) {
+            document.getElementById('summary-cust-address').value = localStorage.getItem("userAddress") || "";
+        }
         
         document.getElementById('cart-detail-modal').classList.add('open');
         document.getElementById('overlay').classList.add('open');
         validateSummaryForm();
     }
 
-    document.getElementById('cart-detail-modal').addEventListener('transitionend', function() {
-        if(this.classList.contains('open')){
-            validateSummaryForm();
-        }
-    });
-
     function closeCartDetailModal() {
         document.getElementById('cart-detail-modal').classList.remove('open');
-        document.getElementById('overlay').classList.remove('open');
+        if (!document.getElementById('side-drawer').classList.contains('open')) {
+            document.getElementById('overlay').classList.remove('open');
+        }
     }
 
     function sendFinalWhatsAppOrder() {
@@ -449,6 +682,12 @@
         const phone = document.getElementById('summary-cust-phone').value.trim();
         const address = document.getElementById('summary-cust-address').value.trim();
         
+        // Save current information to local storage as default preference
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userPhone", phone);
+        localStorage.setItem("userAddress", address);
+        loadProfileData();
+
         let orderDetails = `*--- NEW ORDER: BHAI KI BAITHAK ---*\n\n`;
         orderDetails += `👤 *Customer Name:* ${name}\n`;
         orderDetails += `📞 *Verified Phone:* +91 ${phone}\n`;
@@ -462,253 +701,22 @@
         }
         
         orderDetails += `\n💰 *Total Payable Amount:* ₹${total}\n`;
+        orderDetails += `\n🚀 *Status:* Order placed via App dashboard fallback!`;
         
         const finalUrl = `https://wa.me/918467895365?text=${encodeURIComponent(orderDetails)}`;
         window.open(finalUrl, '_blank');
     }
 
-    // --- ADDITIONAL CUSTOMER EXPERIENCING LOGIC (CLEAR CART) ---
-    function clearCart() {
-        cart = {};
-        updateCartBar();
-        if (currentCategory) {
-            showMenu(currentCategory);
-        }
-    }
-
-    function toggleSidebar() {
-        const drawer = document.getElementById('side-drawer');
-        const overlay = document.getElementById('overlay');
-        drawer.classList.toggle('open');
-        overlay.classList.toggle('open');
-    }
-
-    function showCategories() {
-        document.getElementById('categories-screen').classList.remove('hidden');
-        document.getElementById('items-screen').classList.add('hidden');
-        document.getElementById('back-btn').classList.add('hidden');
-        document.getElementById('menu-btn').classList.remove('hidden');
-        document.getElementById('brand-header').classList.remove('hidden');
-        document.getElementById('red-sidebar').style.width = "32%";
-        currentCategory = "";
-    }
-
-    function showMenu(category) {
-        currentCategory = category;
-        document.getElementById('categories-screen').classList.add('hidden');
-        document.getElementById('brand-header').classList.add('hidden');
-        document.getElementById('items-screen').classList.remove('hidden');
-        document.getElementById('back-btn').classList.remove('hidden');
-        document.getElementById('menu-btn').classList.add('hidden');
-        document.getElementById('red-sidebar').style.width = "12px";
-
-        document.getElementById('selected-category-title').innerText = category;
-        document.getElementById('category-subtitle').innerText = category + " Special Corner";
-
-        const container = document.getElementById('dynamic-items-container');
-        container.innerHTML = "";
-
-        const items = menuData[category] || [];
-        items.forEach((item, index) => {
-            const currentQty = cart[item.name] ? cart[item.name].qty : 0;
-            
-            let actionBtnHtml = `
-                <button onclick="addToCart('${item.name}', ${item.price})" class="bg-[#E63946] text-white font-black text-xs px-4 py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Add +</button>
-            `;
-
-            if (currentQty > 0) {
-                actionBtnHtml = `
-                    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                        <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">-</button>
-                        <span class="px-3 font-black text-slate-800 text-xs">${currentQty}</span>
-                        <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">+</button>
-                    </div>
-                `;
-            }
-
-            let imgHtml = `
-                <div class="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-200/50 rounded-2xl flex items-center justify-center border border-slate-100 font-bold text-slate-400 shadow-inner text-xl">❓</div>
-            `;
-            if (item.img) {
-                imgHtml = `
-                    <div class="w-20 h-20 rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-white">
-                        <img src="${item.img}" class="w-full h-full object-cover">
-                    </div>
-                `;
-            }
-
-            container.innerHTML += `
-                <div class="flex items-center justify-between bg-white rounded-3xl p-3 shadow-sm animate-item" style="animation-delay: ${index * 0.05}s">
-                    <div class="flex items-center space-x-3 flex-1 min-w-0">
-                        ${imgHtml}
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-extrabold text-slate-800 text-sm truncate">${item.name}</h3>
-                            <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-snug">${item.desc || 'No description available.'}</p>
-                            <div class="font-black text-[#E63946] text-sm mt-1">₹${item.price}</div>
-                        </div>
-                    </div>
-                    <div class="ml-2">
-                        ${actionBtnHtml}
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function addToCart(name, price) {
-        cart[name] = { price: price, qty: 1 };
-        updateCartBar();
-        if (currentCategory) showMenu(currentCategory);
-    }
-
-    function changeQty(name, amount) {
-        if (!cart[name]) return;
-        cart[name].qty += amount;
-        if (cart[name].qty <= 0) {
-            delete cart[name];
-        }
-        updateCartBar();
-        if (currentCategory) showMenu(currentCategory);
-    }
-
-    function updateCartBar() {
-        let totalItems = 0;
-        let totalPrice = 0;
-
-        for (let item in cart) {
-            totalItems += cart[item].qty;
-            totalPrice += (cart[item].qty * cart[item].price);
-        }
-
-        document.getElementById('cart-count-top').innerText = totalItems;
-
-        const cartBar = document.getElementById('view-cart-bar');
-        if (totalItems > 0) {
-            document.getElementById('cart-items-label').innerText = `${totalItems} Item${totalItems > 1 ? 's' : ''} Added`;
-            document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
-            cartBar.classList.remove('hidden');
-        } else {
-            cartBar.classList.add('hidden');
-        }
-    }
-
-    function handleSearch(val) {
-        const query = val.toLowerCase().trim();
-        if (!query) {
-            if (currentCategory) showMenu(currentCategory);
-            return;
-        }
-
-        if (!currentCategory) {
-            currentCategory = "Search";
-            document.getElementById('categories-screen').classList.add('hidden');
-            document.getElementById('items-screen').classList.remove('hidden');
-            document.getElementById('back-btn').classList.remove('hidden');
-            document.getElementById('menu-btn').classList.add('hidden');
-            document.getElementById('red-sidebar').style.width = "12px";
-        }
-
-        document.getElementById('selected-category-title').innerText = "Result";
-        document.getElementById('category-subtitle').innerText = `Showing results for "${val}"`;
-
-        const container = document.getElementById('dynamic-items-container');
-        container.innerHTML = "";
-
-        let matchCount = 0;
-        for (let cat in menuData) {
-            menuData[cat].forEach((item) => {
-                if (item.name.toLowerCase().includes(query) || (item.desc && item.desc.toLowerCase().includes(query))) {
-                    matchCount++;
-                    const currentQty = cart[item.name] ? cart[item.name].qty : 0;
-                    
-                    let actionBtnHtml = `
-                        <button onclick="addToCart('${item.name}', ${item.price})" class="bg-[#E63946] text-white font-black text-xs px-4 py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Add +</button>
-                    `;
-
-                    if (currentQty > 0) {
-                        actionBtnHtml = `
-                            <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                                <button onclick="changeQty('${item.name}', -1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">-</button>
-                                <span class="px-3 font-black text-slate-800 text-xs">${currentQty}</span>
-                                <button onclick="changeQty('${item.name}', 1)" class="px-3 py-1.5 font-black text-slate-600 hover:bg-slate-200 transition-colors text-sm">+</button>
-                            </div>
-                        `;
-                    }
-
-                    let imgHtml = `<div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center font-bold text-slate-400 shadow-inner text-xl">❓</div>`;
-                    if (item.img) {
-                        imgHtml = `
-                            <div class="w-20 h-20 rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-white">
-                                <img src="${item.img}" class="w-full h-full object-cover">
-                            </div>
-                        `;
-                    }
-
-                    container.innerHTML += `
-                        <div class="flex items-center justify-between bg-white rounded-3xl p-3 shadow-sm animate-item">
-                            <div class="flex items-center space-x-3 flex-1 min-w-0">
-                                ${imgHtml}
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-extrabold text-slate-800 text-sm truncate">${item.name}</h3>
-                                    <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-snug">${item.desc || ''}</p>
-                                    <div class="font-black text-[#E63946] text-sm mt-1">₹${item.price}</div>
-                                </div>
-                            </div>
-                            <div class="ml-2">
-                                ${actionBtnHtml}
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-        }
-
-        if(matchCount === 0) {
-            container.innerHTML = `
-                <div class="text-center py-12 text-slate-400 font-bold text-sm">
-                    <p class="text-3xl mb-2">🍃</p>
-                    Kuch nahi mila bhai! Kuch aur search karo.
-                </div>
-            `;
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const savedName = localStorage.getItem("userName");
-        const savedPhone = localStorage.getItem("userPhone");
-        if (savedName) document.getElementById('sidebar-user-name').innerText = savedName;
-        if (savedPhone) document.getElementById('sidebar-user-phone').innerText = "+91 " + savedPhone;
+    // ONLOAD ENGINE BOOTSTRAP INITIALIZER
+    window.addEventListener('DOMContentLoaded', () => {
+        loadProfileData();
         
-        const savedAddr = localStorage.getItem("userAddress");
-        if (savedAddr) document.getElementById('display-address').innerText = savedAddr;
+        document.getElementById('cart-detail-modal').addEventListener('transitionend', function() {
+            if(this.classList.contains('open')){
+                validateSummaryForm();
+            }
+        });
     });
-
-    function openProfileModal() {
-        toggleSidebar();
-        document.getElementById('input-name').value = localStorage.getItem("userName") || "";
-        document.getElementById('input-phone').value = localStorage.getItem("userPhone") || "";
-        document.getElementById('input-email').value = localStorage.getItem("userEmail") || "";
-        document.getElementById('profile-modal').classList.add('open');
-    }
-    function closeProfileModal() { document.getElementById('profile-modal').classList.remove('open'); }
-    function saveProfile(e) {
-        e.preventDefault();
-        const name = document.getElementById('input-name').value;
-        const phone = document.getElementById('input-phone').value;
-        const email = document.getElementById('input-email').value;
-
-        localStorage.setItem("userName", name);
-        localStorage.setItem("userPhone", phone);
-        localStorage.setItem("userEmail", email);
-
-        document.getElementById('sidebar-user-name').innerText = name;
-        document.getElementById('sidebar-user-phone').innerText = "+91 " + phone;
-        closeProfileModal();
-    }
-    function resetProfile() {
-        localStorage.clear();
-        location.reload();
-    }
   </script>
 </body>
 </html>
