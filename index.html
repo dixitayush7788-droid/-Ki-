@@ -476,46 +476,43 @@
         document.getElementById('input-phone').value = localStorage.getItem("userPhone") || "";
         document.getElementById('input-email').value = localStorage.getItem("userEmail") || "";
         document.getElementById('profile-modal').classList.add('open');
-        document.getElementById('overlay').classList.add('open');
     }
 
     function closeProfileModal() {
         document.getElementById('profile-modal').classList.remove('open');
-        document.getElementById('overlay').classList.remove('open');
     }
 
     function saveProfile(e) {
         e.preventDefault();
-        const name = document.getElementById('input-name').value;
-        const phone = document.getElementById('input-phone').value;
-        const email = document.getElementById('input-email').value;
+        const name = document.getElementById('input-name').value.trim();
+        const phone = document.getElementById('input-phone').value.trim();
+        const email = document.getElementById('input-email').value.trim();
 
         localStorage.setItem("userName", name);
         localStorage.setItem("userPhone", phone);
         localStorage.setItem("userEmail", email);
 
-        updateProfileUI(name, phone);
+        updateProfileUI();
         closeProfileModal();
     }
 
-    function updateProfileUI(name, phone) {
-        if (name && phone) {
-            document.getElementById('sidebar-user-name').innerText = name;
-            document.getElementById('sidebar-user-phone').innerText = "+91 " + phone;
-        } else {
-            document.getElementById('sidebar-user-name').innerText = "Bhai Ka Account";
-            document.getElementById('sidebar-user-phone').innerText = "+91 9876543210";
-        }
+    function updateProfileUI() {
+        const savedName = localStorage.getItem("userName") || "Bhai Ka Account";
+        const savedPhone = localStorage.getItem("userPhone") || "9876543210";
+        const savedAddress = localStorage.getItem("userAddress") || "No address saved yet. Update below!";
+
+        document.getElementById('sidebar-user-name').innerText = savedName;
+        document.getElementById('sidebar-user-phone').innerText = "+91 " + savedPhone;
+        document.getElementById('display-address').innerText = savedAddress;
     }
 
     function resetProfile() {
         localStorage.clear();
         cart = {};
         updateCartUI();
-        updateProfileUI(null, null);
-        document.getElementById('display-address').innerText = "No address saved yet. Update below!";
+        updateProfileUI();
         toggleSidebar();
-        alert("Logged out successfully, Bhai!");
+        showCategories();
     }
 
     function showMenu(category) {
@@ -525,12 +522,12 @@
         document.getElementById('back-btn').classList.remove('hidden');
         document.getElementById('menu-btn').classList.add('hidden');
         
-        // Adjust sidebars visual
-        document.getElementById('red-sidebar').style.width = "12%";
-        document.getElementById('brand-header').style.marginLeft = "10%";
+        // Red sidebar layout squeeze effect
+        document.getElementById('red-sidebar').style.width = '12%';
+        document.getElementById('brand-header').style.marginLeft = '10%';
 
         document.getElementById('selected-category-title').innerText = category;
-        document.getElementById('category-subtitle').innerText = "🔥 Swaad Bhara Fresh Corner";
+        document.getElementById('category-subtitle').innerText = "Fresh & Hot Delivery";
 
         renderItems(menuData[category]);
     }
@@ -541,73 +538,71 @@
         document.getElementById('back-btn').classList.add('hidden');
         document.getElementById('menu-btn').classList.remove('hidden');
         
-        document.getElementById('red-sidebar').style.width = "32%";
-        document.getElementById('brand-header').style.marginLeft = "28%";
-        document.getElementById('menu-search').value = "";
+        document.getElementById('red-sidebar').style.width = '32%';
+        document.getElementById('brand-header').style.marginLeft = '28%';
     }
 
     function renderItems(items) {
         const container = document.getElementById('dynamic-items-container');
         container.innerHTML = "";
 
-        if (!items || items.length === 0) {
-            container.innerHTML = `<p class="text-center font-bold text-slate-400 py-6">Item nahi mila, bhai! 😭</p>`;
+        if(!items || items.length === 0) {
+            container.innerHTML = `<p class="text-xs text-slate-400 font-bold text-center py-8">Koi item nahi mila, bhai! 🕵️‍♂️</p>`;
             return;
         }
 
         items.forEach(item => {
             const currentQty = cart[item.name] ? cart[item.name].qty : 0;
             
-            let actionBtnHtml = `
-                <button onclick="addToCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] text-white font-extrabold px-4 py-1.5 rounded-xl text-xs shadow-sm active:scale-95 transition-transform">
-                    ADD +
-                </button>
-            `;
-
-            if (currentQty > 0) {
-                actionBtnHtml = `
-                    <div class="flex items-center space-x-2 bg-[#E63946] text-white rounded-xl px-2 py-1 shadow-sm">
-                        <button onclick="addToCart('${item.name}', ${item.price}, -1)" class="font-black text-xs px-1.5 active:scale-90">-</button>
-                        <span class="font-black text-xs min-w-[12px] text-center">${currentQty}</span>
-                        <button onclick="addToCart('${item.name}', ${item.price}, 1)" class="font-black text-xs px-1.5 active:scale-90">+</button>
-                    </div>
-                `;
+            let actionButtonHtml = "";
+            if (currentQty === 0) {
+                actionButtonHtml = `
+                    <button onclick="updateQty('${item.name}', 1, ${item.price})" class="bg-[#E63946] text-white font-black text-[11px] px-5 py-2 rounded-xl uppercase shadow-sm active:scale-95 transition-transform">
+                        Add +
+                    </button>`;
+            } else {
+                actionButtonHtml = `
+                    <div class="flex items-center bg-[#E63946] text-white rounded-xl shadow-sm overflow-hidden">
+                        <button onclick="updateQty('${item.name}', -1, ${item.price})" class="px-3 py-1.5 font-black text-sm active:bg-red-700 transition-colors">-</button>
+                        <span class="px-2 font-black text-xs min-w-[20px] text-center">${currentQty}</span>
+                        <button onclick="updateQty('${item.name}', 1, ${item.price})" class="px-3 py-1.5 font-black text-sm active:bg-red-700 transition-colors">+</button>
+                    </div>`;
             }
 
             container.innerHTML += `
-                <div class="flex items-center bg-white rounded-3xl p-3 shadow-sm animate-item border border-slate-100">
-                    <img src="${item.img}" class="w-16 h-16 rounded-2xl object-cover shadow-inner bg-slate-50">
-                    <div class="flex-1 ml-3 pr-2">
-                        <h3 class="font-extrabold text-slate-800 text-sm leading-tight">${item.name}</h3>
-                        <p class="text-[10px] text-slate-400 font-medium leading-tight mt-0.5">${item.desc}</p>
-                        <span class="text-xs font-black text-[#E63946] block mt-1">₹${item.price}</span>
+                <div class="bg-white rounded-3xl p-3.5 shadow-sm flex items-center space-x-4 animate-item">
+                    <div class="w-20 h-20 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0">
+                        <img src="${item.img}" class="w-full h-full object-cover">
                     </div>
-                    <div>${actionBtnHtml}</div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-black text-slate-800 text-sm truncate">${item.name}</h3>
+                        <p class="text-[10px] text-slate-400 font-bold leading-tight mt-0.5">${item.desc}</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-sm font-black text-slate-800">₹${item.price}</span>
+                            <div>${actionButtonHtml}</div>
+                        </div>
+                    </div>
                 </div>
             `;
         });
     }
 
-    function addToCart(name, price, change) {
+    function updateQty(name, change, price) {
         if (!cart[name]) {
             cart[name] = { price: price, qty: 0 };
         }
         
         cart[name].qty += change;
-
+        
         if (cart[name].qty <= 0) {
             delete cart[name];
         }
 
         updateCartUI();
-        
-        // Refresh items visibility list if we are watching a menu
-        if (document.getElementById('categories-screen').classList.contains('hidden')) {
-            if (document.getElementById('menu-search').value.trim() !== "") {
-                handleSearch(document.getElementById('menu-search').value);
-            } else {
-                renderItems(menuData[currentCategory]);
-            }
+        if (document.getElementById('items-screen').classList.contains('hidden') === false && currentCategory !== "") {
+            renderItems(menuData[currentCategory]);
+        } else if (document.getElementById('menu-search').value.trim() !== "") {
+            handleSearch(document.getElementById('menu-search').value);
         }
     }
 
@@ -621,21 +616,21 @@
         }
 
         document.getElementById('cart-count-top').innerText = totalItems;
-        document.getElementById('cart-items-label').innerText = `${totalItems} Item${totalItems > 1 ? 's' : ''}`;
-        document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
-
+        
         const cartBar = document.getElementById('view-cart-bar');
         if (totalItems > 0) {
+            document.getElementById('cart-items-label').innerText = `${totalItems} Item${totalItems > 1 ? 's' : ''} Added`;
+            document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
             cartBar.classList.remove('hidden');
         } else {
             cartBar.classList.add('hidden');
         }
     }
 
-    function handleSearch(val) {
-        const query = val.toLowerCase().trim();
-        if (query === "") {
-            if (!document.getElementById('items-screen').classList.contains('hidden') && currentCategory) {
+    function handleSearch(query) {
+        const val = query.toLowerCase().trim();
+        if(val === "") {
+            if(!document.getElementById('items-screen').classList.contains('hidden')) {
                 renderItems(menuData[currentCategory]);
             } else {
                 showCategories();
@@ -643,21 +638,21 @@
             return;
         }
 
-        // Auto switch screen layout to standard dynamic grid view
+        // Direct layout adjustments dynamically for search screen
         document.getElementById('categories-screen').classList.add('hidden');
         document.getElementById('items-screen').classList.remove('hidden');
         document.getElementById('back-btn').classList.remove('hidden');
         document.getElementById('menu-btn').classList.add('hidden');
-        document.getElementById('red-sidebar').style.width = "12%";
-        document.getElementById('brand-header').style.marginLeft = "10%";
+        document.getElementById('red-sidebar').style.width = '12%';
+        document.getElementById('brand-header').style.marginLeft = '10%';
         
         document.getElementById('selected-category-title').innerText = "Search Results";
-        document.getElementById('category-subtitle').innerText = "🔍 Finding Best Bites...";
+        document.getElementById('category-subtitle').innerText = `Looking for "${query}"`;
 
         let filtered = [];
-        for (let cat in menuData) {
-            menuData[cat].forEach(item => {
-                if (item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)) {
+        for(let key in menuData) {
+            menuData[key].forEach(item => {
+                if(item.name.toLowerCase().includes(val) || item.desc.toLowerCase().includes(val)) {
                     filtered.push(item);
                 }
             });
@@ -665,18 +660,10 @@
         renderItems(filtered);
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const savedName = localStorage.getItem("userName");
-        const savedPhone = localStorage.getItem("userPhone");
-        const savedAddr = localStorage.getItem("userAddress");
-        
-        if (savedName && savedPhone) {
-            updateProfileUI(savedName, savedPhone);
-        }
-        if (savedAddr) {
-            document.getElementById('display-address').innerText = savedAddr;
-        }
-    });
+    window.onload = function() {
+        updateProfileUI();
+        updateCartUI();
+    };
   </script>
 </body>
 </html>
