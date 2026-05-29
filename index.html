@@ -33,52 +33,42 @@
 
   <div class="relative w-full max-w-md h-[92vh] max-h-[850px] bg-[#F8F9FA] rounded-[40px] shadow-2xl overflow-hidden border-[6px] border-slate-900 flex flex-col">
     
-    <!-- SIDEBAR DRAWER OVERLAY -->
-    <div id="overlay" onclick="toggleSidebar()" class="absolute inset-0 bg-black/40 z-40"></div>
+    <div id="overlay" onclick="toggleSidebarCloseAll()" class="absolute inset-0 bg-black/40 z-40"></div>
     
-    <!-- SIDEBAR DRAWER PANEL -->
     <div id="side-drawer" class="absolute top-0 left-0 w-[80%] h-full bg-white z-50 shadow-2xl flex flex-col rounded-r-[32px] overflow-hidden">
-        <!-- User Profile Header -->
         <div class="bg-[#E63946] p-6 pt-12 pb-8 rounded-br-[40px] relative">
             <div class="w-16 h-16 rounded-2xl bg-white/20 border-2 border-white/30 overflow-hidden mb-3 shadow-md flex items-center justify-center">
                 <span class="text-3xl">👤</span>
             </div>
-            <!-- Dynamic Name & Phone -->
             <h3 id="sidebar-user-name" class="text-white font-black text-lg leading-tight">Bhai Ka Account</h3>
             <p id="sidebar-user-phone" class="text-white/70 text-[10px] font-bold uppercase tracking-widest mt-0.5">+91 9876543210</p>
         </div>
 
-        <!-- Navigation Links inside Sidebar -->
         <div class="flex-1 p-4 space-y-1 mt-2">
             <button onclick="openProfileModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
                 <span class="text-lg group-hover:scale-110 transition-transform">👤</span>
                 <span class="font-bold text-sm text-slate-700">My Profile</span>
             </button>
-            <!-- Turned on Order History Trigger -->
             <button onclick="openOrdersModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
                 <span class="text-lg group-hover:scale-110 transition-transform">🛍️</span>
                 <span class="font-bold text-sm text-slate-700">Order History</span>
             </button>
-            <!-- Turned on Manage Addresses Trigger -->
             <button onclick="openAddressModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
                 <span class="text-lg group-hover:scale-110 transition-transform">📍</span>
                 <span class="font-bold text-sm text-slate-700">Manage Addresses</span>
             </button>
             <hr class="border-slate-100 my-2">
-            <!-- Turned on Help & Support Trigger -->
             <button onclick="openSupportModal()" class="w-full flex items-center space-x-4 p-3.5 hover:bg-red-50/70 rounded-2xl transition-all group text-left">
                 <span class="text-lg group-hover:scale-110 transition-transform">💬</span>
                 <span class="font-bold text-sm text-slate-700">Help & Support</span>
             </button>
         </div>
 
-        <!-- Logout Section -->
         <div class="p-5 border-t border-slate-50 bg-slate-50/50">
             <button onclick="resetProfile()" class="w-full py-3.5 bg-white border border-slate-200 text-slate-500 font-extrabold rounded-xl text-xs uppercase tracking-wider active:scale-95 transition-all shadow-sm">Logout</button>
         </div>
     </div>
 
-    <!-- PROFILE SETUP MODAL (POPUP) -->
     <div id="profile-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
         <div class="bg-white w-full rounded-t-[32px] p-6 space-y-5 shadow-2xl transform translate-y-0 transition-transform">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -105,7 +95,6 @@
         </div>
     </div>
 
-    <!-- 1. ORDER HISTORY MODAL -->
     <div id="orders-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
         <div class="bg-white w-full max-h-[70vh] rounded-t-[32px] p-6 flex flex-col shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
@@ -113,13 +102,11 @@
                 <button onclick="closeOrdersModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
             </div>
             <div class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1">
-                <!-- Static Demo Order 1 -->
                 <div class="border border-slate-100 bg-slate-50/50 p-4 rounded-2xl space-y-2">
                     <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-700">Order #88321</span><span class="bg-green-100 text-green-700 font-extrabold text-[9px] px-2 py-0.5 rounded-md">Delivered</span></div>
                     <p class="text-xs text-slate-500 font-bold">🌿 Veg Steam Momos x1, 🧀 Cheese Burger x1</p>
                     <div class="flex justify-between items-center pt-1 border-t border-dashed border-slate-200"><span class="text-[10px] text-gray-400 font-semibold">Today, 08:30 PM</span><span class="text-xs font-black text-[#E63946]">₹108</span></div>
                 </div>
-                <!-- Static Demo Order 2 -->
                 <div class="border border-slate-100 bg-slate-50/50 p-4 rounded-2xl space-y-2">
                     <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-700">Order #87190</span><span class="bg-green-100 text-green-700 font-extrabold text-[9px] px-2 py-0.5 rounded-md">Delivered</span></div>
                     <p class="text-xs text-slate-500 font-bold">🔥 Veg Fried Momos x2</p>
@@ -129,13 +116,17 @@
         </div>
     </div>
 
-    <!-- 2. MANAGE ADDRESSES MODAL -->
     <div id="address-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
         <div class="bg-white w-full rounded-t-[32px] p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 class="text-xl font-black text-slate-800 serif-font">Saved Addresses</h3>
                 <button onclick="closeAddressModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
             </div>
+            
+            <button onclick="fetchGPSLocation()" type="button" class="w-full flex items-center justify-center space-x-2 py-3 bg-red-50 hover:bg-red-100/70 text-[#E63946] border border-red-100 rounded-xl font-black text-xs uppercase tracking-wider active:scale-95 transition-all">
+                <span>📍</span> <span id="gps-btn-label">Use Current Location (GPS)</span>
+            </button>
+
             <div class="space-y-3">
                 <div class="flex items-start space-x-3 p-3.5 bg-red-50/40 border border-red-100/50 rounded-2xl">
                     <span class="text-lg mt-0.5">🏠</span>
@@ -149,7 +140,6 @@
         </div>
     </div>
 
-    <!-- 3. HELP & SUPPORT MODAL (Updated with your custom number) -->
     <div id="support-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
         <div class="bg-white w-full rounded-t-[32px] p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -158,11 +148,9 @@
             </div>
             <p class="text-xs text-slate-500 font-bold leading-relaxed">Koi pareshani h bhai? Swaad me kami ya delivery me deri? Hume turant batao, Bhai baitha h yahan solve karne!</p>
             <div class="grid grid-cols-2 gap-3 pt-2">
-                <!-- Configured to your personal phone number -->
                 <a href="tel:+918467895365" class="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 rounded-2xl active:scale-95 transition-all text-center">
                     <span class="text-2xl mb-1">📞</span><span class="text-xs font-black text-slate-800">Call Us</span><span class="text-[9px] text-gray-400 font-bold mt-0.5">Direct Baat Karein</span>
                 </a>
-                <!-- Configured to your personal WhatsApp API -->
                 <a href="https://wa.me/918467895365" target="_blank" class="flex flex-col items-center justify-center p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl active:scale-95 transition-all text-center">
                     <span class="text-2xl mb-1">💬</span><span class="text-xs font-black text-emerald-800">WhatsApp</span><span class="text-[9px] text-emerald-500 font-bold mt-0.5">Instant Chat Support</span>
                 </a>
@@ -170,12 +158,26 @@
         </div>
     </div>
 
-    <!-- MAIN APP CANVAS -->
+    <div id="cart-detail-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
+        <div class="bg-white w-full max-h-[80vh] rounded-t-[32px] p-6 flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="text-xl font-black text-slate-800 serif-font italic">Bhai Ka Bill Summary</h3>
+                <button onclick="closeCartDetailModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
+            </div>
+            <div id="cart-modal-items-list" class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1"></div>
+            <div class="border-t border-dashed border-slate-200 mt-4 pt-4 space-y-2">
+                <div class="flex justify-between text-xs font-bold text-slate-500"><span>Subtotal</span><span id="modal-bill-subtotal">₹0</span></div>
+                <div class="flex justify-between text-xs font-bold text-green-600"><span>Delivery Charges</span><span>FREE</span></div>
+                <div class="flex justify-between text-base font-black text-slate-800 pt-1"><span>Grand Total</span><span id="modal-bill-grandtotal">₹0</span></div>
+                <button class="w-full py-4 bg-[#E63946] text-white font-black rounded-xl text-sm uppercase tracking-widest shadow-md active:scale-95 transition-all mt-2">Place Order Via WhatsApp 🚀</button>
+            </div>
+        </div>
+    </div>
+
     <div id="red-sidebar" class="absolute top-0 left-0 w-[32%] h-full bg-[#E63946] transition-all duration-500"></div>
 
     <div class="relative z-10 w-full h-full flex flex-col pt-10 px-5 overflow-y-auto hide-scrollbar pb-24">
       
-      <!-- HEADER -->
       <div class="flex justify-between items-center mb-4">
         <button id="back-btn" onclick="showCategories()" class="text-white text-2xl font-bold p-1 hidden focus:outline-none">←</button>
         <button id="menu-btn" onclick="toggleSidebar()" class="text-white text-2xl font-bold p-1 focus:outline-none">☰</button>
@@ -186,21 +188,18 @@
         </button>
       </div>
 
-      <!-- BRAND & SEARCH -->
       <div id="brand-header" class="ml-[28%] pl-4 mb-6 transition-all duration-300">
         <div class="flex items-center space-x-2 mb-1">
             <span class="bg-green-100 text-green-700 text-[9px] font-black px-2 py-0.5 rounded-full border border-green-200">● PURE VEG</span>
         </div>
         <h1 class="text-2xl font-black text-slate-800 serif-font italic leading-none mb-4">Bhai Ki Baithak</h1>
         
-        <!-- Search Bar -->
         <div class="relative -ml-[25%] pr-4">
             <input type="text" id="menu-search" oninput="handleSearch(this.value)" placeholder="Search fast food..." class="w-full bg-white border-none shadow-sm rounded-2xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#E63946] transition-all outline-none">
             <span class="absolute left-3 top-3.5 text-gray-400 text-base">🔍</span>
         </div>
       </div>
 
-      <!-- SCREEN 1: CATEGORIES -->
       <div id="categories-screen" class="flex flex-col space-y-6">
         <div onclick="showMenu('Momo')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
           <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
@@ -231,7 +230,6 @@
         </div>
       </div>
 
-      <!-- SCREEN 2: DYNAMIC ITEMS -->
       <div id="items-screen" class="hidden flex flex-col space-y-4">
         <div id="category-header-box" class="mb-2">
             <h1 id="selected-category-title" class="text-3xl font-black text-slate-800 serif-font">Menu</h1>
@@ -241,13 +239,12 @@
       </div>
     </div>
 
-    <!-- VIEW CART BAR -->
-    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-50 view-cart-bar">
+    <div id="view-cart-bar" class="hidden absolute bottom-6 left-5 right-5 h-16 bg-[#E63946] rounded-2xl shadow-2xl flex items-center justify-between px-6 z-40 view-cart-bar">
       <div class="flex flex-col text-white">
         <span id="cart-items-label" class="font-black text-sm">0 Items</span>
         <span id="cart-total-price" class="font-bold text-xs opacity-90">Total: ₹0</span>
       </div>
-      <button class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs italic uppercase tracking-tighter shadow-md active:scale-95 transition-transform">View Cart ❯</button>
+      <button onclick="openCartDetailModal()" class="bg-white text-[#E63946] px-4 py-2 rounded-xl font-black text-xs italic uppercase tracking-tighter shadow-md active:scale-95 transition-transform">View Cart ❯</button>
     </div>
   </div>
 
@@ -300,6 +297,68 @@
     function openSupportModal() { toggleSidebar(); document.getElementById('support-modal').classList.add('open'); }
     function closeSupportModal() { document.getElementById('support-modal').classList.remove('open'); }
 
+    // Global Overlay Close Logic Engine
+    function toggleSidebarCloseAll() {
+        document.getElementById('side-drawer').classList.remove('open');
+        document.querySelectorAll('.app-modal').forEach(m => m.classList.remove('open'));
+        document.getElementById('overlay').classList.remove('open');
+    }
+
+    // --- ADDED GPS SYSTEM ENGINE ---
+    function fetchGPSLocation() {
+        const lbl = document.getElementById('gps-btn-label');
+        if (!navigator.geolocation) {
+            alert("Bhai, aapke device me GPS support nahi mil raha hai.");
+            return;
+        }
+        lbl.innerText = "Locating Your Baithak...";
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                // Formulate coordinate data cleanly stringified
+                const coordinatedString = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (GPS Current Location)`;
+                document.getElementById('input-address').value = coordinatedString;
+                lbl.innerText = "Location Loaded Successfully! 👍";
+                setTimeout(() => { lbl.innerText = "Use Current Location (GPS)"; }, 2500);
+            },
+            (error) => {
+                alert("GPS Permission Denied, please write your address manually.");
+                lbl.innerText = "Use Current Location (GPS)";
+            }
+        );
+    }
+
+    // --- VIEW CART ENGINE IMPLEMENTATION ---
+    function openCartDetailModal() {
+        const listContainer = document.getElementById('cart-modal-items-list');
+        listContainer.innerHTML = "";
+        let finalPrice = 0;
+        
+        for (let name in cart) {
+            const item = cart[name];
+            finalPrice += (item.qty * item.price);
+            listContainer.innerHTML += `
+                <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-3.5 rounded-2xl animate-item">
+                    <div>
+                        <h4 class="font-extrabold text-slate-800 text-xs">${name}</h4>
+                        <p class="text-[10px] font-bold text-slate-400 mt-0.5">₹${item.price} x ${item.qty}</p>
+                    </div>
+                    <div class="font-black text-slate-800 text-sm">₹${item.qty * item.price}</div>
+                </div>
+            `;
+        }
+        document.getElementById('modal-bill-subtotal').innerText = "₹" + finalPrice;
+        document.getElementById('modal-bill-grandtotal').innerText = "₹" + finalPrice;
+        
+        document.getElementById('cart-detail-modal').classList.add('open');
+        document.getElementById('overlay').classList.add('open');
+    }
+
+    function closeCartDetailModal() {
+        document.getElementById('cart-detail-modal').classList.remove('open');
+        document.getElementById('overlay').classList.remove('open');
+    }
 
     // --- PROFILE ENGINE ---
     document.addEventListener("DOMContentLoaded", () => {
@@ -443,9 +502,12 @@
         document.getElementById('cart-total-price').innerText = `Total Amount: ₹${totalPrice}`;
       } else {
         bar.classList.add('hidden');
+        // Auto dismiss cart popups if totals drop to absolute zero
+        document.getElementById('cart-detail-modal').classList.remove('open');
       }
     }
 
+    // Explicit execution function reference to show category panels
     function showCategories() {
       currentCategory = "";
       document.getElementById('menu-search').value = "";
