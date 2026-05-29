@@ -89,7 +89,6 @@
                   <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
                   <input type="email" id="input-email" placeholder="name@email.com" class="w-full bg-slate-50 border border-slate-100 rounded-xl py-3 px-4 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E63946] transition-all">
                 </div>
-                
                 <button type="submit" class="w-full py-4 bg-[#E63946] text-white font-black rounded-xl text-sm uppercase tracking-wider shadow-md active:scale-[0.98] transition-all mt-2">Save Profile</button>
             </form>
         </div>
@@ -106,11 +105,6 @@
                     <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-700">Order #88321</span><span class="bg-green-100 text-green-700 font-extrabold text-[9px] px-2 py-0.5 rounded-md">Delivered</span></div>
                     <p class="text-xs text-slate-500 font-bold">🌿 Veg Steam Momos x1, 🧀 Cheese Burger x1</p>
                     <div class="flex justify-between items-center pt-1 border-t border-dashed border-slate-200"><span class="text-[10px] text-gray-400 font-semibold">Today, 08:30 PM</span><span class="text-xs font-black text-[#E63946]">₹108</span></div>
-                </div>
-                <div class="border border-slate-100 bg-slate-50/50 p-4 rounded-2xl space-y-2">
-                    <div class="flex justify-between items-center"><span class="text-xs font-black text-slate-700">Order #87190</span><span class="bg-green-100 text-green-700 font-extrabold text-[9px] px-2 py-0.5 rounded-md">Delivered</span></div>
-                    <p class="text-xs text-slate-500 font-bold">🔥 Veg Fried Momos x2</p>
-                    <div class="flex justify-between items-center pt-1 border-t border-dashed border-slate-200"><span class="text-[10px] text-gray-400 font-semibold">Yesterday</span><span class="text-xs font-black text-[#E63946]">₹118</span></div>
                 </div>
             </div>
         </div>
@@ -146,13 +140,13 @@
                 <h3 class="text-xl font-black text-slate-800 serif-font">Bhai Ki Support</h3>
                 <button onclick="closeSupportModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
             </div>
-            <p class="text-xs text-slate-500 font-bold leading-relaxed">Koi pareshani h bhai? Swaad me kami ya delivery me deri? Hume turant batao, Bhai baitha h yahan solve karne!</p>
+            <p class="text-xs text-slate-500 font-bold leading-relaxed">Koi pareshani h bhai? Hume turant batao!</p>
             <div class="grid grid-cols-2 gap-3 pt-2">
                 <a href="tel:+918467895365" class="flex flex-col items-center justify-center p-4 bg-slate-50 border border-slate-100 rounded-2xl active:scale-95 transition-all text-center">
-                    <span class="text-2xl mb-1">📞</span><span class="text-xs font-black text-slate-800">Call Us</span><span class="text-[9px] text-gray-400 font-bold mt-0.5">Direct Baat Karein</span>
+                    <span class="text-2xl mb-1">📞</span><span class="text-xs font-black text-slate-800">Call Us</span>
                 </a>
                 <a href="https://wa.me/918467895365" target="_blank" class="flex flex-col items-center justify-center p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl active:scale-95 transition-all text-center">
-                    <span class="text-2xl mb-1">💬</span><span class="text-xs font-black text-emerald-800">WhatsApp</span><span class="text-[9px] text-emerald-500 font-bold mt-0.5">Instant Chat Support</span>
+                    <span class="text-2xl mb-1">💬</span><span class="text-xs font-black text-emerald-800">WhatsApp</span>
                 </a>
             </div>
         </div>
@@ -187,7 +181,7 @@
                         <button onclick="fetchGPSLocation('summary-cust-address', 'summary-gps-label')" type="button" class="w-full flex items-center justify-center space-x-1.5 py-2 bg-red-50 text-[#E63946] border border-red-100 rounded-xl font-bold text-[11px] uppercase tracking-wide active:scale-95 transition-all">
                             <span>📍</span> <span id="summary-gps-label">Use My Current Location</span>
                         </button>
-                        <textarea id="summary-cust-address" oninput="validateSummaryForm()" rows="2" placeholder="Or write full manual address here (Flat, Street, Landmark...)" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946] resize-none"></br></textarea>
+                        <textarea id="summary-cust-address" oninput="validateSummaryForm()" rows="2" placeholder="Or write full manual address here..." class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946] resize-none"></textarea>
                     </div>
                 </div>
             </div>
@@ -242,20 +236,6 @@
           </div>
           <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Rolls</h2><p class="text-gray-400 text-[10px] font-bold">🌯 ROLLS CORNER</p></div>
         </div>
-
-        <div onclick="showMenu('French Fries')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=200" class="w-full h-full object-cover">
-          </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Fries</h2><p class="text-gray-400 text-[10px] font-bold">🍟 FRIES STATION</p></div>
-        </div>
-
-        <div onclick="showMenu('Burger')" class="relative flex items-center bg-white rounded-3xl p-3.5 shadow-sm pl-16 cursor-pointer active:scale-95 transition-all">
-          <div class="absolute -left-5 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=200" class="w-full h-full object-cover">
-          </div>
-          <div class="flex-1 ml-4"><h2 class="text-xl font-black text-slate-800 serif-font">Burger</h2><p class="text-gray-400 text-[10px] font-bold">🍔 BURGER HUB</p></div>
-        </div>
       </div>
 
       <div id="items-screen" class="hidden flex flex-col space-y-4">
@@ -282,26 +262,14 @@
 
     const menuData = {
       'Momo': [
-        { name: '🌿 Veg Steam Momos', price: 49, desc: 'Soft, garam aur juicy veg filling. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
-        { name: '🔥 Veg Fried Momos', price: 59, desc: 'Outside crispy, inside tasty stuffing. (12 Pcs)', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
-        { name: '💥 Kurkure Momos', price: 99, desc: 'Extra crunchy, extra chatpata. (12 Pcs)', img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' }
+        { name: '🌿 Veg Steam Momos', price: 49, img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
+        { name: '🔥 Veg Fried Momos', price: 59, img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' }
       ],
       'Rolls': [
-        { name: '🥬 Spring Roll', price: 29, desc: 'Light crispy roll with tasty veggie filling', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' },
-        { name: '🧀 Cheese Roll', price: 49, desc: 'Melty cheese with creamy spicy flavor', img: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=150' }
-      ],
-      'French Fries': [
-        { name: '🍟 Classic Fries', price: 39, desc: 'Golden crispy fries salted perfectly', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=150' },
-        { name: '🌶️ Peri Peri Fries', price: 49, desc: 'Spicy peri peri seasoning', img: 'https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=150' }
-      ],
-      'Burger': [
-        { name: '🌿 Veg Burger', price: 39, desc: 'Veggie patty with crunchy veggies', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' },
-        { name: '🧀 Paneer Burger', price: 49, desc: 'Soft paneer patty with creamy flavor', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150' },
-        { name: '🧈 Cheese Burger', price: 59, desc: 'Melting cheese & signature sauces', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=150' }
+        { name: '🥬 Spring Roll', price: 29, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' }
       ]
     };
 
-    // --- NEW MODAL ACTIONS ENGINE ---
     function openOrdersModal() { toggleSidebar(); document.getElementById('orders-modal').classList.add('open'); }
     function closeOrdersModal() { document.getElementById('orders-modal').classList.remove('open'); }
 
@@ -328,29 +296,62 @@
         document.getElementById('overlay').classList.remove('open');
     }
 
-    // --- DYNAMIC GPS SYSTEM IMPLEMENTATION ---
+    // --- SMART GPS + IP BYPASS FALLBACK SYSTEM ---
     function fetchGPSLocation(targetInputId, labelId) {
         const lbl = document.getElementById(labelId);
+        
+        lbl.innerText = "Locating Your Baithak... 🔄";
+        
         if (!navigator.geolocation) {
-            alert("Bhai, device me GPS access switch on karein.");
+            // Agar browser support hi na kare to direct IP bypass method chalega
+            fetchIPLocationFallback(targetInputId, lbl);
             return;
         }
-        lbl.innerText = "Locating Your Baithak... 🔄";
+
         navigator.geolocation.getCurrentPosition(
             (pos) => {
+                // Agar permission granted hai to fast device GPS standard fetch
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
-                const coordinatedString = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (GPS Location Live)`;
-                document.getElementById(targetInputId).value = coordinatedString;
-                lbl.innerText = "Location Loaded Successfully! 👍";
+                document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (Live GPS)`;
+                lbl.innerText = "Location Loaded! 👍";
                 validateSummaryForm();
-                setTimeout(() => { lbl.innerText = "Use Current Location (GPS)"; }, 2500);
+                setTimeout(() => { lbl.innerText = "Use My Current Location"; }, 2500);
             },
             (error) => {
-                alert("GPS Permission Locked! Please write manual address below.");
-                lbl.innerText = "Use Current Location (GPS)";
-            }
+                // Bypassing Lock: Agar customer ne block kiya hai (Error code 1) ya timed out hua hai
+                console.log("GPS Blocked or Failed. Bypassing using IP network...");
+                lbl.innerText = "Bypassing Network Locked... 📡";
+                fetchIPLocationFallback(targetInputId, lbl);
+            },
+            { enableHighAccuracy: true, timeout: 5000 }
         );
+    }
+
+    // BACKUP METHOD: IP-Based Coordinates Fetch Engine 
+    function fetchIPLocationFallback(targetInputId, labelElement) {
+        // IP-API standard open request framework for immediate coordinate extraction
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.latitude && data.longitude) {
+                    const lat = data.latitude;
+                    const lon = data.longitude;
+                    const city = data.city || "Nearby";
+                    
+                    document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (${city} Network Location)`;
+                    labelElement.innerText = "Bypassed Successfully! ✨";
+                    validateSummaryForm();
+                } else {
+                    labelElement.innerText = "Bypass Failed! Write Manually ✍️";
+                }
+                setTimeout(() => { labelElement.innerText = "Use My Current Location"; }, 2500);
+            })
+            .catch(err => {
+                console.error(err);
+                labelElement.innerText = "Bypass Failed! Write Manually ✍️";
+                setTimeout(() => { labelElement.innerText = "Use My Current Location"; }, 2500);
+            });
     }
 
     // --- ANTI FRAUD VALIDATION LOGIC ENGINE ---
@@ -360,7 +361,6 @@
         const address = document.getElementById('summary-cust-address').value.trim();
         const btn = document.getElementById('whatsapp-submit-btn');
         
-        // Strict phone match exactly 10 digits
         const isPhoneValid = /^[0-9]{10}$/.test(phone);
 
         if (name.length >= 2 && isPhoneValid && address.length >= 5) {
@@ -374,7 +374,6 @@
         }
     }
 
-    // --- VIEW CART ENGINE IMPLEMENTATION ---
     function openCartDetailModal() {
         const listContainer = document.getElementById('cart-modal-items-list');
         listContainer.innerHTML = "";
@@ -396,7 +395,6 @@
         document.getElementById('modal-bill-subtotal').innerText = "₹" + finalPrice;
         document.getElementById('modal-bill-grandtotal').innerText = "₹" + finalPrice;
         
-        // Pre-fill fields if customer has cached profiles
         document.getElementById('summary-cust-name').value = localStorage.getItem("userName") || "";
         document.getElementById('summary-cust-phone').value = localStorage.getItem("userPhone") || "";
         document.getElementById('summary-cust-address').value = localStorage.getItem("userAddress") || "";
@@ -411,7 +409,6 @@
         document.getElementById('overlay').classList.remove('open');
     }
 
-    // WHATSAPP SEND ENGINE
     function sendFinalWhatsAppOrder() {
         const name = document.getElementById('summary-cust-name').value.trim();
         const phone = document.getElementById('summary-cust-phone').value.trim();
@@ -430,13 +427,11 @@
         }
         
         orderDetails += `\n💰 *Total Payable Amount:* ₹${total}\n`;
-        orderDetails += `🏍️ *Delivery Charge:* FREE\n`;
         
         const finalUrl = `https://wa.me/918467895365?text=${encodeURIComponent(orderDetails)}`;
         window.open(finalUrl, '_blank');
     }
 
-    // --- PROFILE ENGINE ---
     document.addEventListener("DOMContentLoaded", () => {
         const savedName = localStorage.getItem("userName");
         const savedPhone = localStorage.getItem("userPhone");
@@ -480,7 +475,6 @@
         alert("Logged Out Successfully!");
     }
 
-    // --- APP CORE SYSTEM ---
     function toggleSidebar() {
         document.getElementById('side-drawer').classList.toggle('open');
         document.getElementById('overlay').classList.toggle('open');
@@ -492,7 +486,6 @@
             else showCategories();
             return;
         }
-
         document.getElementById('categories-screen').classList.add('hidden');
         document.getElementById('items-screen').classList.remove('hidden');
         document.getElementById('menu-btn').classList.add('hidden');
@@ -505,9 +498,7 @@
         const allItems = [];
         Object.values(menuData).forEach(cat => allItems.push(...cat));
         
-        const filtered = allItems.filter(item => 
-            item.name.toLowerCase().includes(query.toLowerCase())
-        );
+        const filtered = allItems.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
         renderItemList(filtered);
     }
 
