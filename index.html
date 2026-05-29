@@ -123,7 +123,7 @@
                 <button onclick="closeAddressModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
             </div>
             
-            <button onclick="fetchGPSLocation()" type="button" class="w-full flex items-center justify-center space-x-2 py-3 bg-red-50 hover:bg-red-100/70 text-[#E63946] border border-red-100 rounded-xl font-black text-xs uppercase tracking-wider active:scale-95 transition-all">
+            <button onclick="fetchGPSLocation('input-address', 'gps-btn-label')" type="button" class="w-full flex items-center justify-center space-x-2 py-3 bg-red-50 hover:bg-red-100/70 text-[#E63946] border border-red-100 rounded-xl font-black text-xs uppercase tracking-wider active:scale-95 transition-all">
                 <span>📍</span> <span id="gps-btn-label">Use Current Location (GPS)</span>
             </button>
 
@@ -159,17 +159,45 @@
     </div>
 
     <div id="cart-detail-modal" class="absolute inset-0 bg-slate-900/60 z-50 flex items-end justify-center transition-all app-modal">
-        <div class="bg-white w-full max-h-[80vh] rounded-t-[32px] p-6 flex flex-col shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-                <h3 class="text-xl font-black text-slate-800 serif-font italic">Bhai Ka Bill Summary</h3>
-                <button onclick="closeCartDetailModal()" class="text-slate-400 font-bold text-lg p-1">✕</button>
+        <div class="bg-white w-full max-h-[88%] rounded-t-[32px] p-5 flex flex-col shadow-2xl overflow-hidden">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2 mb-3">
+                <h3 class="text-lg font-black text-slate-800 serif-font italic">Bhai Ka Bill Summary</h3>
+                <button onclick="closeCartDetailModal()" class="text-slate-400 font-bold text-base p-1">✕</button>
             </div>
-            <div id="cart-modal-items-list" class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1"></div>
-            <div class="border-t border-dashed border-slate-200 mt-4 pt-4 space-y-2">
-                <div class="flex justify-between text-xs font-bold text-slate-500"><span>Subtotal</span><span id="modal-bill-subtotal">₹0</span></div>
-                <div class="flex justify-between text-xs font-bold text-green-600"><span>Delivery Charges</span><span>FREE</span></div>
-                <div class="flex justify-between text-base font-black text-slate-800 pt-1"><span>Grand Total</span><span id="modal-bill-grandtotal">₹0</span></div>
-                <button class="w-full py-4 bg-[#E63946] text-white font-black rounded-xl text-sm uppercase tracking-widest shadow-md active:scale-95 transition-all mt-2">Place Order Via WhatsApp 🚀</button>
+            
+            <div class="flex-1 overflow-y-auto space-y-3 hide-scrollbar pr-1 pb-4">
+                <div id="cart-modal-items-list" class="space-y-2"></div>
+                
+                <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-2xl space-y-3 mt-2">
+                    <h4 class="text-xs font-black text-slate-700 tracking-wide uppercase">🔒 Verification & Delivery Details</h4>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Your Name</label>
+                            <input type="text" id="summary-cust-name" oninput="validateSummaryForm()" placeholder="Enter full name" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946]">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Mobile No. (10 Digits)</label>
+                            <input type="text" id="summary-cust-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,''); validateSummaryForm();" placeholder="Only digits allowed" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946]">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase">Delivery Address Options</label>
+                        <button onclick="fetchGPSLocation('summary-cust-address', 'summary-gps-label')" type="button" class="w-full flex items-center justify-center space-x-1.5 py-2 bg-red-50 text-[#E63946] border border-red-100 rounded-xl font-bold text-[11px] uppercase tracking-wide active:scale-95 transition-all">
+                            <span>📍</span> <span id="summary-gps-label">Use My Current Location</span>
+                        </button>
+                        <textarea id="summary-cust-address" oninput="validateSummaryForm()" rows="2" placeholder="Or write full manual address here (Flat, Street, Landmark...)" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946] resize-none"></br></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-dashed border-slate-200 pt-3 space-y-2 bg-white">
+                <div class="flex justify-between text-[11px] font-bold text-slate-500"><span>Subtotal</span><span id="modal-bill-subtotal">₹0</span></div>
+                <div class="flex justify-between text-[11px] font-bold text-green-600"><span>Delivery Charges</span><span>FREE</span></div>
+                <div class="flex justify-between text-base font-black text-slate-800"><span>Grand Total</span><span id="modal-bill-grandtotal">₹0</span></div>
+                
+                <button id="whatsapp-submit-btn" disabled onclick="sendFinalWhatsAppOrder()" class="w-full py-3.5 bg-slate-300 text-slate-500 cursor-not-allowed font-black rounded-xl text-xs uppercase tracking-widest shadow-sm transition-all mt-1">Fill Sahi Details To Order 🚀</button>
             </div>
         </div>
     </div>
@@ -274,11 +302,9 @@
     };
 
     // --- NEW MODAL ACTIONS ENGINE ---
-    // Order History Modals
     function openOrdersModal() { toggleSidebar(); document.getElementById('orders-modal').classList.add('open'); }
     function closeOrdersModal() { document.getElementById('orders-modal').classList.remove('open'); }
 
-    // Address Modals & Logic
     function openAddressModal() { 
         toggleSidebar(); 
         document.getElementById('input-address').value = localStorage.getItem("userAddress") || "";
@@ -293,40 +319,59 @@
         closeAddressModal();
     }
 
-    // Support Modal
     function openSupportModal() { toggleSidebar(); document.getElementById('support-modal').classList.add('open'); }
     function closeSupportModal() { document.getElementById('support-modal').classList.remove('open'); }
 
-    // Global Overlay Close Logic Engine
     function toggleSidebarCloseAll() {
         document.getElementById('side-drawer').classList.remove('open');
         document.querySelectorAll('.app-modal').forEach(m => m.classList.remove('open'));
         document.getElementById('overlay').classList.remove('open');
     }
 
-    // --- ADDED GPS SYSTEM ENGINE ---
-    function fetchGPSLocation() {
-        const lbl = document.getElementById('gps-btn-label');
+    // --- DYNAMIC GPS SYSTEM IMPLEMENTATION ---
+    function fetchGPSLocation(targetInputId, labelId) {
+        const lbl = document.getElementById(labelId);
         if (!navigator.geolocation) {
-            alert("Bhai, aapke device me GPS support nahi mil raha hai.");
+            alert("Bhai, device me GPS access switch on karein.");
             return;
         }
-        lbl.innerText = "Locating Your Baithak...";
+        lbl.innerText = "Locating Your Baithak... 🔄";
         navigator.geolocation.getCurrentPosition(
             (pos) => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
-                // Formulate coordinate data cleanly stringified
-                const coordinatedString = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (GPS Current Location)`;
-                document.getElementById('input-address').value = coordinatedString;
+                const coordinatedString = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (GPS Location Live)`;
+                document.getElementById(targetInputId).value = coordinatedString;
                 lbl.innerText = "Location Loaded Successfully! 👍";
+                validateSummaryForm();
                 setTimeout(() => { lbl.innerText = "Use Current Location (GPS)"; }, 2500);
             },
             (error) => {
-                alert("GPS Permission Denied, please write your address manually.");
+                alert("GPS Permission Locked! Please write manual address below.");
                 lbl.innerText = "Use Current Location (GPS)";
             }
         );
+    }
+
+    // --- ANTI FRAUD VALIDATION LOGIC ENGINE ---
+    function validateSummaryForm() {
+        const name = document.getElementById('summary-cust-name').value.trim();
+        const phone = document.getElementById('summary-cust-phone').value.trim();
+        const address = document.getElementById('summary-cust-address').value.trim();
+        const btn = document.getElementById('whatsapp-submit-btn');
+        
+        // Strict phone match exactly 10 digits
+        const isPhoneValid = /^[0-9]{10}$/.test(phone);
+
+        if (name.length >= 2 && isPhoneValid && address.length >= 5) {
+            btn.removeAttribute('disabled');
+            btn.className = "w-full py-3.5 bg-[#E63946] text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-md active:scale-95 transition-all mt-1 cursor-pointer";
+            btn.innerText = "Place Order via WhatsApp 🚀";
+        } else {
+            btn.setAttribute('disabled', 'true');
+            btn.className = "w-full py-3.5 bg-slate-300 text-slate-500 cursor-not-allowed font-black rounded-xl text-xs uppercase tracking-widest shadow-sm transition-all mt-1";
+            btn.innerText = "Fill Sahi Details To Order 🚀";
+        }
     }
 
     // --- VIEW CART ENGINE IMPLEMENTATION ---
@@ -339,25 +384,56 @@
             const item = cart[name];
             finalPrice += (item.qty * item.price);
             listContainer.innerHTML += `
-                <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-3.5 rounded-2xl animate-item">
+                <div class="flex items-center justify-between bg-slate-50 border border-slate-100 p-3 rounded-2xl animate-item">
                     <div>
                         <h4 class="font-extrabold text-slate-800 text-xs">${name}</h4>
                         <p class="text-[10px] font-bold text-slate-400 mt-0.5">₹${item.price} x ${item.qty}</p>
                     </div>
-                    <div class="font-black text-slate-800 text-sm">₹${item.qty * item.price}</div>
+                    <div class="font-black text-slate-800 text-xs">₹${item.qty * item.price}</div>
                 </div>
             `;
         }
         document.getElementById('modal-bill-subtotal').innerText = "₹" + finalPrice;
         document.getElementById('modal-bill-grandtotal').innerText = "₹" + finalPrice;
         
+        // Pre-fill fields if customer has cached profiles
+        document.getElementById('summary-cust-name').value = localStorage.getItem("userName") || "";
+        document.getElementById('summary-cust-phone').value = localStorage.getItem("userPhone") || "";
+        document.getElementById('summary-cust-address').value = localStorage.getItem("userAddress") || "";
+        
         document.getElementById('cart-detail-modal').classList.add('open');
         document.getElementById('overlay').classList.add('open');
+        validateSummaryForm();
     }
 
     function closeCartDetailModal() {
         document.getElementById('cart-detail-modal').classList.remove('open');
         document.getElementById('overlay').classList.remove('open');
+    }
+
+    // WHATSAPP SEND ENGINE
+    function sendFinalWhatsAppOrder() {
+        const name = document.getElementById('summary-cust-name').value.trim();
+        const phone = document.getElementById('summary-cust-phone').value.trim();
+        const address = document.getElementById('summary-cust-address').value.trim();
+        
+        let orderDetails = `*--- NEW ORDER: BHAI KI BAITHAK ---*\n\n`;
+        orderDetails += `👤 *Customer Name:* ${name}\n`;
+        orderDetails += `📞 *Verified Phone:* +91 ${phone}\n`;
+        orderDetails += `📍 *Delivery Address:* ${address}\n\n`;
+        orderDetails += `🛒 *Items List:*\n`;
+        
+        let total = 0;
+        for (let item in cart) {
+            orderDetails += `- ${item} (x${cart[item].qty}) : ₹${cart[item].qty * cart[item].price}\n`;
+            total += (cart[item].qty * cart[item].price);
+        }
+        
+        orderDetails += `\n💰 *Total Payable Amount:* ₹${total}\n`;
+        orderDetails += `🏍️ *Delivery Charge:* FREE\n`;
+        
+        const finalUrl = `https://wa.me/918467895365?text=${encodeURIComponent(orderDetails)}`;
+        window.open(finalUrl, '_blank');
     }
 
     // --- PROFILE ENGINE ---
@@ -378,9 +454,7 @@
         document.getElementById('profile-modal').classList.add('open');
     }
 
-    function closeProfileModal() {
-        document.getElementById('profile-modal').classList.remove('open');
-    }
+    function closeProfileModal() { document.getElementById('profile-modal').classList.remove('open'); }
 
     function saveProfile(event) {
         event.preventDefault(); 
@@ -394,7 +468,6 @@
 
         document.getElementById('sidebar-user-name').innerText = name;
         document.getElementById('sidebar-user-phone').innerText = "+91 " + phone;
-
         closeProfileModal();
     }
 
@@ -435,7 +508,6 @@
         const filtered = allItems.filter(item => 
             item.name.toLowerCase().includes(query.toLowerCase())
         );
-
         renderItemList(filtered);
     }
 
@@ -449,7 +521,6 @@
 
       document.getElementById('selected-category-title').innerText = category;
       document.getElementById('category-subtitle').innerText = "Hot & Fresh from Bhai's Kitchen";
-      
       renderItemList(menuData[category]);
     }
 
@@ -484,7 +555,6 @@
       const query = document.getElementById('menu-search').value;
       if (query) handleSearch(query);
       else renderItemList(menuData[currentCategory]);
-      
       calculateTotals();
     }
 
@@ -502,12 +572,10 @@
         document.getElementById('cart-total-price').innerText = `Total Amount: ₹${totalPrice}`;
       } else {
         bar.classList.add('hidden');
-        // Auto dismiss cart popups if totals drop to absolute zero
         document.getElementById('cart-detail-modal').classList.remove('open');
       }
     }
 
-    // Explicit execution function reference to show category panels
     function showCategories() {
       currentCategory = "";
       document.getElementById('menu-search').value = "";
