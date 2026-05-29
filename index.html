@@ -187,7 +187,7 @@
                         <button onclick="fetchGPSLocation('summary-cust-address', 'summary-gps-label')" type="button" class="w-full flex items-center justify-center space-x-1.5 py-2 bg-red-50 text-[#E63946] border border-red-100 rounded-xl font-bold text-[11px] uppercase tracking-wide active:scale-95 transition-all">
                             <span>📍</span> <span id="summary-gps-label">Use My Current Location</span>
                         </button>
-                        <textarea id="summary-cust-address" oninput="validateSummaryForm()" rows="2" placeholder="Or write full manual address here (Flat, Street, Landmark...)" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946] resize-none"></br></textarea>
+                        <textarea id="summary-cust-address" oninput="validateSummaryForm()" rows="2" placeholder="Or write full manual address here (Flat, Street, Landmark...)" class="w-full bg-white border border-slate-200 rounded-xl py-2 px-3 text-xs font-bold text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E63946] resize-none"></textarea>
                     </div>
                 </div>
             </div>
@@ -301,7 +301,6 @@
       ]
     };
 
-    // --- NEW MODAL ACTIONS ENGINE ---
     function openOrdersModal() { toggleSidebar(); document.getElementById('orders-modal').classList.add('open'); }
     function closeOrdersModal() { document.getElementById('orders-modal').classList.remove('open'); }
 
@@ -328,39 +327,63 @@
         document.getElementById('overlay').classList.remove('open');
     }
 
-    // --- DYNAMIC GPS SYSTEM IMPLEMENTATION ---
+    // --- INTEGRATED SMART GPS + IP LOCATION BYPASS SYSTEM ---
     function fetchGPSLocation(targetInputId, labelId) {
         const lbl = document.getElementById(labelId);
+        lbl.innerText = "Locating Your Baithak... 🔄";
+        
         if (!navigator.geolocation) {
-            alert("Bhai, device me GPS access switch on karein.");
+            fetchIPLocationFallback(targetInputId, lbl);
             return;
         }
-        lbl.innerText = "Locating Your Baithak... 🔄";
+
         navigator.geolocation.getCurrentPosition(
             (pos) => {
                 const lat = pos.coords.latitude;
                 const lon = pos.coords.longitude;
-                const coordinatedString = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (GPS Location Live)`;
-                document.getElementById(targetInputId).value = coordinatedString;
+                document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (GPS Location Live)`;
                 lbl.innerText = "Location Loaded Successfully! 👍";
                 validateSummaryForm();
                 setTimeout(() => { lbl.innerText = "Use Current Location (GPS)"; }, 2500);
             },
             (error) => {
-                alert("GPS Permission Locked! Please write manual address below.");
-                lbl.innerText = "Use Current Location (GPS)";
-            }
+                console.log("GPS Blocked or Failed. Bypassing using IP network...");
+                lbl.innerText = "Bypassing Network Locked... 📡";
+                fetchIPLocationFallback(targetInputId, lbl);
+            },
+            { enableHighAccuracy: true, timeout: 5000 }
         );
     }
 
-    // --- ANTI FRAUD VALIDATION LOGIC ENGINE ---
+    function fetchIPLocationFallback(targetInputId, labelElement) {
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.latitude && data.longitude) {
+                    const lat = data.latitude;
+                    const lon = data.longitude;
+                    const city = data.city || "Nearby";
+                    document.getElementById(targetInputId).value = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)} (${city} Network Location)`;
+                    labelElement.innerText = "Bypassed Successfully! ✨";
+                    validateSummaryForm();
+                } else {
+                    labelElement.innerText = "Bypass Failed! Write Manually ✍️";
+                }
+                setTimeout(() => { labelElement.innerText = "Use Current Location (GPS)"; }, 2500);
+            })
+            .catch(err => {
+                console.error(err);
+                labelElement.innerText = "Bypass Failed! Write Manually ✍️";
+                setTimeout(() => { labelElement.innerText = "Use Current Location (GPS)"; }, 2500);
+            });
+    }
+
     function validateSummaryForm() {
         const name = document.getElementById('summary-cust-name').value.trim();
         const phone = document.getElementById('summary-cust-phone').value.trim();
         const address = document.getElementById('summary-cust-address').value.trim();
         const btn = document.getElementById('whatsapp-submit-btn');
         
-        // Strict phone match exactly 10 digits
         const isPhoneValid = /^[0-9]{10}$/.test(phone);
 
         if (name.length >= 2 && isPhoneValid && address.length >= 5) {
@@ -374,7 +397,6 @@
         }
     }
 
-    // --- VIEW CART ENGINE IMPLEMENTATION ---
     function openCartDetailModal() {
         const listContainer = document.getElementById('cart-modal-items-list');
         listContainer.innerHTML = "";
@@ -396,7 +418,6 @@
         document.getElementById('modal-bill-subtotal').innerText = "₹" + finalPrice;
         document.getElementById('modal-bill-grandtotal').innerText = "₹" + finalPrice;
         
-        // Pre-fill fields if customer has cached profiles
         document.getElementById('summary-cust-name').value = localStorage.getItem("userName") || "";
         document.getElementById('summary-cust-phone').value = localStorage.getItem("userPhone") || "";
         document.getElementById('summary-cust-address').value = localStorage.getItem("userAddress") || "";
@@ -411,7 +432,6 @@
         document.getElementById('overlay').classList.remove('open');
     }
 
-    // WHATSAPP SEND ENGINE
     function sendFinalWhatsAppOrder() {
         const name = document.getElementById('summary-cust-name').value.trim();
         const phone = document.getElementById('summary-cust-phone').value.trim();
@@ -436,7 +456,6 @@
         window.open(finalUrl, '_blank');
     }
 
-    // --- PROFILE ENGINE ---
     document.addEventListener("DOMContentLoaded", () => {
         const savedName = localStorage.getItem("userName");
         const savedPhone = localStorage.getItem("userPhone");
@@ -480,7 +499,6 @@
         alert("Logged Out Successfully!");
     }
 
-    // --- APP CORE SYSTEM ---
     function toggleSidebar() {
         document.getElementById('side-drawer').classList.toggle('open');
         document.getElementById('overlay').classList.toggle('open');
@@ -492,7 +510,6 @@
             else showCategories();
             return;
         }
-
         document.getElementById('categories-screen').classList.add('hidden');
         document.getElementById('items-screen').classList.remove('hidden');
         document.getElementById('menu-btn').classList.add('hidden');
@@ -505,9 +522,7 @@
         const allItems = [];
         Object.values(menuData).forEach(cat => allItems.push(...cat));
         
-        const filtered = allItems.filter(item => 
-            item.name.toLowerCase().includes(query.toLowerCase())
-        );
+        const filtered = allItems.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
         renderItemList(filtered);
     }
 
@@ -535,6 +550,7 @@
             <img src="${item.img}" class="w-16 h-16 rounded-2xl object-cover">
             <div class="flex-1">
               <h3 class="font-extrabold text-slate-800 text-xs">${item.name}</h3>
+              <p class="text-[10px] font-medium text-slate-400 my-0.5 leading-tight">${item.desc || ''}</p>
               <p class="text-sm text-[#E63946] font-black">₹${item.price}</p>
             </div>
             <div class="flex items-center bg-slate-50 rounded-full p-1">
