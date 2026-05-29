@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bhai Ki Baithak</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght=400;600;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .serif-font { font-family: 'Playfair Display', serif; }
@@ -263,7 +263,9 @@
     const menuData = {
       'Momo': [
         { name: '🌿 Veg Steam Momos', price: 49, img: 'https://images.unsplash.com/photo-1625220194771-7ebedd0b4a1b?q=80&w=150' },
-        { name: '🔥 Veg Fried Momos', price: 59, img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' }
+        { name: '🔥 Veg Fried Momos', price: 59, img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150' },
+        { name: '🧀 Paneer Steam Momos', price: 69, img: '' },
+        { name: '🌶️ Paneer Fried Momos', price: 79, img: '' }
       ],
       'Rolls': [
         { name: '🥬 Spring Roll', price: 29, img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=150' }
@@ -503,6 +505,16 @@
         renderItemList(filtered);
     }
 
+    function showCategories() {
+        currentCategory = "";
+        document.getElementById('categories-screen').classList.remove('hidden');
+        document.getElementById('items-screen').classList.add('hidden');
+        document.getElementById('back-btn').classList.add('hidden');
+        document.getElementById('menu-btn').classList.remove('hidden');
+        document.getElementById('red-sidebar').style.width = '32%';
+        document.getElementById('menu-search').value = "";
+    }
+
     function showMenu(category) {
       currentCategory = category;
       document.getElementById('categories-screen').classList.add('hidden');
@@ -510,29 +522,57 @@
       document.getElementById('menu-btn').classList.add('hidden');
       document.getElementById('back-btn').classList.remove('hidden');
       document.getElementById('red-sidebar').style.width = '12%';
-
+      
       document.getElementById('selected-category-title').innerText = category;
-      document.getElementById('category-subtitle').innerText = "Hot & Fresh from Bhai's Kitchen";
-      renderItemList(menuData[category]);
+      document.getElementById('category-subtitle').innerText = category === 'Momo' ? "⭐ 12 Pieces Fresh Delivery" : "🌯 Gourmet Rolls Corner";
+      
+      renderItemList(menuData[category] || []);
     }
 
     function renderItemList(items) {
       const container = document.getElementById('dynamic-items-container');
-      container.innerHTML = items.length ? '' : '<p class="text-center text-gray-400 mt-10">Bhai, ye item nahi mila! 😅</p>'; 
+      container.innerHTML = "";
       
+      if(items.length === 0) {
+          container.innerHTML = `<p class="text-slate-400 font-bold text-xs text-center py-8">Bhai ye item list me nahi mila! 🫥</p>`;
+          return;
+      }
+
       items.forEach((item, index) => {
         const qty = cart[item.name] ? cart[item.name].qty : 0;
+        
+        // Custom short descriptions injection mirroring live state context
+        let desc = "Bhai's Special Delicacy";
+        if (item.name.includes("Paneer Steam")) desc = "Soft paneer filling with bhai special masala touch";
+        else if (item.name.includes("Paneer Fried")) desc = "Crispy paneer momos with spicy street-style flavor";
+        else if (item.name.includes("Veg Steam")) desc = "Soft, garam aur juicy veg filling. (12 Pcs)";
+        else if (item.name.includes("Veg Fried")) desc = "Outside crispy, inside tasty stuffing. (12 Pcs)";
+        else if (item.name.includes("Spring Roll")) desc = "Crispy and light street style outer crust wrapper.";
+
+        let imgHtml = `<div class="w-full h-full bg-slate-100 flex items-center justify-center font-bold text-slate-400 text-xs border border-slate-200/60 rounded-xl">❓</div>`;
+        if(item.img) {
+            imgHtml = `<img src="${item.img}" class="w-full h-full object-cover rounded-xl shadow-inner">`;
+        }
+
         container.innerHTML += `
-          <div class="bg-white rounded-[2rem] p-3 shadow-sm flex items-center space-x-4 border border-slate-50 animate-item" style="animation-delay: ${index * 0.05}s">
-            <img src="${item.img}" class="w-16 h-16 rounded-2xl object-cover">
-            <div class="flex-1">
-              <h3 class="font-extrabold text-slate-800 text-xs">${item.name}</h3>
-              <p class="text-sm text-[#E63946] font-black">₹${item.price}</p>
+          <div class="bg-white rounded-3xl p-3 shadow-sm flex items-center space-x-3 relative animate-item" style="animation-delay: ${index * 0.05}s">
+            <div class="w-20 h-20 rounded-2xl flex-shrink-0 relative overflow-hidden bg-slate-50 border border-slate-100">
+               ${imgHtml}
             </div>
-            <div class="flex items-center bg-slate-50 rounded-full p-1">
-              ${qty > 0 ? `<button onclick="updateCart('${item.name}', ${item.price}, -1)" class="w-7 h-7 font-black text-slate-400">-</button>
-              <span class="w-5 text-center font-black text-slate-800 text-[10px]">${qty}</span>` : ''}
-              <button onclick="updateCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] text-white w-7 h-7 rounded-full font-black shadow-sm">+</button>
+            <div class="flex-1 pr-16">
+              <h3 class="font-extrabold text-slate-800 text-sm leading-snug">${item.name}</h3>
+              <p class="text-[10px] text-slate-400 font-bold line-clamp-2 mt-0.5 leading-tight">${desc}</p>
+              <div class="text-sm font-black text-[#E63946] mt-1">₹${item.price}</div>
+            </div>
+            <div class="absolute right-3 bottom-3">
+              ${qty === 0 ? 
+                `<button onclick="updateCart('${item.name}', ${item.price}, 1)" class="bg-[#E63946] hover:bg-red-600 text-white font-black text-[10px] px-3.5 py-1.5 rounded-xl transition-all shadow-sm active:scale-95">ADD +</button>` :
+                `<div class="flex items-center bg-[#E63946] text-white rounded-xl overflow-hidden shadow-sm">
+                   <button onclick="updateCart('${item.name}', ${item.price}, -1)" class="px-2.5 py-1.5 font-black text-xs active:bg-red-700 transition-colors">-</button>
+                   <span class="px-1.5 font-black text-xs min-w-[14px] text-center">${qty}</span>
+                   <button onclick="updateCart('${item.name}', ${item.price}, 1)" class="px-2.5 py-1.5 font-black text-xs active:bg-red-700 transition-colors">+</button>
+                 </div>`
+              }
             </div>
           </div>
         `;
@@ -540,46 +580,43 @@
     }
 
     function updateCart(name, price, change) {
-      if (!cart[name]) cart[name] = { price: price, qty: 0 };
+      if (!cart[name]) {
+        cart[name] = { price: price, qty: 0 };
+      }
       cart[name].qty += change;
-      if (cart[name].qty <= 0) delete cart[name];
+      if (cart[name].qty <= 0) {
+        delete cart[name];
+      }
       
-      const query = document.getElementById('menu-search').value;
-      if (query) handleSearch(query);
-      else renderItemList(menuData[currentCategory]);
-      calculateTotals();
+      // Update UI Views
+      if(currentCategory) {
+          showMenu(currentCategory);
+      } else if(document.getElementById('selected-category-title').innerText === "Search Results") {
+          handleSearch(document.getElementById('menu-search').value);
+      }
+      
+      renderCartBar();
     }
 
-    function calculateTotals() {
-      let totalQty = 0, totalPrice = 0;
-      for (let item in cart) {
-        totalQty += cart[item].qty;
-        totalPrice += (cart[item].qty * cart[item].price);
+    function renderCartBar() {
+      let totalCount = 0;
+      let totalPrice = 0;
+      
+      for (let name in cart) {
+        totalCount += cart[name].qty;
+        totalPrice += (cart[name].qty * cart[name].price);
       }
-      document.getElementById('cart-count-top').innerText = totalQty;
-      const bar = document.getElementById('view-cart-bar');
-      if (totalQty > 0) {
-        bar.classList.remove('hidden');
-        document.getElementById('cart-items-label').innerText = `${totalQty} Item${totalQty > 1 ? 's' : ''} Added`;
-        document.getElementById('cart-total-price').innerText = `Total Amount: ₹${totalPrice}`;
+      
+      document.getElementById('cart-count-top').innerText = totalCount;
+      
+      const cartBar = document.getElementById('view-cart-bar');
+      if (totalCount > 0) {
+        cartBar.classList.remove('hidden');
+        document.getElementById('cart-items-label').innerText = `${totalCount} Item${totalCount > 1 ? 's' : ''} Added`;
+        document.getElementById('cart-total-price').innerText = `Total: ₹${totalPrice}`;
       } else {
-        bar.classList.add('hidden');
-        document.getElementById('cart-detail-modal').classList.remove('open');
+        cartBar.classList.add('hidden');
       }
-    }
-
-    document.getElementById('summary-cust-name').addEventListener('input', validateSummaryForm);
-    document.getElementById('summary-cust-phone').addEventListener('input', validateSummaryForm);
-    document.getElementById('summary-cust-address').addEventListener('input', validateSummaryForm);
-
-    function showCategories() {
-      currentCategory = "";
-      document.getElementById('menu-search').value = "";
-      document.getElementById('categories-screen').classList.remove('hidden');
-      document.getElementById('items-screen').classList.add('hidden');
-      document.getElementById('menu-btn').classList.remove('hidden');
-      document.getElementById('back-btn').classList.add('hidden');
-      document.getElementById('red-sidebar').style.width = '32%';
     }
   </script>
 </body>
